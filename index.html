@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antony Black | Streetwear</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -13,12 +16,16 @@
             theme: {
                 extend: {
                     colors: {
-                        black: '#0a0a0a', 'black-light': '#1a1a1a',
-                        accent: '#ff2a2a', 'accent-hover': '#cc0000',
+                        black: '#08080a',
+                        'black-light': '#121216',
+                        'black-card': '#181820',
+                        accent: '#ff2a2a',
+                        'accent-hover': '#e01b1b',
                         mp: '#009EE3'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'], display: ['Oswald', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
                     }
                 }
             }
@@ -26,254 +33,328 @@
     </script>
 
     <style>
-        :root { --primary: #0a0a0a; --secondary: #ffffff; --accent: #ff2a2a; }
-        body { background-color: var(--primary); color: var(--secondary); overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-        
-        .product-card { transition: all 0.4s ease; background: #151515; border: 1px solid #222; }
-        .product-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 42, 42, 0.2); }
-        .product-image-wrapper { position: relative; overflow: hidden; }
-        
-        /* Botón de añadir al carrito siempre visible y accesible en móviles */
-        .add-to-cart-btn { background: #000; color: #fff; width: 100%; padding: 12px 0; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; border-top: 1px solid #222; transition: background 0.2s; }
-        .add-to-cart-btn:hover { background: var(--accent); }
+        :root {
+            --primary: #08080a;
+            --secondary: #ffffff;
+            --accent: #ff2a2a;
+        }
+        body {
+            background-color: var(--primary);
+            color: var(--secondary);
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0d11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #25252d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
 
-        .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--accent); color: white; padding: 10px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* Efectos de Vidrio Esmerilado Premium */
+        .glass-header {
+            background: rgba(8, 8, 10, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-        .cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background: #111; z-index: 1000; transition: right 0.4s cubic-bezier(0.8, 0, 0.2, 1); border-left: 1px solid #333; display: flex; flex-direction: column; }
-        .cart-drawer.open { right: 0; }
+        .glass-card {
+            background: rgba(18, 18, 22, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 42, 42, 0.15);
+            transform: translateY(-4px);
+        }
 
-        .chatbot-container { position: fixed; bottom: 90px; right: 30px; width: 350px; background: #1a1a1a; border: 1px solid #333; border-radius: 15px; z-index: 998; overflow: hidden; transform: scale(0); transform-origin: bottom right; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .chatbot-container.open { transform: scale(1); }
-        .chat-messages { height: 250px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px 15px; border-radius: 10px; max-width: 80%; font-size: 0.9rem; }
-        .msg.bot { background: #2a2a2a; align-self: flex-start; border-bottom-left-radius: 0;}
-        .msg.user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 0;}
-        .chat-input { display: flex; border-top: 1px solid #333; padding: 10px; background: #111; }
-        
-        .floating-btn { position: fixed; bottom: 30px; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; items-center; font-size: 28px; color: white; cursor: pointer; z-index: 997; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .chat-btn { right: 30px; background: var(--accent); }
-        .music-btn { left: 30px; background: #111; border: 2px solid #333; width: 50px; height: 50px; font-size: 20px;}
+        /* Banner de Texto Deslizante Infinito (Marquee) */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            background: var(--accent);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee-scroll 25s linear infinite;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
 
-        .location-card { background: #111; border: 1px solid #333; padding: 30px; border-radius: 10px; }
-        
-        #ai-modal, #payment-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 1001; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
-        #ai-modal.active, #payment-modal.active { display: flex; opacity: 1; }
-        .modal-content { background: #111; border: 1px solid var(--accent); padding: 30px; border-radius: 15px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
+        /* Carrito Lateral deslizable */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            background: #0c0c10;
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .cart-drawer.open {
+            right: 0;
+        }
 
-        @media (max-width: 768px) {
-            .chat-btn { right: 20px; width: 50px; height: 50px; bottom: 20px;}
-            .music-btn { left: 20px; bottom: 20px;}
-            .chatbot-container { width: calc(100% - 40px); right: 20px; bottom: 80px; }
+        /* Chatbot flotante interactivo */
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 340px;
+            height: 450px;
+            background: #111116;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            z-index: 998;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+        .chat-container.open {
+            transform: scale(1);
+        }
+
+        /* Notificaciones flotantes personalizadas (Reemplazo seguro de alert) */
+        #notification-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(18, 18, 22, 0.95);
+            border: 1px solid var(--accent);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 1050;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(255, 42, 42, 0.2);
+        }
+        #notification-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Modales genéricos */
+        .custom-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 4, 6, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .custom-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-body {
+            background: #101014;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .custom-modal.active .modal-body {
+            transform: scale(1);
         }
     </style>
 </head>
-<body class="antialiased font-sans selection:bg-accent selection:text-white">
+<body class="antialiased selection:bg-accent selection:text-white">
 
+    <!-- Reproductor de Audio Lofi Silencioso para precargar -->
     <audio id="bg-music" loop preload="auto">
         <source src="https://archive.org/download/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg">
     </audio>
 
-    <nav class="fixed w-full top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 py-4 px-6 flex justify-between items-center">
+    <!-- Notificación Flotante de la Tienda -->
+    <div id="notification-toast" class="flex items-center gap-3 font-medium text-sm">
+        <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
+        <span id="notification-message">¡Producto añadido al carrito!</span>
+    </div>
+
+    <!-- Navegación Premium -->
+    <nav class="fixed w-full top-0 z-50 glass-header py-4 px-6 md:px-12 flex justify-between items-center">
         <div>
-            <a href="#" class="font-display text-2xl font-bold tracking-wider uppercase text-white">Antony<span class="text-accent">Black</span></a>
+            <a href="#" class="font-display text-2xl font-bold tracking-widest uppercase text-white">Antony<span class="text-accent">Black</span></a>
         </div>
-        <div class="hidden md:flex items-center gap-8 font-semibold text-sm tracking-widest uppercase">
-            <a href="#inicio" class="hover:text-accent">Inicio</a>
-            <a href="#catalogo" onclick="filterProducts('hombres')">Hombres</a>
-            <a href="#catalogo" onclick="filterProducts('mujeres')">Mujeres</a>
-            <a href="#ubicaciones" class="hover:text-accent">Puntos de Entrega</a>
+        <div class="hidden md:flex items-center gap-8 font-display text-sm tracking-widest uppercase font-semibold">
+            <a href="#inicio" class="hover:text-accent transition-colors">Inicio</a>
+            <a href="#catalogo" onclick="filterProducts('hombres')" class="hover:text-accent transition-colors">Hombres</a>
+            <a href="#catalogo" onclick="filterProducts('mujeres')" class="hover:text-accent transition-colors">Mujeres</a>
+            <a href="#ubicaciones" class="hover:text-accent transition-colors">Entregas</a>
         </div>
         <div class="flex items-center gap-6">
-            <button onclick="abrirCarrito()" class="relative hover:text-accent">
-                <i class="fas fa-shopping-cart text-xl"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+            <button onclick="abrirCarrito()" class="relative hover:text-accent transition-colors" aria-label="Abrir Carrito">
+                <i class="fas fa-shopping-bag text-xl"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-black">0</span>
             </button>
-            <button class="md:hidden text-2xl hover:text-accent" onclick="document.getElementById('mobile-menu').style.display='flex'"><i class="fas fa-bars"></i></button>
+            <button class="md:hidden text-2xl hover:text-accent transition-colors" onclick="document.getElementById('mobile-menu').style.display='flex'" aria-label="Abrir menú móvil"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-black z-40 hidden flex-col justify-center items-center gap-8 text-2xl font-display uppercase tracking-widest">
-        <button onclick="document.getElementById('mobile-menu').style.display='none'" class="absolute top-6 right-6 text-4xl text-gray-400">×</button>
-        <a href="#inicio" onclick="document.getElementById('mobile-menu').style.display='none'">Inicio</a>
-        <a href="#catalogo" onclick="filterProducts('hombres'); document.getElementById('mobile-menu').style.display='none'">Hombres</a>
-        <a href="#catalogo" onclick="filterProducts('mujeres'); document.getElementById('mobile-menu').style.display='none'">Mujeres</a>
-        <a href="#ubicaciones" onclick="document.getElementById('mobile-menu').style.display='none'">Puntos de Entrega</a>
+    <!-- Menú Móvil Lateral -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 hidden flex-col justify-center items-center gap-8 text-2xl font-display uppercase tracking-widest">
+        <button onclick="document.getElementById('mobile-menu').style.display='none'" class="absolute top-6 right-6 text-4xl text-gray-400 hover:text-accent">×</button>
+        <a href="#inicio" onclick="document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Inicio</a>
+        <a href="#catalogo" onclick="filterProducts('hombres'); document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Colección Hombres</a>
+        <a href="#catalogo" onclick="filterProducts('mujeres'); document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Colección Mujeres</a>
+        <a href="#ubicaciones" onclick="document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Zonas de Entrega</a>
     </div>
 
+    <!-- Hero / Portada Corregido (Diseño Premium Streetwear) -->
     <header id="inicio" class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=2000')] bg-cover bg-center opacity-30"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
-        <div class="relative z-10 text-center px-4">
-            <p class="text-accent font-bold tracking-[0.3em] mb-4 uppercase text-sm">La nueva era del Streetwear</p>
-            <h1 class="text-white font-display uppercase font-black text-5xl md:text-7xl mb-6 tracking-wide">Antony Black</h1>
-            <p class="text-gray-300 max-w-2xl mx-auto mb-10 text-lg">Moda urbana exclusiva para jóvenes que dictan tendencias.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <a href="#catalogo" onclick="filterProducts('hombres')" class="bg-white text-black font-bold uppercase tracking-wider py-4 px-8 text-center rounded">Hombres</a>
-                <a href="#catalogo" onclick="filterProducts('mujeres')" class="bg-accent text-white font-bold uppercase tracking-wider py-4 px-8 text-center rounded hover:bg-accent-hover">Mujeres</a>
+        <!-- Imagen de Fondo Oscurecida de alta calidad -->
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2000')] bg-cover bg-center opacity-25"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black"></div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <span class="text-accent font-display font-bold tracking-[0.4em] mb-4 block uppercase text-xs sm:text-sm">La Nueva Era de la Moda Urbana</span>
+            <h1 class="text-white font-display uppercase font-black text-6xl sm:text-8xl tracking-wider leading-none mb-6">Antony Black</h1>
+            <p class="text-gray-400 font-sans max-w-xl mx-auto mb-10 text-sm sm:text-base leading-relaxed">Prendas exclusivas de corte oversize diseñadas para quienes imponen sus propias reglas en la calle.</p>
+            
+            <!-- Botones Corregidos Visualmente en Móvil (Side by Side) -->
+            <div class="flex flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto mb-8">
+                <a href="#catalogo" onclick="filterProducts('hombres')" class="flex-1 border border-white bg-white text-black font-display font-bold uppercase tracking-widest py-3 px-4 rounded text-xs sm:text-sm text-center hover:bg-transparent hover:text-white transition-all">
+                    Hombres
+                </a>
+                <a href="#catalogo" onclick="filterProducts('mujeres')" class="flex-1 bg-accent border border-accent text-white font-display font-bold uppercase tracking-widest py-3 px-4 rounded text-xs sm:text-sm text-center hover:bg-accent-hover hover:border-accent-hover transition-all">
+                    Mujeres
+                </a>
             </div>
-            <button onclick="openAIModal()" class="bg-[#1a1a1a] border border-accent text-white font-bold uppercase tracking-wider py-3 px-8 hover:bg-accent transition-all rounded-full mx-auto flex items-center justify-center gap-2">
-                📸 Probador Virtual IA
+            
+            <!-- Botón del Probador Virtual estilizado -->
+            <button onclick="openAIModal()" class="bg-[#111116]/80 backdrop-blur-md border border-white/10 text-white font-sans font-bold uppercase tracking-wider text-xs py-3 px-8 hover:border-accent hover:text-accent transition-all rounded-full mx-auto flex items-center justify-center gap-2">
+                ✨ Probador Virtual IA
             </button>
         </div>
     </header>
 
-    <div class="marquee"><div class="marquee-content">🔥 ENVÍOS A TODO MÉXICO | 💸 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA | 🔥 NUEVA COLECCIÓN DISPONIBLE | </div></div>
+    <!-- Marquee Deslizable de Envío -->
+    <div class="marquee-wrapper py-3">
+        <div class="marquee-content font-display text-white text-xs sm:text-sm font-bold uppercase tracking-[0.2em]">
+            🔥 ENVÍOS A TODO MÉXICO | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA | 🔥 NUEVA COLECCIÓN DISPONIBLE | &nbsp;&nbsp;&nbsp;&nbsp;
+            🔥 ENVÍOS A TODO MÉXICO | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA | 🔥 NUEVA COLECCIÓN DISPONIBLE | &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
 
+    <!-- Beneficios Corporativos -->
+    <section class="py-16 bg-black-light border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div class="p-4 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-accent/10 flex justify-center items-center text-accent mb-4"><i class="fas fa-truck text-2xl"></i></div>
+                <h3 class="font-display text-xl uppercase mb-2">Pago Contra Entrega</h3>
+                <p class="text-gray-400 text-sm">Paga al recibir de forma segura en nuestras ubicaciones oficiales de entrega.</p>
+            </div>
+            <div class="p-4 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-accent/10 flex justify-center items-center text-accent mb-4"><i class="fas fa-wallet text-2xl"></i></div>
+                <h3 class="font-display text-xl uppercase mb-2">Mercado Pago & SPEI</h3>
+                <p class="text-gray-400 text-sm">Aceptamos transferencias bancarias directas y cobro con tarjetas vía Mercado Pago.</p>
+            </div>
+            <div class="p-4 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-accent/10 flex justify-center items-center text-accent mb-4"><i class="fas fa-star text-2xl"></i></div>
+                <h3 class="font-display text-xl uppercase mb-2">Exclusividad Urbana</h3>
+                <p class="text-gray-400 text-sm">Cortes únicos diseñados con algodón premium de alto gramaje para mayor durabilidad.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Catálogo -->
     <section id="catalogo" class="py-24 px-6 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div><h2 class="font-display text-4xl uppercase font-bold mb-2">Nuestra <span class="text-accent">Colección</span></h2></div>
-            <div class="flex flex-wrap gap-2 border border-gray-800 p-1 rounded-full bg-black-light w-full md:w-auto">
-                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn bg-accent text-white px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Todos</button>
-                <button onclick="filterProducts('hombres')" id="btn-hombres" class="filter-btn text-gray-400 px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Hombres</button>
-                <button onclick="filterProducts('mujeres')" id="btn-mujeres" class="filter-btn text-gray-400 px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Mujeres</button>
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+                <span class="text-accent font-display font-bold tracking-widest uppercase text-xs block mb-1">Nuestra Ropa</span>
+                <h2 class="font-display text-4xl uppercase font-black tracking-wider">La <span class="text-accent">Colección</span></h2>
+            </div>
+            <!-- Filtros de Productos elegantes -->
+            <div class="flex flex-row border border-white/10 p-1 rounded-full bg-black-light w-full md:w-auto">
+                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn bg-accent text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all">Todos</button>
+                <button onclick="filterProducts('hombres')" id="btn-hombres" class="filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all">Hombres</button>
+                <button onclick="filterProducts('mujeres')" id="btn-mujeres" class="filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all">Mujeres</button>
             </div>
         </div>
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-    </section>
-
-    <section id="ubicaciones" class="py-24 bg-black-light border-t border-gray-800">
-        <div class="container mx-auto px-6 text-center mb-16">
-            <h2 class="font-display text-4xl uppercase font-bold mb-4">Puntos de <span class="text-accent">Entrega</span></h2>
-        </div>
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="location-card text-center">
-                <i class="fas fa-map-marker-alt text-4xl text-accent mb-4"></i>
-                <h3 class="font-display text-2xl uppercase mb-2">Desviación Jocotitlán</h3>
-                <p class="text-gray-400 text-sm mb-4">Punto de encuentro principal.</p>
-                <a href="https://maps.google.com" target="_blank" class="text-white bg-gray-900 py-2 px-4 rounded font-bold uppercase text-xs hover:bg-accent block text-center">Ver Mapa</a>
-            </div>
-            <div class="location-card text-center">
-                <i class="fas fa-map-marker-alt text-4xl text-accent mb-4"></i>
-                <h3 class="font-display text-2xl uppercase mb-2">San Pedro de los Baños</h3>
-                <p class="text-gray-400 text-sm mb-4">Zona Centro.</p>
-                <a href="https://maps.google.com" target="_blank" class="text-white bg-gray-900 py-2 px-4 rounded font-bold uppercase text-xs hover:bg-accent block text-center">Ver Mapa</a>
-            </div>
-            <div class="location-card text-center">
-                <i class="fas fa-map-marker-alt text-4xl text-accent mb-4"></i>
-                <h3 class="font-display text-2xl uppercase mb-2">Jocotitlán Centro</h3>
-                <p class="text-gray-400 text-sm mb-4">Entregas en zona centro.</p>
-                <a href="https://maps.google.com" target="_blank" class="text-white bg-gray-900 py-2 px-4 rounded font-bold uppercase text-xs hover:bg-accent block text-center">Ver Mapa</a>
-            </div>
+        
+        <!-- Grid de Tarjetas de Productos -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Renderizado dinámico vía JavaScript -->
         </div>
     </section>
 
-    <footer class="bg-black pt-16 pb-8 border-t border-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-center md:text-left mb-12">
+    <!-- Puntos de Entrega -->
+    <section id="ubicaciones" class="py-24 bg-black-light border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
+            <span class="text-accent font-display font-bold tracking-widest uppercase text-xs block mb-1">Sin costo de envío</span>
+            <h2 class="font-display text-4xl uppercase font-black tracking-wider">Puntos de <span class="text-accent">Entrega</span></h2>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between h-64">
                 <div>
-                    <h3 class="font-display text-2xl font-bold uppercase mb-4">Antony<span class="text-accent">Black</span></h3>
+                    <i class="fas fa-map-marked-alt text-3xl text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl uppercase mb-2">Desviación Jocotitlán</h3>
+                    <p class="text-gray-400 text-sm">Punto de encuentro seguro y de fácil acceso.</p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="text-white border border-white/10 py-2.5 px-4 rounded font-bold uppercase text-xs hover:bg-accent hover:border-accent block text-center transition-all">Ver ubicación</a>
+            </div>
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between h-64">
+                <div>
+                    <i class="fas fa-map-marked-alt text-3xl text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl uppercase mb-2">San Pedro de los Baños</h3>
+                    <p class="text-gray-400 text-sm">Entregas programadas en la explanada de la delegación.</p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="text-white border border-white/10 py-2.5 px-4 rounded font-bold uppercase text-xs hover:bg-accent hover:border-accent block text-center transition-all">Ver ubicación</a>
+            </div>
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between h-64">
+                <div>
+                    <i class="fas fa-map-marked-alt text-3xl text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl uppercase mb-2">Jocotitlán Centro</h3>
+                    <p class="text-gray-400 text-sm">Frente al palacio municipal a convenir horario.</p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="text-white border border-white/10 py-2.5 px-4 rounded font-bold uppercase text-xs hover:bg-accent hover:border-accent block text-center transition-all">Ver ubicación</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Oficial con Derechos de Autor -->
+    <footer class="bg-black pt-20 pb-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 text-center md:text-left">
+                <div>
+                    <h3 class="font-display text-2xl font-bold uppercase tracking-wider mb-4">Antony<span class="text-accent">Black</span></h3>
+                    <p class="text-gray-500 text-sm max-w-sm mx-auto md:mx-0 mb-6 leading-relaxed">Únete al movimiento que está revolucionando el estilo urbano. Moda independiente con carácter mexicano.</p>
                     <div class="flex gap-4 justify-center md:justify-start">
-                        <a href="https://www.instagram.com/jose_antonio_contreras17" target="_blank" class="w-10 h-10 rounded-full bg-gray-900 flex justify-center items-center hover:bg-accent"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/share/1BNK4Dr2WW/" target="_blank" class="w-10 h-10 rounded-full bg-gray-900 flex justify-center items-center hover:bg-accent"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/jose_antonio_contreras17" target="_blank" class="w-10 h-10 rounded-full bg-[#16161b] flex justify-center items-center hover:bg-accent text-gray-400 hover:text-white transition-all" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/1BNK4Dr2WW/" target="_blank" class="w-10 h-10 rounded-full bg-[#16161b] flex justify-center items-center hover:bg-accent text-gray-400 hover:text-white transition-all" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-bold uppercase mb-4">Contacto</h4>
+                    <h4 class="font-display text-lg uppercase font-bold text-white mb-4">Contacto Oficial</h4>
                     <ul class="space-y-4 text-gray-400 text-sm">
-                        <li><i class="fab fa-whatsapp text-accent mr-2"></i> <a href="https://wa.me/527122111135" class="hover:text-white font-bold">+52 712 211 1135</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm tracking-wider">
-                © 2026 <strong>José Antonio Mejía Hernández</strong>. Todos los derechos reservados al mismo.
-            </div>
-        </div>
-    </footer>
-
-    <div id="cart-drawer" class="cart-drawer">
-        <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-black">
-            <h2 class="font-display text-2xl uppercase">Tu Carrito</h2><button onclick="cerrarCarrito()" class="text-3xl text-gray-500">×</button>
-        </div>
-        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4"></div>
-        <div class="p-6 bg-black border-t border-gray-800">
-            <div class="flex justify-between mb-4 font-bold text-lg"><span>Total:</span><span id="cart-total">$0.00 MXN</span></div>
-            <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-bold uppercase py-4 rounded hover:bg-accent-hover">Proceder al Pago</button>
-        </div>
-    </div>
-
-    <div id="payment-modal">
-        <div class="modal-content">
-            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-gray-400 text-3xl">×</button>
-            <h3 class="font-display text-2xl uppercase font-bold text-white mb-4 text-center">💳 Método de Pago</h3>
-            <p class="text-gray-400 mb-6 text-center text-sm">Monto total a pagar: <strong id="modal-total-amount" class="text-white text-lg"></strong></p>
-            
-            <div class="space-y-3 mb-6">
-                <button onclick="pagarConMercadoPago()" class="w-full bg-[#009EE3] text-white font-bold uppercase py-4 rounded flex items-center justify-center gap-3 hover:bg-blue-600 transition-colors">
-                    <i class="fas fa-wallet text-xl"></i> Pagar con Mercado Pago
-                </button>
-                <div class="bg-black p-4 rounded border border-gray-800 text-xs text-gray-400 space-y-1">
-                    <p class="text-white font-bold mb-1">O por transferencia directa:</p>
-                    <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
-                    <p><strong>CLABE:</strong> 722969010522000447</p>
-                </div>
-            </div>
-            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-bold uppercase py-3 rounded flex items-center justify-center gap-2 hover:bg-green-600"><i class="fab fa-whatsapp text-xl"></i> Notificar por WhatsApp</button>
-        </div>
-    </div>
-
-    <div id="ai-modal">
-        <div class="modal-content text-center">
-            <button onclick="closeAIModal()" class="absolute top-4 right-4 text-gray-400 text-3xl">×</button>
-            <h3 class="font-display text-2xl uppercase font-bold text-white mb-2">Probador Virtual</h3>
-            <p class="text-accent text-sm font-bold tracking-widest mb-6">ANTONY BLACK STYLE</p>
-            
-            <div class="w-full h-48 bg-gray-900 border border-gray-700 rounded-lg flex flex-col justify-center items-center mb-6 p-4">
-                <i class="fab fa-instagram text-4xl text-pink-500 mb-2"></i>
-                <p class="text-gray-400 text-sm mb-4">Pruébate nuestras prendas usando nuestro filtro oficial exclusivo.</p>
-                <a href="https://www.instagram.com" target="_blank" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-xs py-2 px-6 rounded-full uppercase">Abrir Cámara de Instagram</a>
-            </div>
-
-            <div class="border-t border-gray-800 my-4 pt-4">
-                <p class="text-gray-500 text-xs uppercase tracking-wider mb-2">O sube tu foto desde tu galería:</p>
-                <input type="file" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-gray-800 file:text-white hover:file:bg-gray-700"/>
-            </div>
-        </div>
-    </div>
-
-    <button id="toggle-music" class="floating-btn music-btn"><i class="fas fa-volume-up" id="music-icon"></i></button>
-    <div id="toggle-chat" class="floating-btn chat-btn"><i class="fas fa-comment-dots"></i></div>
-
-    <div id="chatbot-box" class="chatbot-container flex flex-col">
-        <div class="bg-accent p-4 flex justify-between items-center">
-            <div class="flex items-center gap-2"><i class="fas fa-robot text-xl"></i><span class="font-bold uppercase text-sm">Asistente Personal</span></div>
-            <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-xl">×</button>
-        </div>
-        <div id="chat-messages" class="chat-messages bg-black">
-            <div class="msg bot">¡Qué onda! Pregúntame lo que quieras o mándanos un WhatsApp al 7122111135 🕷️</div>
-        </div>
-        <form class="chat-input" onsubmit="handleUserChat(event)">
-            <input type="text" id="chat-input-field" placeholder="Escribe..." class="flex-1 bg-transparent text-white outline-none text-sm px-2">
-            <button type="submit" class="text-accent"><i class="fas fa-paper-plane"></i></button>
-        </form>
-    </div>
-
-    <script>
-        // Sistema de Música Aislado
-        let isMusicPlaying = false;
-        document.body.addEventListener('click', () => {
-            if(!isMusicPlaying){
-                try {
-                    const bgMusic = document.getElementById('bg-music');
-                    bgMusic.volume = 0.2;
-                    bgMusic.play().then(() => { isMusicPlaying = true; }).catch(e => {});
-                } catch(e){}
-            }
-        }, {once: true});
-
-        document.getElementById('toggle-music').addEventListener('click', () => {
-            const bgMusic = document.getElementById('bg-music');
-            const musicIcon = document.getElementById('music-icon');
-            if(isMusicPlaying) { bgMusic.pause(); musicIcon.className = "fas fa-volume-mute text-gray-500"; } 
-            else { bgMusic.play(); musicIcon.className = "fas fa-volume-up text-white"; }
-            isMusicPlaying = !isMusicPlaying;
-        });
-
-        // Base de Datos Oficial
-        const productDatabase = [
-            { id: 1, name: "Oversized Hoodie 'N
+                        <li class="flex items-center justify-center md:justify-start gap-3">
+                            <i class="fab fa-whatsapp text-accent text-base"></i> 
+                            <a href="https://wa.me/527122111135" class="hover:text-white font-semibold font-sans transition-colors">+52 712 211 1135</a>
+                        </li>
+                        <li class="flex items-center justify-center m

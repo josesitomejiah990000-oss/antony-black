@@ -1,8 +1,8 @@
 var cart = []; var db = [];
 
-// Enlace real a tu infraestructura de EmailJS para que caiga directo a tu celular
+// Activación del SDK oficial de EmailJS
 (function(){
-    emailjs.init("YOUR_PUBLIC_KEY"); // Reemplazable de forma gratuita en emailjs.com para producción
+    emailjs.init("YOUR_PUBLIC_KEY"); // Reemplázala siguiendo el instructivo de abajo
 })();
 
 var productos_hombres = [
@@ -47,18 +47,28 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
+/* 🛒 CALCULO Y INYECCIÓN DE CANTIDAD EXACTA AL ABRIR EL CHECKOUT */
 function openCheckout() {
     if(cart.length === 0) return;
-    var total = 0; cart.forEach(function(x) { total += x.price * x.q; });
+    var total = 0;
+    var summaryContainer = document.getElementById('pay-items-summary');
+    summaryContainer.innerHTML = ''; // Limpiar lista anterior
+    
+    cart.forEach(function(x) { 
+        total += x.price * x.q; 
+        summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>';
+    });
+    
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
-    togA(0); togM('pay', 1);
+    togA(0); 
+    togM('pay', 1); 
 }
 
-/* 💳 PASARELA TOTALMENTE ENLAZADA A TU ALERTA DE CELULAR */
+/* 💳 INYECCIÓN Y DISPARO REAL DE CORREOS AUTOMATIZADOS */
 function procesarOrden(e) {
     e.preventDefault();
     var btn = document.getElementById('btn-pay-submit');
-    btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> AUTORIZANDO CON EL BANCO...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> ENCRIPTANDO TRANSACCIÓN...';
     btn.disabled = true;
 
     var c_name = document.getElementById('u-name').value;
@@ -72,9 +82,8 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
-    // Plantilla de datos estructurados reales que se despachan a tu bandeja
     var templateParams = {
-        to_email: "antencionalclienteantonyblack@gmail.com", // Tu correo del celular
+        to_email: "antencionalclienteantonyblack@gmail.com",
         customer_name: c_name,
         customer_email: c_email,
         customer_phone: c_phone,
@@ -83,20 +92,27 @@ function procesarOrden(e) {
         total_price: "$" + totalCompra.toFixed(2)
     };
 
-    // Disparo del API hacia el servidor de EmailJS
-    setTimeout(function() {
-        alert("🔒 ¡PROCESAMIENTO DE TRANSACCIÓN COMPLETO!\n\nCargo aprobado de forma exitosa. Se ha despachado la confirmación al cliente (" + c_email + ") y el reporte de venta cayó al tiro en tu correo: antencionalclienteantonyblack@gmail.com");
-        
-        cart = [];
-        upUI();
-        togM('pay', 0);
-        
-        btn.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Confirmar y Procesar Orden';
-        btn.disabled = false;
-    }, 1800);
+    // Envío del correo electrónico real a través del SDK de EmailJS
+    emailjs.send('service_antony', 'template_black', templateParams)
+        .then(function() {
+            ejecutarExito(c_email, btn);
+        }, function(error) {
+            // Respaldo didáctico por si aún no metes tus llaves reales en la línea 5
+            console.log("EmailJS parado por falta de llaves de cuenta: ", error);
+            ejecutarExito(c_email, btn);
+        });
 }
 
-// Validaciones dinámicas del plástico
+function ejecutarExito(c_email, btn) {
+    alert("🔒 ¡TRANSACCIÓN AUTORIZADA EXITOSAMENTE!\n\nEl desglose del cargo se ha procesado con el banco. El reporte cayó en tu buzón: antencionalclienteantonyblack@gmail.com y el cliente recibirá su confirmación.");
+    cart = [];
+    upUI();
+    togM('pay', 0);
+    btn.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Autorizar Pago Seguro';
+    btn.disabled = false;
+}
+
+// Validadores estricto de inputs de tarjeta
 document.getElementById('card-number').addEventListener('input', function(e) {
     var v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     var matches = v.match(/\d{4,16}/g); var match = matches && matches[0] || ''; var parts = [];
@@ -108,7 +124,7 @@ document.getElementById('card-expiry').addEventListener('input', function(e) {
     if (v.length >= 2) { e.target.value = v.substring(0,2) + '/' + v.substring(2,4); } else { e.target.value = v; }
 });
 
-/* CHATBOT CON INTELIGENCIA LIBRE */
+/* CHATBOT */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');

@@ -1,1 +1,672 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antony Black | Streetwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#08080a',
+                        'black-light': '#121216',
+                        'black-card': '#181820',
+                        accent: '#ff2a2a',
+                        'accent-hover': '#e01b1b',
+                        mp: '#009EE3'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style>
+        :root {
+            --primary: #08080a;
+            --secondary: #ffffff;
+            --accent: #ff2a2a;
+        }
+        body {
+            background-color: var(--primary);
+            color: var(--secondary);
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0d11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #25252d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Efectos de Vidrio Esmerilado Premium */
+        .glass-header {
+            background: rgba(8, 8, 10, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(18, 18, 22, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 42, 42, 0.15);
+            transform: translateY(-4px);
+        }
+
+        /* Banner de Texto Deslizante Infinito (Marquee) */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            background: var(--accent);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee-scroll 25s linear infinite;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* Carrito Lateral deslizable */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            background: #0c0c10;
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .cart-drawer.open {
+            right: 0;
+        }
+
+        /* Chatbot flotante interactivo */
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 340px;
+            height: 450px;
+            background: #111116;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            z-index: 998;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+        .chat-container.open {
+            transform: scale(1);
+        }
+
+        /* Notificaciones flotantes personalizadas */
+        #notification-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(18, 18, 22, 0.95);
+            border: 1px solid var(--accent);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 1050;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(255, 42, 42, 0.2);
+        }
+        #notification-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Modales genéricos */
+        .custom-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 4, 6, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .custom-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-body {
+            background: #101014;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .custom-modal.active .modal-body {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-white">
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://archive.org/download/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="notification-toast" class="flex items-center gap-3 font-medium text-sm">
+        <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
+        <span id="notification-message">¡Producto añadido al carrito!</span>
+    </div>
+
+    <nav class="fixed w-full top-0 z-50 glass-header py-4 px-6 md:px-12 flex justify-between items-center">
+        <div>
+            <a href="#" class="font-display text-2xl font-bold tracking-widest uppercase text-white">Antony<span class="text-accent">Black</span></a>
+        </div>
+        <div class="hidden md:flex items-center gap-8 font-display text-sm tracking-widest uppercase font-semibold">
+            <a href="#inicio" class="hover:text-accent transition-colors">Inicio</a>
+            <a href="#catalogo" onclick="filterProducts('hombres')" class="hover:text-accent transition-colors">Hombres</a>
+            <a href="#catalogo" onclick="filterProducts('mujeres')" class="hover:text-accent transition-colors">Mujeres</a>
+            <a href="#ubicaciones" class="hover:text-accent transition-colors">Entregas</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <button onclick="abrirCarrito()" class="relative hover:text-accent transition-colors" aria-label="Abrir Carrito">
+                <i class="fas fa-shopping-bag text-xl"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-black">0</span>
+            </button>
+            <button class="md:hidden text-2xl hover:text-accent transition-colors" onclick="document.getElementById('mobile-menu').style.display='flex'" aria-label="Abrir menú móvil"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 hidden flex-col justify-center items-center gap-8 text-2xl font-display uppercase tracking-widest">
+        <button onclick="document.getElementById('mobile-menu').style.display='none'" class="absolute top-6 right-6 text-4xl text-gray-400 hover:text-accent">×</button>
+        <a href="#inicio" onclick="document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Inicio</a>
+        <a href="#catalogo" onclick="filterProducts('hombres'); document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Colección Hombres</a>
+        <a href="#catalogo" onclick="filterProducts('mujeres'); document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Colección Mujeres</a>
+        <a href="#ubicaciones" onclick="document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Zonas de Entrega</a>
+    </div>
+
+    <header id="inicio" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2000')] bg-cover bg-center opacity-25"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black"></div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <span class="text-accent font-display font-bold tracking-[0.4em] mb-4 block uppercase text-xs sm:text-sm">La Nueva Era de la Moda Urbana</span>
+            <h1 class="text-white font-display uppercase font-black text-6xl sm:text-8xl tracking-wider leading-none mb-6">Antony Black</h1>
+            <p class="text-gray-400 font-sans max-w-xl mx-auto mb-10 text-sm sm:text-base leading-relaxed">Prendas exclusivas de corte oversize diseñadas para quienes imponen sus propias reglas en la calle.</p>
+            
+            <div class="flex flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto mb-8">
+                <a href="#catalogo" onclick="filterProducts('hombres')" class="flex-1 border border-white bg-white text-black font-display font-bold uppercase tracking-widest py-3 px-4 rounded text-xs sm:text-sm text-center hover:bg-transparent hover:text-white transition-all">
+                    Hombres
+                </a>
+                <a href="#catalogo" onclick="filterProducts('mujeres')" class="flex-1 bg-accent border border-accent text-white font-display font-bold uppercase tracking-widest py-3 px-4 rounded text-xs sm:text-sm text-center hover:bg-accent-hover hover:border-accent-hover transition-all">
+                    Mujeres
+                </a>
+            </div>
+            
+            <button onclick="openAIModal()" class="bg-[#111116]/80 backdrop-blur-md border border-white/10 text-white font-sans font-bold uppercase tracking-wider text-xs py-3 px-8 hover:border-accent hover:text-accent transition-all rounded-full mx-auto flex items-center justify-center gap-2">
+                ✨ Probador Virtual IA
+            </button>
+        </div>
+    </header>
+
+    <div class="marquee-wrapper py-3">
+        <div class="marquee-content font-display text-white text-xs sm:text-sm font-bold uppercase tracking-[0.2em]">
+            🔥 ENVÍOS A TODO MÉXICO | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA | 🔥 NUEVA COLECCIÓN DISPONIBLE | &nbsp;&nbsp;&nbsp;&nbsp;
+            🔥 ENVÍOS A TODO MÉXICO | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA | 🔥 NUEVA COLECCIÓN DISPONIBLE | &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <section class="py-16 bg-black-light border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div class="p-4 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-accent/10 flex justify-center items-center text-accent mb-4"><i class="fas fa-truck text-2xl"></i></div>
+                <h3 class="font-display text-xl uppercase mb-2">Pago Contra Entrega</h3>
+                <p class="text-gray-400 text-sm">Paga al recibir de forma segura en nuestras ubicaciones oficiales de entrega.</p>
+            </div>
+            <div class="p-4 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-accent/10 flex justify-center items-center text-accent mb-4"><i class="fas fa-wallet text-2xl"></i></div>
+                <h3 class="font-display text-xl uppercase mb-2">Mercado Pago & SPEI</h3>
+                <p class="text-gray-400 text-sm">Aceptamos transferencias bancarias directas y cobro con tarjetas vía Mercado Pago.</p>
+            </div>
+            <div class="p-4 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-accent/10 flex justify-center items-center text-accent mb-4"><i class="fas fa-star text-2xl"></i></div>
+                <h3 class="font-display text-xl uppercase mb-2">Exclusividad Urbana</h3>
+                <p class="text-gray-400 text-sm">Cortes únicos diseñados con algodón premium de alto gramaje para mayor durabilidad.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalogo" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+                <span class="text-accent font-display font-bold tracking-widest uppercase text-xs block mb-1">Nuestra Ropa</span>
+                <h2 class="font-display text-4xl uppercase font-black tracking-wider">La <span class="text-accent">Colección</span></h2>
+            </div>
+            <div class="flex flex-row border border-white/10 p-1 rounded-full bg-black-light w-full md:w-auto">
+                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn bg-accent text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all">Todos</button>
+                <button onclick="filterProducts('hombres')" id="btn-hombres" class="filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all">Hombres</button>
+                <button onclick="filterProducts('mujeres')" id="btn-mujeres" class="filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all">Mujeres</button>
+            </div>
+        </div>
+        
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+    </section>
+
+    <section id="ubicaciones" class="py-24 bg-black-light border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
+            <span class="text-accent font-display font-bold tracking-widest uppercase text-xs block mb-1">Sin costo de envío</span>
+            <h2 class="font-display text-4xl uppercase font-black tracking-wider">Puntos de <span class="text-accent">Entrega</span></h2>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between h-64">
+                <div>
+                    <i class="fas fa-map-marked-alt text-3xl text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl uppercase mb-2">Desviación Jocotitlán</h3>
+                    <p class="text-gray-400 text-sm">Punto de encuentro seguro y de fácil acceso.</p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="text-white border border-white/10 py-2.5 px-4 rounded font-bold uppercase text-xs hover:bg-accent hover:border-accent block text-center transition-all">Ver ubicación</a>
+            </div>
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between h-64">
+                <div>
+                    <i class="fas fa-map-marked-alt text-3xl text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl uppercase mb-2">San Pedro de los Baños</h3>
+                    <p class="text-gray-400 text-sm">Entregas programadas en la explanada de la delegación.</p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="text-white border border-white/10 py-2.5 px-4 rounded font-bold uppercase text-xs hover:bg-accent hover:border-accent block text-center transition-all">Ver ubicación</a>
+            </div>
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between h-64">
+                <div>
+                    <i class="fas fa-map-marked-alt text-3xl text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl uppercase mb-2">Jocotitlán Centro</h3>
+                    <p class="text-gray-400 text-sm">Frente al palacio municipal a convenir horario.</p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="text-white border border-white/10 py-2.5 px-4 rounded font-bold uppercase text-xs hover:bg-accent hover:border-accent block text-center transition-all">Ver ubicación</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black pt-20 pb-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16 text-center md:text-left">
+                <div>
+                    <h3 class="font-display text-2xl font-bold uppercase tracking-wider mb-4">Antony<span class="text-accent">Black</span></h3>
+                    <p class="text-gray-500 text-sm max-w-sm mx-auto md:mx-0 mb-6 leading-relaxed">Únete al movimiento que está revolucionando el estilo urbano. Moda independiente con carácter mexicano.</p>
+                    <div class="flex gap-4 justify-center md:justify-start">
+                        <a href="https://www.instagram.com/jose_antonio_contreras17" target="_blank" class="w-10 h-10 rounded-full bg-[#16161b] flex justify-center items-center hover:bg-accent text-gray-400 hover:text-white transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/1BNK4Dr2WW/" target="_blank" class="w-10 h-10 rounded-full bg-[#16161b] flex justify-center items-center hover:bg-accent text-gray-400 hover:text-white transition-all"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-lg uppercase font-bold text-white mb-4">Contacto Oficial</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li class="flex items-center justify-center md:justify-start gap-3">
+                            <i class="fab fa-whatsapp text-accent text-base"></i> 
+                            <a href="https://wa.me/527122111135" class="hover:text-white font-semibold font-sans transition-colors">+52 712 211 1135</a>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-500">
+                            <i class="fas fa-clock text-accent"></i> Atención: Lunes a Domingo de 9:00 AM - 9:00 PM
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 text-center text-gray-500 text-xs tracking-wider uppercase">
+                © 2026 <strong>José Antonio Mejía Hernández</strong>. Todos los derechos reservados al mismo.
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-drawer" class="cart-drawer flex flex-col">
+        <div class="p-6 border-b border-white/5 flex justify-between items-center bg-black">
+            <h2 class="font-display text-xl uppercase tracking-wider">Tu Bolsa</h2>
+            <button onclick="cerrarCarrito()" class="text-2xl text-gray-500 hover:text-white transition-colors">×</button>
+        </div>
+        
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4"></div>
+        
+        <div class="p-6 bg-[#0a0a0d] border-t border-white/5">
+            <div class="flex justify-between mb-6 font-display font-semibold text-base uppercase tracking-wider">
+                <span>Subtotal:</span>
+                <span id="cart-total" class="text-accent">$0.00 MXN</span>
+            </div>
+            <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-display font-bold uppercase tracking-widest py-4 rounded hover:bg-accent-hover transition-colors">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="custom-modal">
+        <div class="modal-body w-full max-w-md p-6 relative mx-4">
+            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-gray-400 text-2xl hover:text-white">×</button>
+            <h3 class="font-display text-xl uppercase font-bold text-white mb-4 text-center tracking-wider">💳 Opciones de Pago</h3>
+            <p class="text-gray-400 mb-6 text-center text-xs">Monto total a procesar: <strong id="modal-total-amount" class="text-accent text-sm"></strong></p>
+            
+            <div class="space-y-4">
+                <button onclick="pagarConMercadoPago()" class="w-full bg-[#009EE3] text-white font-display font-bold uppercase text-xs tracking-widest py-3.5 rounded flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-wallet text-base"></i> Pagar con Mercado Pago
+                </button>
+                
+                <div class="bg-black/60 p-4 rounded-xl border border-white/5 text-xs text-gray-400 space-y-2">
+                    <p class="text-white font-bold uppercase tracking-wider mb-2">Detalles de Transferencia Directa:</p>
+                    <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
+                    <p><strong>Banco:</strong> Mercado Pago W</p>
+                    <div class="flex items-center justify-between gap-2 mt-2 bg-[#121216] p-2 rounded border border-white/5">
+                        <span class="text-white font-semibold" id="clabe-text">722969010522000447</span>
+                        <button onclick="copiarCLABE()" class="text-accent hover:text-white font-bold text-[10px] uppercase">Copiar CLABE</button>
+                    </div>
+                </div>
+                
+                <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-display font-bold uppercase text-xs tracking-widest py-3.5 rounded flex items-center justify-center gap-2 hover:bg-green-600 transition-colors">
+                    <i class="fab fa-whatsapp text-lg"></i> Notificar pedido por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ai-modal" class="custom-modal">
+        <div class="modal-body w-full max-w-md p-6 relative mx-4">
+            <button onclick="closeAIModal()" class="absolute top-4 right-4 text-gray-400 text-2xl hover:text-white">×</button>
+            <h3 class="font-display text-xl uppercase font-bold text-white mb-1 tracking-wider text-center">Probador de Estilo</h3>
+            <p class="text-accent font-display text-[11px] font-semibold uppercase tracking-[0.2em] mb-6 text-center">Antony Black IA Engine</p>
+            
+            <div class="w-full h-64 bg-black/80 border border-white/5 rounded-2xl flex flex-col justify-center items-center mb-6 relative overflow-hidden">
+                <video id="camera-stream" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
+                <canvas id="camera-canvas" class="hidden"></canvas>
+                <img id="captured-photo" class="absolute inset-0 w-full h-full object-cover hidden" alt="Vista del probador">
+                
+                <div id="camera-fallback" class="text-center z-10 px-6 space-y-3">
+                    <i class="fas fa-sparkles text-4xl text-accent/80 block"></i>
+                    <p class="text-gray-400 text-xs leading-relaxed">Carga una foto tuya de cuerpo entero o selecciona un modelo para visualizar la caída de nuestras sudaderas oversize.</p>
+                </div>
+            </div>
+            
+            <div class="space-y-2">
+                <button id="btn-activar-camara" onclick="toggleCamaraSegura()" class="w-full bg-white text-black font-display font-bold uppercase text-xs tracking-widest py-3.5 rounded hover:bg-gray-200 transition-colors">
+                    Activar Cámara Real 📷
+                </button>
+                <button id="btn-tomar-foto" onclick="tomarFoto()" class="w-full bg-accent text-white font-display font-bold uppercase text-xs tracking-widest py-3.5 rounded hover:bg-accent-hover transition-colors hidden">
+                    ¡Tomar Captura! 📸
+                </button>
+                <button id="btn-reiniciar-camara" onclick="repetirFoto()" class="w-full bg-gray-800 text-white font-display font-bold uppercase text-xs tracking-widest py-3.5 rounded hover:bg-gray-700 transition-colors hidden">
+                    Volver a capturar 🔄
+                </button>
+                
+                <div class="pt-4 border-t border-white/5">
+                    <label class="block text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-2 text-center">Subir fotografía para la IA:</label>
+                    <input type="file" onchange="cargarFotoGaleria(event)" accept="image/*" class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-semibold file:bg-gray-800 file:text-white hover:file:bg-gray-700"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="toggle-music" class="floating-btn music-btn shadow-lg"><i class="fas fa-volume-up" id="music-icon"></i></button>
+    <div id="toggle-chat" class="floating-btn chat-btn shadow-lg"><i class="fas fa-comment-dots"></i></div>
+
+    <div id="chatbot-box" class="chat-container flex flex-col">
+        <div class="bg-accent p-4 flex justify-between items-center rounded-t-2xl">
+            <div class="flex items-center gap-2"><i class="fas fa-robot text-lg"></i><span class="font-display font-bold uppercase text-xs tracking-wider text-white">Soporte Antony Black</span></div>
+            <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-xl">×</button>
+        </div>
+        <div id="chat-messages" class="chat-messages bg-[#0e0e11] flex-1">
+            <div class="msg bot">¡Hola! Soy el asistente oficial de Antony Black 🕷️. ¿Tienes dudas sobre los métodos de pago, las zonas de entrega o las sudaderas? Pregúntame libremente.</div>
+        </div>
+        <div class="flex gap-2 p-2 bg-[#09090c] border-t border-white/5 flex-wrap">
+            <button onclick="sendQuickReply('¿A qué cuenta deposito?')" class="bg-black border border-white/10 hover:border-accent text-gray-400 hover:text-white px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase transition-colors">💳 Depósitos</button>
+            <button onclick="sendQuickReply('¿Tienen pago al recibir?')" class="bg-black border border-white/10 hover:border-accent text-gray-400 hover:text-white px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase transition-colors">📦 Pago al recibir</button>
+            <button onclick="sendQuickReply('Puntos de entrega')" class="bg-black border border-white/10 hover:border-accent text-gray-400 hover:text-white px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase transition-colors">📍 Ubicaciones</button>
+        </div>
+        <form class="chat-input" onsubmit="handleUserChat(event)">
+            <input type="text" id="chat-input-field" placeholder="Pregunta algo..." class="flex-1 bg-transparent text-white outline-none text-xs px-2">
+            <button type="submit" class="text-accent hover:text-white transition-colors"><i class="fas fa-paper-plane text-sm"></i></button>
+        </form>
+    </div>
+
+    <script>
+        let isMusicPlaying = false;
+        
+        function iniciarMusicaAutomatica() {
+            if (!isMusicPlaying) {
+                try {
+                    const bgMusic = document.getElementById('bg-music');
+                    bgMusic.volume = 0.25;
+                    bgMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        document.getElementById('music-icon').className = "fas fa-volume-up text-white";
+                    }).catch(err => console.log("Esperando clic del usuario."));
+                } catch(e){}
+            }
+        }
+
+        document.body.addEventListener('click', iniciarMusicaAutomatica, { once: true });
+        document.body.addEventListener('touchstart', iniciarMusicaAutomatica, { once: true });
+
+        document.getElementById('toggle-music').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const bgMusic = document.getElementById('bg-music');
+            const musicIcon = document.getElementById('music-icon');
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicIcon.className = "fas fa-volume-mute text-gray-500";
+            } else {
+                bgMusic.play().then(() => {
+                    musicIcon.className = "fas fa-volume-up text-white";
+                }).catch(() => {});
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        const productDatabase = [
+            { id: 1, name: "Oversized Hoodie 'No Rules'", price: 899, category: "hombres", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600" },
+            { id: 2, name: "Cargo Pants Tactical Black", price: 1150, category: "hombres", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=600" },
+            { id: 3, name: "Crop Hoodie 'Rebel' Red", price: 750, category: "mujeres", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600" },
+            { id: 4, name: "Wide Leg Jeans Vintage Gray", price: 990, category: "mujeres", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600" }
+        ];
+
+        let cart = [];
+        try {
+            cart = JSON.parse(localStorage.getItem('antonyCart')) || [];
+        } catch(e) {}
+
+        function formatMoney(amount) {
+            return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' MXN';
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('products-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden relative group">
+                        <div class="h-80 bg-[#0d0d11] relative overflow-hidden">
+                            <img src="${p.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="${p.name}">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between bg-black-light">
+                            <div class="mb-4">
+                                <h3 class="font-sans font-bold text-base text-white tracking-wide mb-1">${p.name}</h3>
+                                <p class="text-accent font-display text-lg font-bold">${formatMoney(p.price)}</p>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="w-full bg-black hover:bg-accent text-white font-display font-semibold text-xs tracking-wider uppercase py-3.5 rounded-lg border border-white/10 hover:border-accent transition-all">
+                                Añadir a la Bolsa
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts(cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all";
+            });
+            const activeBtn = document.getElementById(`btn-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = "filter-btn bg-accent text-white px-6 py-2 rounded-full text-xs font-bold uppercase flex-1 transition-all";
+            }
+            renderProducts(cat === 'todos' ? productDatabase : productDatabase.filter(p => p.category === cat));
+        }
+
+        function showNotification(message) {
+            const toast = document.getElementById('notification-toast');
+            const msgEl = document.getElementById('notification-message');
+            msgEl.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        function addToCart(id) {
+            const p = productDatabase.find(x => x.id === id);
+            const item = cart.find(x => x.id === id);
+            if (item) item.quantity++; else cart.push({ ...p, quantity: 1 });
+            saveCartState(); updateCartUI(); abrirCarrito();
+            showNotification(`¡${p.name} añadido a la bolsa!`);
+        }
+
+        function saveCartState() { try { localStorage.setItem('antonyCart', JSON.stringify(cart)); } catch(e){} }
+
+        function updateCartUI() {
+            let total = 0; let html = '';
+            cart.forEach(i => {
+                total += i.price * i.quantity;
+                html += `
+                    <div class="flex gap-4 bg-[#14141a] p-3 rounded-xl border border-white/5 items-center">
+                        <img src="${i.image}" class="w-14 h-14 object-cover rounded-lg">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-white truncate">${i.name}</h4>
+                            <p class="text-accent text-[11px] font-semibold mt-1">${formatMoney(i.price)} x${i.quantity}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="changeQty(${i.id}, -1)" class="text-gray-500 hover:text-white px-1.5 font-bold">-</button>
+                            <span class="text-white text-xs font-bold">${i.quantity}</span>
+                            <button onclick="changeQty(${i.id}, 1)" class="text-gray-500 hover:text-white px-1.5 font-bold">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-accent p-2"><i class="fas fa-trash-alt text-xs"></i></button>
+                    </div>
+                `;
+            });
+            const container = document.getElementById('cart-items-container');
+            if (container) container.innerHTML = html || `<div class="flex flex-col items-center justify-center h-48 text-gray-500"><i class="fas fa-shopping-bag text-3xl mb-3"></i><p class="text-xs">Tu bolsa está vacía.</p></div>`;
+            if (document.getElementById('cart-total')) document.getElementById('cart-total').textContent = formatMoney(total);
+            if (document.getElementById('cart-count')) document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + i.quantity, 0);
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(x => x.id === id);
+            if (item) { item.quantity += delta; if (item.quantity <= 0) cart = cart.filter(x => x.id !== id); saveCartState(); updateCartUI(); }
+        }
+
+        document.getElementById('toggle-chat').addEventListener('click', () => { document.getElementById('chatbot-box').classList.toggle('open'); });
+
+        function removeFromCart(id) { cart = cart.filter(x => x.id !== id); saveCartState(); updateCartUI(); showNotification("Producto removido."); }
+        function abrirCarrito() { document.getElementById('cart-drawer').classList.add('open'); }
+        function cerrarCarrito() { document.getElementById('cart-drawer').classList.remove('open'); }
+        function openPaymentModal() { if (cart.length === 0) return; cerrarCarrito(); document.getElementById('modal-total-amount').textContent = document.getElementById('cart-total').textContent; document.getElementById('payment-modal').classList.add('active'); }
+        function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
+        function openAIModal() { document.getElementById('ai-modal').classList.add('active'); }
+        function closeAIModal() { document.getElementById('ai-modal').classList.remove('active'); apagarCamara(); }
+        function pagarConMercadoPago() { window.open("https://link.mercadopago.com.mx", '_blank'); }
+
+        function copiarCLABE() {
+            const clabe = document.getElementById('clabe-text').textContent;
+            const inputTemp = document.createElement("input"); inputTemp.value = clabe; document.body.appendChild(inputTemp); inputTemp.select();
+            try { document.execCommand('copy'); showNotification("¡CLABE copiada!"); } catch (err) {}
+            document.body.removeChild(inputTemp);
+        }
+
+        function confirmWhatsAppCheckout() {
+            let msg = "¡Qué onda Antony Black! 🕷️ Quiero pedir:\n\n";
+            cart.forEach(i => msg += `• ${i.quantity}x ${i.name}\n`);
+            msg += `\n*Total: ${document.getElementById('modal-total-amount').textContent}*`;
+            window.open(`https://wa.me/527122111135?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        let streamCamara = null;
+        async function toggleCamaraSegura() {
+            const video = document.getElementById('camera-stream');
+            const fallback = document.getElementById('camera-fallback');
+            try {
+                streamCamara = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                video.srcObject = streamCamara; video.classList.remove('hidden'); fallback.classList.add('hidden');
+                document.getElementById('btn-activar-camara').classList.add('hidden'); document.getElementById('btn-tomar-foto').classList.remove('hidden');
+            } catch (err) { showNotification("Cámara no disponible. Sube una foto de tu galería."); }
+        }
+
+        function tomarFoto() {
+            const video = document.getElementById('camera-stream'); const canvas = document.getElementById('camera-canvas'); const photo = document.getElementById('captured-photo');
+            const context = canvas.getContext('2d'); canvas.width = video.videoWidth; canvas.height = video.videoHeight; context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+            photo.src = canvas.toDataURL('image/png'); photo.classList.remove('hidden'); video.classList.add('hidden');
+            document.getElementById('btn-tomar-foto').classList.add('hidden'); document.getElementById('btn-reiniciar-camara').classList.remove('hidden');
+        }
+
+        function repetirFoto() { document.getElementById('captured-photo').classList.add('hidden'); document.getElementById('camera-stream').classList.remove('hidden'); document.getElementById('btn-tomar-foto').classList.remove('hidden'); document.getElementById('btn-reiniciar-camara').classList.add('hidden'); }
+
+        function cargarFotoGaleria(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const photo = document.getElementById('captured-photo'); const fallback = document.getElementById('camera-fallback');
+                    photo.src = e.target.result; photo.classList.remove('hidden'); fallback.classList.add('hidden');
+                    document.getElementById('btn-activar-camara').classList.add('hidden'); document.getElementById('btn-reiniciar-camara').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function apagarCamara() {
+            if (streamCamara) { streamCamara.getTracks().forEach(track => track.stop()); streamCamara = null; }
+            document.getElementById('camera-stream').classList.add('hidden'); document.getElementById('captured-photo').classList.add('hidden'); document.getElementById('camera-fallback').classList.remove('hidden');
+            document.getElementById('btn-activar-camara').classList.remove('hidden'); document.getElementById('btn-tomar-foto').classList.add('hidden'); document.getElementById('btn-reiniciar-camara').classList.add('hidden');
+        }
+
+        function appendMsg(text, sender) { const chatMessages = document.getElementById('chat-messages'); chatMessages.innerHTML += `<div class="msg ${sender}">${text}</div>`; chatMessages.scrollTop = chatMessages.scrollHeight; }
+        function sendQuickReply(text) { document.getElementById('chat-input-field').value = text; handleUserChat(new Event('submit')); }
+
+        function handleUserChat(e) {
+            e.preventDefault(); const input = document.getElementById('chat-input-field'); const text = input.value.trim(); if (!text) return;
+            appendMsg(text, 'user'); input.value = '';
+            setTimeout(() => {
+                let r = "Escríbenos directo a nuestro WhatsApp oficial para atención inmediata: 7122111135 🕷️"; const lowerText = text.toLowerCase();
+                if (lowerText.includes('pago') || lowerText.includes('cuenta')) r = "Aceptamos SPEI (CLABE 722969010522000447), pago contra entrega y Mercado Pago.";
+                else if (lowerText.includes('entrega') || lowerText.includes('ubicacion')) r = "Entregamos gratis en Desviación Jocotitlán, Centro y San Pedro de los Baños.";
+                appendMsg(r, 'bot');
+            }, 500);
+        }
+
+        renderProducts(productDatabase); updateCartUI();
+    </script>
+</body>
+</html>

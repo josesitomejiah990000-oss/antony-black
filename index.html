@@ -83,27 +83,23 @@
             .chat-btn { right: 20px; width: 50px; height: 50px; font-size: 24px; bottom: 20px;}
             .music-btn { left: 20px; bottom: 20px;}
             .chatbot-container { width: calc(100% - 40px); right: 20px; bottom: 80px; }
-            .add-to-cart-btn { bottom: 0; opacity: 0.9; } /* Siempre visible en movil */
+            .add-to-cart-btn { bottom: 0; opacity: 0.9; }
         }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-accent selection:text-white" style="overflow: hidden;">
 
-    <!-- Audio Player -->
     <audio id="bg-music" loop>
         <source src="https://archive.org/download/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Pantalla de Carga y Entrada -->
     <div id="loader">
         <h1 class="glitch mb-8">ANTONY BLACK</h1>
-        <!-- Botón a prueba de fallos con evento onclick directo -->
         <button onclick="iniciarExperiencia()" class="bg-accent text-white font-bold uppercase tracking-widest py-4 px-10 hover:bg-accent-hover transition-all rounded-full shadow-[0_0_20px_rgba(255,42,42,0.5)] scale-100 hover:scale-105">
             Entrar a la experiencia
         </button>
     </div>
 
-    <!-- Navegación -->
     <nav class="fixed w-full top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 py-4 px-6 flex justify-between items-center">
         <div class="flex items-center gap-4">
             <a href="#" class="font-display text-2xl font-bold tracking-wider uppercase text-white">Antony<span class="text-accent">Black</span></a>
@@ -123,7 +119,6 @@
         </div>
     </nav>
 
-    <!-- Menú Móvil -->
     <div id="mobile-menu" class="fixed inset-0 bg-black z-40 hidden flex-col justify-center items-center gap-8 text-2xl font-display uppercase tracking-widest">
         <button onclick="document.getElementById('mobile-menu').style.display='none'" class="absolute top-6 right-6 text-4xl text-gray-400 hover:text-accent">×</button>
         <a href="#inicio" onclick="document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Inicio</a>
@@ -132,7 +127,6 @@
         <a href="#ubicaciones" onclick="document.getElementById('mobile-menu').style.display='none'" class="hover:text-accent">Puntos de Entrega</a>
     </div>
 
-    <!-- Hero -->
     <header id="inicio" class="relative h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=2000')] bg-cover bg-center opacity-30"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
@@ -152,269 +146,8 @@
 
     <div class="marquee"><div class="marquee-content">🔥 ENVÍOS A TODO MÉXICO | 💸 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA | 🔥 NUEVA COLECCIÓN DISPONIBLE | </div></div>
 
-    <!-- Beneficios -->
     <section class="py-16 bg-black-light border-b border-gray-800">
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div class="p-6"><i class="fas fa-money-bill-wave text-4xl text-accent mb-4"></i><h3 class="font-display text-xl uppercase mb-2">Pago Contra Entrega</h3><p class="text-gray-400 text-sm">Paga al recibir en zonas de cobertura.</p></div>
             <div class="p-6"><i class="fas fa-mobile-alt text-4xl text-accent mb-4"></i><h3 class="font-display text-xl uppercase mb-2">Mercado Pago & SPEI</h3><p class="text-gray-400 text-sm">Transacciones 100% seguras y rápidas.</p></div>
-            <div class="p-6"><i class="fas fa-box-open text-4xl text-accent mb-4"></i><h3 class="font-display text-xl uppercase mb-2">3 Puntos de Entrega</h3><p class="text-gray-400 text-sm">Recoge tus pedidos sin costo de envío.</p></div>
-        </div>
-    </section>
-
-    <!-- Catálogo -->
-    <section id="catalogo" class="py-24 px-6 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div><h2 class="font-display text-4xl uppercase font-bold mb-2">Nuestra <span class="text-accent">Colección</span></h2></div>
-            <div class="flex flex-wrap gap-2 border border-gray-800 p-1 rounded-full bg-black-light w-full md:w-auto">
-                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn active bg-accent text-white px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Todos</button>
-                <button onclick="filterProducts('hombres')" id="btn-hombres" class="filter-btn text-gray-400 px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Hombres</button>
-                <button onclick="filterProducts('mujeres')" id="btn-mujeres" class="filter-btn text-gray-400 px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Mujeres</button>
-            </div>
-        </div>
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-    </section>
-
-    <!-- Ubicaciones -->
-    <section id="ubicaciones" class="py-24 bg-black-light border-t border-gray-800">
-        <div class="container mx-auto px-6 text-center mb-16">
-            <h2 class="font-display text-4xl uppercase font-bold mb-4">Puntos de <span class="text-accent">Entrega</span></h2>
-        </div>
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="location-card">
-                <i class="fas fa-map-marker-alt text-4xl text-accent mb-4"></i>
-                <h3 class="font-display text-2xl uppercase mb-2">Desviación Jocotitlán</h3>
-                <p class="text-gray-400 text-sm mb-4">Punto de encuentro principal.</p>
-                <a href="https://maps.app.goo.gl/fkLmqGLx8MN39tiz5" target="_blank" class="text-white bg-gray-900 py-2 px-4 rounded font-bold uppercase text-xs hover:bg-accent block text-center">Ver Mapa</a>
-            </div>
-            <div class="location-card">
-                <i class="fas fa-map-marker-alt text-4xl text-accent mb-4"></i>
-                <h3 class="font-display text-2xl uppercase mb-2">San Pedro de los Baños</h3>
-                <p class="text-gray-400 text-sm mb-4">Zona Centro.</p>
-                <a href="https://maps.app.goo.gl/VDRvch5ct95Siw5y5" target="_blank" class="text-white bg-gray-900 py-2 px-4 rounded font-bold uppercase text-xs hover:bg-accent block text-center">Ver Mapa</a>
-            </div>
-            <div class="location-card">
-                <i class="fas fa-map-marker-alt text-4xl text-accent mb-4"></i>
-                <h3 class="font-display text-2xl uppercase mb-2">Jocotitlán Centro</h3>
-                <p class="text-gray-400 text-sm mb-4">Entregas en zona centro.</p>
-                <a href="https://maps.app.goo.gl/Vhk6e9QaCigfQWedA" target="_blank" class="text-white bg-gray-900 py-2 px-4 rounded font-bold uppercase text-xs hover:bg-accent block text-center">Ver Mapa</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-black pt-16 pb-8 border-t border-gray-800">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 text-center md:text-left">
-            <div>
-                <h3 class="font-display text-2xl font-bold uppercase mb-4">Antony<span class="text-accent">Black</span></h3>
-                <div class="flex gap-4 justify-center md:justify-start">
-                    <a href="https://www.instagram.com/jose_antonio_contreras17" target="_blank" class="w-10 h-10 rounded-full bg-gray-900 flex justify-center items-center hover:bg-accent"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/share/1BNK4Dr2WW/" target="_blank" class="w-10 h-10 rounded-full bg-gray-900 flex justify-center items-center hover:bg-accent"><i class="fab fa-facebook-f"></i></a>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-bold uppercase mb-4">Contacto</h4>
-                <ul class="space-y-4 text-gray-400 text-sm">
-                    <li><i class="fab fa-whatsapp text-accent mr-2"></i> <a href="https://wa.me/527122111135" class="hover:text-white font-bold">+52 712 211 1135</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Carrito -->
-    <div id="cart-drawer" class="cart-drawer">
-        <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-black">
-            <h2 class="font-display text-2xl uppercase">Tu Carrito</h2><button onclick="cerrarCarrito()" class="text-3xl text-gray-500 hover:text-white">&times;</button>
-        </div>
-        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4"></div>
-        <div class="p-6 bg-black border-t border-gray-800">
-            <div class="flex justify-between mb-4 font-bold text-lg"><span>Total:</span><span id="cart-total">$0.00 MXN</span></div>
-            <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-bold uppercase py-4 hover:bg-accent-hover rounded">Proceder al Pago</button>
-        </div>
-    </div>
-
-    <!-- Modal Pago -->
-    <div id="payment-modal">
-        <div class="modal-content">
-            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl">&times;</button>
-            <h3 class="font-display text-2xl uppercase font-bold text-white mb-4 text-center">💳 Datos de Pago</h3>
-            <p class="text-gray-300 mb-6 text-center text-sm">¡Hola! 😀 Te comparto mis datos para transferencia 👇</p>
-            <div class="bg-black p-4 rounded border border-gray-700 space-y-3 mb-6 text-sm">
-                <p><strong>Institución:</strong> Mercado Pago W</p>
-                <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
-                <p><strong>CLABE:</strong> <span class="text-accent font-bold">722969010522000447</span></p>
-                <p><strong>Celular (Dimo®):</strong> 527122111135</p>
-                <p class="mt-4 pt-4 border-t border-gray-800 text-center text-gray-400">Total a pagar: <strong id="modal-total-amount" class="text-white text-lg"></strong></p>
-            </div>
-            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-bold uppercase py-3 rounded flex items-center justify-center gap-2 hover:bg-green-600"><i class="fab fa-whatsapp text-xl"></i> Confirmar y Enviar Comprobante</button>
-        </div>
-    </div>
-
-    <!-- Modal Probador IA -->
-    <div id="ai-modal">
-        <div class="modal-content text-center">
-            <button onclick="closeAIModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl">&times;</button>
-            <h3 class="font-display text-2xl uppercase font-bold text-white mb-2">Asistente Personal</h3>
-            <p class="text-accent text-sm font-bold tracking-widest mb-6">PROBADOR VIRTUAL IA</p>
-            <div class="w-full h-64 bg-gray-900 border border-gray-700 rounded-lg flex flex-col justify-center items-center mb-6 relative overflow-hidden">
-                <i class="fas fa-camera text-4xl text-gray-600 mb-2"></i>
-                <p class="text-gray-500 text-sm px-4">Haz clic abajo para activar la cámara y probarte las prendas virtualmente.</p>
-            </div>
-            <button class="w-full bg-white text-black font-bold uppercase py-3 rounded hover:bg-gray-200 transition-colors">
-                Activar Cámara
-            </button>
-        </div>
-    </div>
-
-    <!-- Botones Flotantes -->
-    <button id="toggle-music" class="floating-btn music-btn"><i class="fas fa-volume-up" id="music-icon"></i></button>
-    <div id="toggle-chat" class="floating-btn chat-btn"><i class="fas fa-comment-dots"></i></div>
-
-    <!-- Chatbot -->
-    <div id="chatbot-box" class="chatbot-container flex flex-col">
-        <div class="bg-accent p-4 flex justify-between items-center">
-            <div class="flex items-center gap-2"><i class="fas fa-robot text-xl"></i><span class="font-bold uppercase text-sm">Asistente Personal</span></div>
-            <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-xl">&times;</button>
-        </div>
-        <div id="chat-messages" class="chat-messages bg-black">
-            <div class="msg bot">¡Qué onda! Soy tu Asistente Personal de Antony Black 🕷️. Pregúntame sobre moda o métodos de pago.</div>
-        </div>
-        <div class="chat-options">
-            <button class="chat-option-btn" onclick="sendQuickReply('¿A qué cuenta deposito?')">💳 Pagos</button>
-            <button class="chat-option-btn" onclick="sendQuickReply('Puntos de entrega')">📍 Ubicaciones</button>
-        </div>
-        <form class="chat-input" onsubmit="handleUserChat(event)">
-            <input type="text" id="chat-input-field" placeholder="Escribe..." class="flex-1 bg-transparent text-white outline-none text-sm px-2">
-            <button type="submit" class="text-accent"><i class="fas fa-paper-plane"></i></button>
-        </form>
-    </div>
-
-    <script>
-        // 1. INICIAR EXPERIENCIA (A prueba de fallos)
-        let isMusicPlaying = false;
-        function iniciarExperiencia() {
-            const loader = document.getElementById('loader');
-            const bgMusic = document.getElementById('bg-music');
-            
-            // Desaparecer pantalla
-            loader.style.opacity = '0';
-            setTimeout(() => { 
-                loader.style.display = 'none'; 
-                document.body.style.overflow = 'auto'; 
-            }, 500);
-
-            // Intentar reproducir música de fondo
-            try {
-                bgMusic.volume = 0.3;
-                bgMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    document.getElementById('music-icon').className = "fas fa-volume-up text-white";
-                }).catch(e => console.log("El navegador bloqueó el autoplay"));
-            } catch(e) {}
-        }
-
-        // Control de Música Botón Flotante
-        document.getElementById('toggle-music').addEventListener('click', () => {
-            const bgMusic = document.getElementById('bg-music');
-            const musicIcon = document.getElementById('music-icon');
-            if(isMusicPlaying) { 
-                bgMusic.pause(); 
-                musicIcon.className = "fas fa-volume-mute text-gray-500"; 
-            } else { 
-                bgMusic.play(); 
-                musicIcon.className = "fas fa-volume-up text-white"; 
-            }
-            isMusicPlaying = !isMusicPlaying;
-        });
-
-        // 2. BASE DE DATOS Y CARRITO (Seguro contra Navegadores Privados)
-        const productDatabase = [
-            { id: 1, name: "Oversized Hoodie 'No Rules'", price: 899, category: "hombres", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400" },
-            { id: 2, name: "Cargo Pants Tactical Black", price: 1150, category: "hombres", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400" },
-            { id: 3, name: "Crop Hoodie 'Rebel'", price: 750, category: "mujeres", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400" },
-            { id: 4, name: "Wide Leg Jeans Vintage", price: 990, category: "mujeres", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400" }
-        ];
-
-        let cart = [];
-        try { // Evita que navegadores como Brave bloqueen el código
-            cart = JSON.parse(localStorage.getItem('antonyCart')) || [];
-        } catch(e) { console.log("Modo privado activado, carrito no se guardará al cerrar."); }
-
-        function formatMoney(amount) { return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' MXN'; }
-        
-        function renderProducts(products) {
-            const grid = document.getElementById('products-grid'); grid.innerHTML = '';
-            products.forEach(p => {
-                grid.innerHTML += `<div class="product-card flex flex-col h-full relative group"><div class="product-image-wrapper h-80 bg-gray-900"><img src="${p.image}" class="w-full h-full object-cover"><button onclick="addToCart(${p.id})" class="add-to-cart-btn bg-black text-white font-bold py-3">Añadir al carrito</button></div><div class="p-5 flex-1 bg-[#151515]"><h3 class="font-bold text-lg">${p.name}</h3><p class="text-accent font-display text-xl">${formatMoney(p.price)}</p></div></div>`;
-            });
-        }
-        
-        function filterProducts(cat) {
-            document.querySelectorAll('.filter-btn').forEach(btn => { btn.classList.remove('bg-accent', 'text-white'); btn.classList.add('text-gray-400'); });
-            document.getElementById(`btn-${cat}`).classList.add('bg-accent', 'text-white');
-            renderProducts(cat === 'todos' ? productDatabase : productDatabase.filter(p => p.category === cat));
-        }
-
-        function addToCart(id) {
-            const p = productDatabase.find(x => x.id === id);
-            const item = cart.find(x => x.id === id);
-            if(item) item.quantity++; else cart.push({...p, quantity:1});
-            try { localStorage.setItem('antonyCart', JSON.stringify(cart)); } catch(e){}
-            updateCartUI();
-            abrirCarrito();
-        }
-
-        function updateCartUI() {
-            let total = 0; let html = '';
-            cart.forEach(i => { total += i.price * i.quantity; html += `<div class="flex gap-4 bg-[#111] p-3 rounded border border-gray-800"><img src="${i.image}" class="w-16 h-16 object-cover"><div class="flex-1"><h4 class="text-sm font-bold text-white">${i.name}</h4><p class="text-accent text-sm">${formatMoney(i.price)} x${i.quantity}</p></div><button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-accent"><i class="fas fa-trash"></i></button></div>`; });
-            document.getElementById('cart-items-container').innerHTML = html || '<p class="text-gray-500 text-center mt-5">Carrito vacío.</p>';
-            document.getElementById('cart-total').textContent = formatMoney(total);
-            document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + i.quantity, 0);
-        }
-        function removeFromCart(id) { cart = cart.filter(x => x.id !== id); try { localStorage.setItem('antonyCart', JSON.stringify(cart)); } catch(e){} updateCartUI(); }
-        
-        function abrirCarrito() { document.getElementById('cart-drawer').classList.add('open'); }
-        function cerrarCarrito() { document.getElementById('cart-drawer').classList.remove('open'); }
-
-        // 3. MODALES (PAGO E IA)
-        function openPaymentModal() {
-            if(cart.length===0) return alert("Carrito vacío");
-            cerrarCarrito();
-            document.getElementById('modal-total-amount').textContent = document.getElementById('cart-total').textContent;
-            document.getElementById('payment-modal').classList.add('active');
-        }
-        function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
-        
-        function openAIModal() { document.getElementById('ai-modal').classList.add('active'); }
-        function closeAIModal() { document.getElementById('ai-modal').classList.remove('active'); }
-
-        function confirmWhatsAppCheckout() {
-            let msg = "¡Hola Antony Black! 🕷️ Quiero pedir:\n";
-            cart.forEach(i => msg += `- ${i.quantity}x ${i.name}\n`);
-            msg += `\n*Total: ${document.getElementById('modal-total-amount').textContent}*\nYa tengo los datos de Mercado Pago.`;
-            window.open(`https://wa.me/527122111135?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        // 4. CHATBOT
-        document.getElementById('toggle-chat').addEventListener('click', () => document.getElementById('chatbot-box').classList.add('open'));
-        
-        function appendMsg(text, sender) {
-            document.getElementById('chat-messages').innerHTML += `<div class="msg ${sender}">${text}</div>`;
-            document.getElementById('chat-messages').scrollTop = 9999;
-        }
-        function sendQuickReply(t) { document.getElementById('chat-input-field').value = t; handleUserChat(new Event('submit')); }
-        
-        function handleUserChat(e) {
-            e.preventDefault(); const input = document.getElementById('chat-input-field'); const t = input.value.trim(); if(!t) return;
-            appendMsg(t, 'user'); input.value = '';
-            setTimeout(() => {
-                let r = "Para información rápida, envíanos un WhatsApp al 7122111135 🕷️";
-                if(t.toLowerCase().includes('pago') || t.toLowerCase().includes('deposito')) r = "Aceptamos Mercado Pago, SPEI (CLABE 722969010522000447) y Pago Contra Entrega.";
-                appendMsg(r, 'bot');
-            }, 500);
-        }
-
-        // Arrancar
-        renderProducts(productDatabase); updateCartUI();
-    </script>
-</body>
-</html>
+            <div class="p-6"><i class="fas fa-box-open text-4xl text-accent mb-4"></i><h3 class

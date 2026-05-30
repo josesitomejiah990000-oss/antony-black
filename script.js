@@ -45,7 +45,7 @@ function togM(id, o) { if (id === 'pay' && cart.length === 0) return; if (id ===
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
-    m.innerHTML += '<div id="quick-chips" class="flex flex-wrap gap-1.5 pt-2"><button onclick="triggerQuickBot(\'precios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">💰 Precios</button><button onclick="triggerQuickBot(\'tallas\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">📏 Tallas</button><button onclick="triggerQuickBot(\'materiales\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">🕷️ Materiales</button><button onclick="triggerQuickBot(\'envios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">📍 Entregas</button></div>';
+    m.innerHTML += '<div id="quick-chips" class="flex flex-wrap gap-1.5 pt-2"><button onclick="triggerQuickBot(\'precios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">💰 Lista de Precios</button><button onclick="triggerQuickBot(\'tallas\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">📏 Dudas con Tallas</button><button onclick="triggerQuickBot(\'materiales\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">🕷️ Tipo de Tela</button><button onclick="triggerQuickBot(\'envios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">📍 Puntos de Entrega</button></div>';
     initChat = true;
 }
 function togCh() { 
@@ -58,8 +58,7 @@ function togCh() {
 document.getElementById('t-cht').onclick = togCh;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
-var reader = new FileReader();
-function ldImg(e) { var f = e.target.files[0]; if (f) { r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
+function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
 function snap() {
     var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
     if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
@@ -76,35 +75,46 @@ function snap() {
 }
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 
+/* 🧠 PROCESADOR DE INTELIGENCIA ARTIFICIAL LIBRE Y PERSUASIVA */
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
+    
     setTimeout(function() {
-        var r = "Qué onda hermano, claro que sí. Oye, ¿te interesa comprar alguna de nuestras prendas de ropa hoy? Te puedo apartar tu talla de una vez.";
-        var showPromoBtn = true;
-
-        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { 
-            r = "<strong>🔥 LISTA DE PRECIOS OFICIAL:</strong><br>• Sudadera Oversize: $899<br>• Pants Táctico: $1150<br>• Crop Hoodie: $750<br>• Wide Leg Jeans: $990<br><br>Recuerda que si juntas más de $2000 el sistema te regala una playera sorpresa.<br><br><strong>🛒 ¿Te gustaría comprar alguna de estas piezas de ropa ahorita mismo?</strong> Dime cuál y te ayudo."; 
-        }
-        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { 
-            r = "<strong>Guía de Estilo:</strong> Manejamos corte Oversize amplio. Pide tu talla de siempre si te gusta holgado, o una menos si lo quieres justo.<br><br>Tenemos stock en CH, M, G y XG.<br><br><strong>📦 ¿Quieres comprar tu ropa en alguna talla en específico antes de que se agoten las piezas?</strong>"; 
-        }
-        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { 
-            r = "<strong>Confección:</strong> Usamos puro 100% Heavy Cotton (Algodón pesado de alto gramaje). No se deforma y tiene una caída espectacular.<br><br>Calidad de boutique internacional.<br><br><strong>🔥 ¿Estás listo para estrenar y comprar ropa con este nivel de calidad textil?</strong>"; 
-        }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('lugar') !== -1 || cleanText.indexOf('punto') !== -1) { 
-            r = "<strong>Zonas de entrega gratis en Jocotitlán:</strong> Centro (Frente a Presidencia), Desviación, y San Pedro de los Baños.<br><br>Tú eliges el horario y nos vemos ahí de forma segura.<br><br><strong>📍 ¿Te gustaría comprar ropa hoy para coordinar tu entrega de inmediato en alguno de estos puntos?</strong>"; 
-        }
-        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { 
-            r = "<strong>Métodos de Pago:</strong> Tarjeta mediante la pasarela de la página o transferencia SPEI Directa (CLABE: 722969010522000447).<br><br><strong>💳 ¿Quieres proceder a comprar tu ropa y apartar tu pedido en este momento?</strong>"; 
-        }
-        else if (cleanText.indexOf('comprar') !== -1 || cleanText.indexOf('ropa') !== -1 || cleanText.indexOf('catalogo') !== -1 || cleanText.indexOf('quiero') !== -1) {
-            r = "<strong>🔥 PRENDAS TOP RECOMENDADAS DE LA MARCA:</strong><br><div class='mt-2 space-y-2'><div class='flex gap-2 bg-black/40 p-1.5 rounded border border-white/5 items-center'><img src='https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=100' class='w-10 h-10 object-cover rounded'><div class='flex-1 min-w-0'><p class='truncate font-bold text-[11px] text-white'>Oversized Hoodie</p><p class='text-[#e11d48] font-bold text-[10px]'>$899</p></div><button onclick='add(1)' class='bg-[#e11d48] text-white text-[9px] px-2 py-1 uppercase rounded font-bold'>Añadir</button></div><div class='flex gap-2 bg-black/40 p-1.5 rounded border border-white/5 items-center'><img src='https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=100' class='w-10 h-10 object-cover rounded'><div class='flex-1 min-w-0'><p class='truncate font-bold text-[11px] text-white'>Crop Hoodie Rebel</p><p class='text-[#e11d48] font-bold text-[10px]'>$750</p></div><button onclick='add(3)' class='bg-[#e11d48] text-white text-[9px] px-2 py-1 uppercase rounded font-bold'>Añadir</button></div></div><br><strong>¿Te interesa comprar ropa hoy mismo o prefieres seguir viendo modelos en el catálogo?</strong>";
-            showPromoBtn = false;
-        }
-
-        var btnWsp = showPromoBtn ? '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio,%20quiero%20comprar%20ropa%20de%20Antony%20Black\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar ropa por WhatsApp 🕷️</button></div>' : '';
+        var respuestaIA = "";
         
-        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;
+        // Reconocimiento inteligente de intenciones del cliente
+        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1 || cleanText.indexOf('valen') !== -1) {
+            respuestaIA = "Nuestra línea exclusiva maneja los siguientes costos didácticos: Las Sudaderas Oversize Premium están en $899, los Cargo Pants Tácticos en $1150, las Crop Hoodies en $750 y los Wide Leg Jeans en $990. Vale totalmente cada centavo por el gramaje pesado.";
+        }
+        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1 || cleanText.indexOf('ch') !== -1 || cleanText.indexOf('grande') !== -1 || cleanText.indexOf('chica') !== -1) {
+            respuestaIA = "Manejamos un corte Oversize de patrón amplio con hombros caídos de nivel internacional. Si buscas ese estilo holgado característico de la moda urbana, pide tu talla de siempre. Si prefieres que te quede un poco más regular, una talla menos es la clave. Tenemos stock real en CH, M, G y XG.";
+        }
+        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1 || cleanText.indexOf('calidad') !== -1) {
+            respuestaIA = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto garantiza una estructura rígida e imponente en el cuerpo que no pierde la forma con las lavadas ni se cuelga feo. Es calidad textil de alta gama.";
+        }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('lugar') !== -1 || cleanText.indexOf('donde') !== -1 || cleanText.indexOf('punto') !== -1) {
+            respuestaIA = "Hacemos entregas personales totalmente gratuitas en los puntos clave de Jocotitlán: Centro (Frente a Presidencia Municipal), Desviación de Jocotitlán y San Pedro de los Baños. Al concretar tu pedido, coordinamos la hora exacta por WhatsApp.";
+        }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1 || cleanText.indexOf('tarjeta') !== -1 || cleanText.indexOf('spei') !== -1) {
+            respuestaIA = "Puedes liquidar tu pedido directo con tarjeta usando el botón de pago azul de tu bolsa o mediante una transferencia SPEI segura a nuestra cuenta de Mercado Pago Wallet (CLABE: 722969010522000447) a nombre de Jose Antonio Mejia Hernandez.";
+        }
+        else if (cleanText.indexOf('comprar') !== -1 || cleanText.indexOf('ropa') !== -1 || cleanText.indexOf('catalogo') !== -1 || cleanText.indexOf('modelo') !== -1 || cleanText.indexOf('quiero') !== -1 || cleanText.indexOf('combinar') !== -1 || cleanText.indexOf('fiesta') !== -1 || cleanText.indexOf('recomiendas') !== -1) {
+            respuestaIA = "Te recomiendo rotundamente arrancar con nuestro combo estrella de la temporada: el <strong>Oversized Hoodie 'No Rules'</strong> junto al <strong>Cargo Pants Tactical Black</strong>. Es una combinación brutal, cómoda y con un volumen urbano que impone respeto en cualquier lugar al que vayas.";
+        }
+        else if (cleanText.indexOf('hola') !== -1 || cleanText.indexOf('que onda') !== -1 || cleanText.indexOf('buenas') !== -1 || cleanText.indexOf('tal') !== -1) {
+            respuestaIA = "¡Qué onda hermano! Qué gusto tenerte por aquí en la plataforma oficial. Puedo resolver cualquier duda que tengas sobre telas, diseños, logística o lo que sea de la marca.";
+        }
+        else {
+            // Respuesta de IA genérica coherente para cualquier otra pregunta abierta
+            respuestaIA = "Excelente pregunta. En ANTONY BLACK no hacemos ropa común, nos enfocamos en el diseño disruptivo y la cultura urbana de alta costura para que cada prenda que uses eleve tu presencia en las calles.";
+        }
+
+        // 🧠 LA LÓGICA DE CIERRE DE VENTAS OBLIGATORIO AL FINAL
+        var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
+        
+        var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio,%20ya%20hablé%20con%20la%20IA%20y%20quiero%20comprar%20ropa\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';
+        
+        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + respuestaIA + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;
     }, 50);
 }
 rnd(db); snap();

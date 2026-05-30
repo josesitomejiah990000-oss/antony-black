@@ -144,7 +144,6 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
-    // ⚡ CORRECCIÓN AQUÍ: Cambiado a TOTAL NETO A PAGAR e instrucción de recibo adjunto agregada
     var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n" +
                         "🎫 FOLIO DE COMPRA: " + c_folio + "\n\n" +
                         "DATOS DEL CLIENTE:\n" +
@@ -177,7 +176,6 @@ function procesarOrden(e) {
 
 function concluirPedido(msg, folio) {
     navigator.clipboard.writeText("722969010522000447").then(function() {
-        // Se añade el aviso también en la ventana flotante para doble seguridad
         alert("🔒 ¡DATOS COPIADOS Y FOLIO GENERADO!\n\nTu orden se registró con el Folio Seguro: " + folio + "\n\nLa cuenta CLABE se copió a tu celular. Al dar aceptar, envía el mensaje por WhatsApp junto con tu recibo de pago para confirmar.");
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
@@ -187,7 +185,7 @@ function concluirPedido(msg, folio) {
     });
 }
 
-/* CHATBOT CON IA */
+/* 🤖 CHATBOT CON IA OPTIMIZADO (NEUTRAL E INCLUSIVO) */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -202,14 +200,30 @@ function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
     setTimeout(function() {
         var r = "Excelente pregunta. En ANTONY BLACK nos enfocamos en el diseño disruptivo y la cultura urbana de alta costura para que cada prenda eleve tu presencia en las calles.";
-        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "Nuestras prendas premium manejan los siguientes costos didácticos: Sudaderas Oversize en $899, Cargo Pants en $1150, Crop Hoodies en $750 y Wide Leg Jeans en $990. Vale totalmente cada centavo por el gramaje pesado de confección."; }
-        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "El corte es Oversize de patrón amplio con hombros caídos. Pide tu talla de siempre si te gusta el look holgado urbano original, o una talla menos si prefieres que te quede más justo. Stock en CH, M, G y XG."; }
-        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { r = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto le da una estructura rígida e imponente al cuerpo que no pierde la forma con las lavadas."; }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, and San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; }
-        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Manejamos transferencias directas vía CLABE y DiMo. Al tramitar tu bolsa se te darán las claves oficiales de José Antonio para transferir de inmediato."; }
-        var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
+        
+        // Ajuste en las respuestas del bot para usar un vocabulario 100% neutral
+        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { 
+            r = "Nuestras prendas premium manejan los siguientes costos didácticos: Sudaderas Oversize en $899, Cargo Pants en $1150, Crop Hoodies en $750 y Wide Leg Jeans en $990. Cada pieza vale totalmente la inversión por su gramaje pesado de confección."; 
+        }
+        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { 
+            r = "El corte es Oversize de patrón amplio con hombros caídos. Pide la talla de siempre si buscas el look holgado urbano original, o una talla menos si prefieres que te quede más ajustado al cuerpo. Stock en CH, M, G y XG."; 
+        }
+        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { 
+            r = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto le da una estructura rígida e imponente a la silueta que no pierde la forma con las lavadas."; 
+        }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { 
+            r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; 
+        }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { 
+            r = "Manejamos transferencias directas vía CLABE y DiMo. Al tramitar tu bolsa se te darán las claves oficiales de José Antonio para transferir de inmediato."; 
+        }
+        
+        // ⚡ REMATE DE VENTA NEUTRALIZADO (Se removió la palabra "hermano" por una llamada de atención general)
+        var remateVenta = "<br><br>📦 <strong>Por cierto: ¿Te interesa apartar alguna prenda hoy mismo para asegurar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
         var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';
-        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;
+        
+        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + remateVenta + btnWsp + '</div></div>'; 
+        m.scrollTop = m.scrollHeight;
     }, 50);
 }
 rnd(db);

@@ -47,36 +47,114 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// Procesa el carrito, calcula montos y lo despacha de inmediato al WhatsApp oficial de cobro
+// 🛒 ABRE EL FORMULARIO, PINTA TUS DATOS DE TRANSFERENCIA Y EL MONTO CORRESPONDIENTE
 function openCheckout() {
     if(cart.length === 0) return;
     
+    var total = 0;
+    var summaryContainer = document.getElementById('pay-items-summary');
+    summaryContainer.innerHTML = ''; // Limpiar lista
+    
+    cart.forEach(function(x) { 
+        total += x.price * x.q; 
+        summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>';
+    });
+    
+    // Inyecta el precio exacto correspondiente a las prendas en ambos campos visuales
+    document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
+    
+    // Rediseño dinámico del interior de la pasarela para mostrar tus datos reales de cobro
+    var formContainer = document.getElementById('checkout-form');
+    formContainer.innerHTML = `
+        <div class="space-y-4">
+            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold block">1. Registra tu información</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input id="u-name" type="text" placeholder="Tu Nombre Completo" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
+                <input id="u-phone" type="tel" placeholder="WhatsApp (10 dígitos)" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
+            </div>
+            <input id="u-email" type="email" placeholder="Correo Electrónico" required class="w-full bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
+            <select id="u-delivery" class="w-full bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all">
+                <option value="Desviación de Jocotitlán">Entrega: Desviación de Jocotitlán</option>
+                <option value="Jocotitlán Centro">Entrega: Jocotitlán Centro (Presidencia)</option>
+                <option value="San Pedro de los Baños">Entrega: San Pedro de los Baños</option>
+            </select>
+        </div>
+
+        <div class="space-y-3 pt-4 border-t border-white/5">
+            <span class="text-[10px] uppercase tracking-widest text-[#e11d48] font-bold block">2. Datos de Transferencia Directa</span>
+            
+            <div class="bg-black/60 border border-white/5 rounded-2xl p-4 font-mono text-xs space-y-3">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1">
+                    <span class="text-gray-500">Beneficiario:</span>
+                    <span class="text-white font-sans font-bold">José Antonio Mejía Hernández</span>
+                </div>
+                <div class="flex justify-between items-center border-t border-white/5 pt-2">
+                    <span class="text-gray-500">Cuenta CLABE:</span>
+                    <span class="text-[#e11d48] font-bold tracking-wider select-all">722969010522000447</span>
+                </div>
+                <div class="flex justify-between items-center border-t border-white/5 pt-2">
+                    <span class="text-gray-500">Plataforma DiMo:</span>
+                    <span class="text-emerald-400 font-bold tracking-wider select-all">7122111135</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-4 border-t border-white/5 flex flex-col gap-3">
+            <button type="submit" class="w-full bg-white text-black font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all shadow-xl flex items-center justify-center gap-2">
+                <i class="fa-solid fa-share-nodes"></i> Compartir Datos y Enviar Pedido
+            </button>
+        </div>
+    `;
+
+    togA(0); 
+    togM('pay', 1); 
+}
+
+// 📲 COPIA LOS DATOS Y REDIRIGE AL WHATSAPP CON EL DESGLOSE DE PRECIOS EXACTO
+function procesarOrden(e) {
+    e.preventDefault();
+    
+    var c_name = document.getElementById('u-name').value;
+    var c_phone = document.getElementById('u-phone').value;
+    var c_email = document.getElementById('u-email').value;
+    var c_spot = document.getElementById('u-delivery').value;
+    
     var resumenRopa = ""; var totalCompra = 0;
     cart.forEach(function(item) {
-        resumenRopa += "• " + item.name + " (Talla: " + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n";
+        resumenRopa += "• " + item.name + " (" + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n";
         totalCompra += item.price * item.q;
     });
 
-    // Construcción del ticket digital limpio
-    var ticketMensaje = "🕷️ *NUEVA ORDEN DE COMPRA - ANTONY BLACK*\n\n" +
-                        "¡Hola José Antonio! Acabo de armar mi carrito en la tienda y quiero confirmar mi pedido:\n\n" +
-                        "*Prendas Solicitadas:*\n" + resumenRopa + "\n" +
-                        "*Monto Total Exacto:* $" + totalCompra.toFixed(2) + "\n\n" +
-                        "👉 _Por favor compárteme tu código QR o CLABE de Mercado Pago para realizarte la transferencia con esta cantidad exacta e indicarte mi punto de entrega gratis en Jocotitlán._";
+    // Crear el mensaje con los montos reales correspondientes
+    var ticketMensaje = "🕷️ *NUEVO PEDIDO REGISTRADO - ANTONY BLACK*\n\n" +
+                        "*DATOS DEL COMPRADOR:*\n" +
+                        "• Cliente: " + c_name + "\n" +
+                        "• WhatsApp: " + c_phone + "\n" +
+                        "• Correo: " + c_email + "\n" +
+                        "• Punto de Entrega: " + c_spot + "\n\n" +
+                        "*PRENDAS SOLICITADAS:*\n" + resumenRopa + "\n" +
+                        "*TOTAL CORRESPONDIENTE A PAGAR:* $" + totalCompra.toFixed(2) + "\n\n" +
+                        "📌 *DATOS DE PAGO DEL PROPIETARIO:*\n" +
+                        "• CLABE: 722969010522000447\n" +
+                        "• Beneficiario: José Antonio Mejía Hernández\n" +
+                        "• DiMo: 7122111135\n\n" +
+                        "👉 _Te envío este mensaje para confirmar mi apartado. En un momento te mando mi captura de transferencia bancaria._";
 
-    // Enrutador directo a tu WhatsApp
-    var urlWhatsApp = "https://wa.me/527122111135?text=" + encodeURIComponent(ticketMensaje);
-    
-    // Abre el chat con toda la información calculada al instante
-    window.open(urlWhatsApp, '_blank');
-    
-    // Limpieza de bolsa local
-    cart = []; upUI(); togA(0);
+    // Intentar copiar la cuenta CLABE al portapapeles de manera nativa para comodidad del cliente
+    navigator.clipboard.writeText("722969010522000447").then(function() {
+        alert("🔒 ¡DATOS COPIADOS!\n\nLa cuenta CLABE (722969010522000447) se ha copiado al portapapeles de tu celular.\n\nAl dar aceptar, se abrirá tu WhatsApp para enviarle el ticket correspondiente a José Antonio.");
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(ticketMensaje), '_blank');
+        
+        // Limpiamos el carrito local
+        cart = []; upUI(); togM('pay', 0);
+    }).catch(function() {
+        // Respaldo si el celular bloquea los permisos de copiado directo
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(ticketMensaje), '_blank');
+        cart = []; upUI(); togM('pay', 0);
+    });
 }
 
-function procesarOrden(e) { if(e) e.preventDefault(); openCheckout(); }
-
-/* CHATBOT CON INTELIGENCIA ARTIFICIAL LIBRE */
+/* CHATBOT CON IA */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -86,17 +164,16 @@ function openSuggestedChips() {
 function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); if(box.classList.contains('open')) { openSuggestedChips(); } } }
 document.getElementById('t-cht').onclick = togCh;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
-var infoBot = "Excelente pregunta. En ANTONY BLACK nos enfocamos en el diseño disruptivo y la cultura urbana de alta costura para que cada prenda eleve tu presencia en las calles.";
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
     setTimeout(function() {
-        var r = infoBot;
+        var r = "Excelente pregunta. En ANTONY BLACK nos enfocamos en el diseño disruptivo y la cultura urbana de alta costura para que cada prenda eleve tu presencia en las calles.";
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "Nuestras prendas premium manejan los siguientes costos didácticos: Sudaderas Oversize en $899, Cargo Pants en $1150, Crop Hoodies en $750 y Wide Leg Jeans en $990. Vale totalmente cada centavo por el gramaje pesado de confección."; }
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "El corte es Oversize de patrón amplio con hombros caídos. Pide tu talla de siempre si te gusta el look holgado urbano original, o una talla menos si prefieres que te quede más justo. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { r = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto le da una estructura rígida e imponente al cuerpo que no pierde la forma con las lavadas."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; }
-        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Al confirmar tu bolsa, el sistema genera el desglose neto de tus prendas y te manda directo a nuestro WhatsApp de cobro para procesar tu pedido de manera inmediata."; }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Manejamos transferencias directas vía CLABE y DiMo. Al tramitar tu bolsa se te darán las claves oficiales de José Antonio para transferir de inmediato."; }
         var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
         var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;

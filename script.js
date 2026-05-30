@@ -47,60 +47,39 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// Muestra el desglose de productos y calcula la cantidad exacta a pagar en la pasarela
+// Salta directo a tu pasarela oficial y real de Mercado Pago sin rodeos
 function openCheckout() {
     if(cart.length === 0) return;
-    var total = 0;
-    var summaryContainer = document.getElementById('pay-items-summary');
-    summaryContainer.innerHTML = ''; 
     
-    cart.forEach(function(x) { 
-        total += x.price * x.q; 
-        summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>';
-    });
-    
-    document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
-    togA(0); 
-    togM('pay', 1); 
-}
+    // 💳 TU ENLACE PERSONALIZADO OFICIAL INTEGRADO
+    var linkMercadoPago = "https://link.mercadopago.com.mx/antonyblack"; 
 
-// Enrutador directo e inteligente hacia la pasarela oficial de Mercado Pago
-function procesarOrden(e) {
-    e.preventDefault();
-    var btn = document.getElementById('btn-pay-submit');
-    btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> REDIRIGIENDO A MERCADO PAGO...';
-    btn.disabled = true;
-
-    // 🔗 CAMBIA EL ENLACE DE ABAJO POR TU PROPIO LINK DE COBRO DE MERCADO PAGO:
-    var linkMercadoPago = "https://mpago.la/12p7qg6"; 
+    var cartContainer = document.getElementById('cart');
+    var btnPagarOriginal = cartContainer.querySelector('button[onclick="openCheckout()"]');
+    if(btnPagarOriginal) {
+        btnPagarOriginal.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Abriendo Mercado Pago Seguro...';
+        btnPagarOriginal.disabled = true;
+    }
 
     setTimeout(function() {
-        // Redirige al checkout cifrado y oficial de Mercado Pago
+        // Redirección directa hacia tu cuenta de cobro de Antony Black
         window.open(linkMercadoPago, '_blank');
         
-        // Limpia el carrito local de la tienda tras redirigir con éxito
+        // Limpiamos la bolsa local tras despachar al cliente al banco
         cart = []; 
         upUI(); 
-        togM('pay', 0);
+        togA(0);
         
-        btn.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Autorizar Pago Seguro'; 
-        btn.disabled = false;
-    }, 1200);
+        if(btnPagarOriginal) {
+            btnPagarOriginal.innerHTML = 'Proceder al Pago Seguro';
+            btnPagarOriginal.disabled = false;
+        }
+    }, 800);
 }
 
-// Formateo visual automático para el plástico bancario dentro de los inputs
-document.getElementById('card-number').addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    var matches = v.match(/\d{4,16}/g); var match = matches && matches[0] || ''; var parts = [];
-    for (var i=0, len=match.length; i<len; i+=4) { parts.push(match.substring(i, i+4)); }
-    if (parts.length > 0) { e.target.value = parts.join(' '); } else { e.target.value = v; }
-});
-document.getElementById('card-expiry').addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    if (v.length >= 2) { e.target.value = v.substring(0,2) + '/' + v.substring(2,4); } else { e.target.value = v; }
-});
+function procesarOrden(e) { if(e) e.preventDefault(); openCheckout(); }
 
-/* CHATBOT CON INTELIGENCIA ARTIFICIAL LIBRE */
+/* CHATBOT CON IA */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -119,7 +98,7 @@ function answerBot(cleanText, rawText) {
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "El corte es Oversize de patrón amplio con hombros caídos. Pide tu talla de siempre si te gusta el look holgado urbano original, o una talla menos si prefieres que te quede más justo. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { r = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto le da una estructura rígida e imponente al cuerpo que no pierde la forma con las lavadas."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; }
-        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Puedes procesar tu pago seguro con tarjeta directo a través de nuestra pasarela oficial de Mercado Pago."; }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Puedes procesar tu pago seguro de forma 100% real a través de nuestra pasarela oficial conectada a Mercado Pago."; }
         var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
         var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;

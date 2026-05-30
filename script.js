@@ -1,6 +1,6 @@
 var cart = []; var db = [];
 
-// Activación del SDK oficial con tu Clave Pública de tu primera captura
+// Activación del SDK oficial con tu Clave Pública real de EmailJS
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
@@ -52,6 +52,7 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
+// Despliega tus datos bancarios y calcula el monto exacto correspondiente a las prendas elegidas
 function openCheckout() {
     if(cart.length === 0) return;
     
@@ -111,6 +112,7 @@ function openCheckout() {
     togM('pay', 1); 
 }
 
+// Envía la alerta real enlazada a tu service_ioiqtrs y plantilla de EmailJS
 function procesarOrden(e) {
     e.preventDefault();
     
@@ -125,18 +127,14 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
-    var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n" +
-                        "DATOS DEL COMPRADOR:\n" +
-                        "• Cliente: " + c_name + "\n" +
+    var ticketMensaje = "NUEVO PEDIDO EN TIENDA WEB VIRTUAL\n\n" +
+                        "DATOS DEL CLIENTE:\n" +
+                        "• Nombre: " + c_name + "\n" +
                         "• WhatsApp: " + c_phone + "\n" +
                         "• Correo: " + c_email + "\n" +
                         "• Punto de Entrega: " + c_spot + "\n\n" +
                         "PRENDAS SOLICITADAS:\n" + resumenRopa + "\n" +
-                        "TOTAL CORRESPONDIENTE A PAGAR: $" + totalCompra.toFixed(2) + "\n\n" +
-                        "📌 DATOS DE PAGO DEL PROPIETARIO:\n" +
-                        "• CLABE: 722969010522000447\n" +
-                        "• Beneficiario: José Antonio Mejía Hernández\n" +
-                        "• DiMo: 7122111135\n";
+                        "TOTAL NETO COBRADO: $" + totalCompra.toFixed(2);
 
     var templateParams = {
         to_email: "atencionalclienteantonyblack@gmail.com",
@@ -144,17 +142,18 @@ function procesarOrden(e) {
         message: ticketMensaje
     };
 
-    // 🔥 CORRECCIÓN CRÍTICA: Se enlaza directamente con tu ID de servicio real y se quitan parámetros restrictivos
-    emailjs.send('service_ioiqtrs', 'template_default', templateParams)
+    // Apunta a tu service_ioiqtrs y a la plantilla vinculada en tu cuenta
+    emailjs.send('service_ioiqtrs', 'my_first_template', templateParams)
         .then(function() {
             concluirPedido(ticketMensaje);
         }, function(error) {
-            // Si hay un error con el nombre de la plantilla, avanza para no bloquear la venta en la web
+            console.log("Error de transmisión:", error);
             concluirPedido(ticketMensaje);
         });
 }
 
 function concluirPedido(msg) {
+    // Copia de seguridad automática de tu cuenta CLABE al portapapeles del cliente
     navigator.clipboard.writeText("722969010522000447").then(function() {
         alert("🔒 ¡DATOS BANCARIOS COPIADOS!\n\nLa cuenta CLABE (722969010522000447) se ha copiado al portapapeles de tu celular.\n\nAl dar aceptar, se abrirá tu WhatsApp para recibir el ticket de compra correspondiente.");
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *PEDIDO ANTONY BLACK* \n\n" + msg), '_blank');
@@ -165,7 +164,7 @@ function concluirPedido(msg) {
     });
 }
 
-/* CHATBOT */
+/* CHATBOT CON IA */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -183,7 +182,7 @@ function answerBot(cleanText, rawText) {
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "Nuestras prendas premium manejan los siguientes costos didácticos: Sudaderas Oversize en $899, Cargo Pants en $1150, Crop Hoodies en $750 y Wide Leg Jeans en $990. Vale totalmente cada centavo por el gramaje pesado de confección."; }
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "El corte es Oversize de patrón amplio con hombros caídos. Pide tu talla de siempre si te gusta el look holgado urbano original, o una talla menos si prefieres que te quede más justo. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { r = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto le da una estructura rígida e imponente al cuerpo que no pierde la forma con las lavadas."; }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, and San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; }
         else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Manejamos transferencias directas vía CLABE y DiMo. Al tramitar tu bolsa se te darán las claves oficiales de José Antonio para transferir de inmediato."; }
         var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
         var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';

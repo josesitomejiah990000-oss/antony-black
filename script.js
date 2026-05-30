@@ -41,7 +41,6 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { if (id === 'pay' && cart.length === 0) return; if (id === 'pay' && o) togA(0); document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-/* MOTOR DEL CHAT BLINDADO (REPARADO AL 100%) */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -55,7 +54,6 @@ function togCh() {
         if(box.classList.contains('open')) { openSuggestedChips(); }
     } 
 }
-// Vincula de forma directa los clicks de apertura y cierre
 document.getElementById('t-cht').onclick = togCh;
 
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
@@ -79,17 +77,32 @@ function snap() {
     else { res.innerHTML = '<strong>[SISTEMA HUD: DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir tu foto.<br>• Muestra seleccionada para perfil ' + ai_t.S + '.<br>• Punto elegido: ' + ptEntrega + '<br><br><strong>RECOMENDACIÓN TÁCTICA:</strong><br>Te sugerimos combinar prendas oscuras estructuradas de alto gramaje para crear el contraste perfecto.'; }
     document.getElementById('anl').classList.remove('hidden');
 }
+
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
+
+/* LÓGICA DE RESPUESTA DIRECTA CON FILTRO DE VENTAS INTEGRADO */
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
     setTimeout(function() {
-        var r = "Qué onda hermano, escríbenos directo por WhatsApp al 7122111135 para armar tu outfit de volada. 🕷️";
-        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "<strong>🔥 LISTA DE PRECIOS:</strong><br>• Sudadera Oversize: $899<br>• Pants Táctico: $1150<br>• Crop Hoodie: $750<br>• Wide Leg Jeans: $990<br><br>⚡ <i>Promoción: Si juntas más de $2000, el sistema añade una playera sorpresa GRATIS.</i>"; }
-        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "<strong>📏 GUÍA DE ESTILO OVERSIZE:</strong><br>Nuestras prendas están diseñadas con un patrón amplio y hombros caídos.<br><br>• Si te gusta el porte holgado original, pide tu <strong>talla de siempre</strong>.<br>• Si prefieres que te quede a la medida justa, pide <strong>una talla menos</strong>."; }
-        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "<strong>🕷️ CALIDAD TEXTIL PREMIUM:</strong><br>Confeccionamos exclusivamente con <strong>Heavy Cotton (Algodón pesado de alto gramaje)</strong>. Esta tela le da una estructura rígida e imponente a las prendas, asegurando que mantengan esa caída urbana perfecta."; }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "<strong>📍 LOGÍSTICA DE ENTREGA GRATUITA:</strong><br>Hacemos entregas personales sin costo en Jocotitlán:<br>• 1. Desviación Jocotitlán (Cruce rápido)<br>• 2. Jocotitlán Centro (Frente a Presidencia - Seguro)<br>• 3. San Pedro de los Baños (Puntos clave)<br><br>Al confirmar tu pago coordinamos la hora exacta por WhatsApp."; }
-        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "<strong>💳 MÉTODOS DE PAGO:</strong><br>• Tarjeta de Crédito/Débito vía Mercado Pago.<br>• Transferencia Directa SPEI:<br><strong>Banco:</strong> Mercado Pago Wallet<br><strong>CLABE:</strong> 722969010522000447<br><strong>A nombre de:</strong> Jose Antonio Mejia Hernandez"; }
+        var r = "Qué onda hermano, claro que sí. Oye, ¿te interesa comprar alguna de nuestras prendas de ropa hoy? Te puedo apartar tu talla de una vez.";
+        
+        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { 
+            r = "<strong>🔥 LISTA DE PRECIOS OFICIAL:</strong><br>• Sudadera Oversize: $899<br>• Pants Táctico: $1150<br>• Crop Hoodie: $750<br>• Wide Leg Jeans: $990<br><br>Recuerda que si juntas más de $2000 el sistema te regala una playera sorpresa.<br><br><strong>🛒 ¿Te gustaría comprar alguna de estas piezas de ropa ahorita mismo?</strong> Dime cuál y te ayudo."; 
+        }
+        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { 
+            r = "<strong>Guía de Estilo:</strong> Manejamos corte Oversize amplio. Pide tu talla de siempre si te gusta holgado, o una menos si lo quieres justo.<br><br>Tenemos stock en CH, M, G y XG.<br><br><strong>📦 ¿Quieres comprar tu ropa en alguna talla en específico antes de que se agoten las piezas?</strong>"; 
+        }
+        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { 
+            r = "<strong>Confección:</strong> Usamos puro 100% Heavy Cotton (Algodón pesado de alto gramaje). No se deforma y tiene una caída espectacular.<br><br>Calidad de boutique internacional.<br><br><strong>🔥 ¿Estás listo para estrenar y comprar ropa con este nivel de calidad textil?</strong>"; 
+        }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('lugar') !== -1) { 
+            r = "<strong>Zonas de entrega gratis en Jocotitlán:</strong> Centro (Frente a Presidencia), Desviación, y San Pedro de los Baños.<br><br>Tú eliges el horario y nos vemos ahí de forma segura.<br><br><strong>📍 ¿Te gustaría comprar ropa hoy para coordinar tu entrega de inmediato en alguno de estos puntos?</strong>"; 
+        }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { 
+            r = "<strong>Métodos de Pago:</strong> Tarjeta mediante la pasarela de la página o transferencia SPEI Directa (CLABE: 722969010522000447).<br><br><strong>💳 ¿Quieres proceder a comprar tu ropa y apartar tu pedido en este momento?</strong>"; 
+        }
+        
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>'; m.scrollTop = m.scrollHeight;
-    }, 450);
+    }, 50); // Bajado de 450ms a solo 50ms para respuesta táctica instantánea
 }
 rnd(db); snap();

@@ -25,8 +25,7 @@ for (var j = 1; j <= 50; j++) {
 function rnd(arr) {
     var g = document.getElementById('grid'); if (!g) return; g.innerHTML = '';
     for (var i = 0; i < arr.length; i++) {
-        var p = arr[i];
-        var isOut = p.stock <= 0;
+        var p = arr[i]; var isOut = p.stock <= 0;
         var stkTxt = isOut ? '<span class="text-red-500 font-bold block text-[11px] mt-1">AGOTADO</span>' : '<span class="text-gray-400 block text-[11px] mt-1">Stock: ' + p.stock + ' pzs</span>';
         var btnHtml = isOut ? '<button class="w-full bg-gray-800 text-gray-500 font-brand text-[11px] uppercase py-2 cursor-not-allowed" disabled>Agotado</button>' : '<button onclick="add(' + p.id + ')" class="w-full bg-[#0d0d12] border border-white/5 hover:bg-[#ff1a1a] text-white font-brand text-[11px] uppercase py-2 transition-all">Agregar</button>';
         g.innerHTML += '<div class="card p-4 space-y-3 flex flex-col justify-between"><div class="aspect-square bg-black overflow-hidden"><img src="' + p.img + '" class="w-full h-full object-cover"></div><div class="space-y-1"><h3 class="text-xs font-bold text-gray-200 truncate">' + p.name + '</h3><div class="flex justify-between items-center"><span class="text-[#ff1a1a] font-brand font-bold text-base">$' + p.price + '</span>' + stkTxt + '</div><div class="flex items-center gap-1 text-[11px] pt-1"><span class="text-gray-500">Talla:</span><select id="sz-' + p.id + '" class="bg-[#1c1c24] text-white outline-none px-1 rounded border border-white/5"><option value="CH">CH</option><option value="M" selected>M</option><option value="G">G</option><option value="XG">XG</option></select></div></div>' + btnHtml + '</div>';
@@ -35,8 +34,7 @@ function rnd(arr) {
 function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-4 py-1.5 rounded-full text-gray-400"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-4 py-1.5 rounded-full bg-[#ff1a1a] text-white"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
-    var sz = document.getElementById('sz-' + id).value;
-    var i = cart.find(function(x) { return x.id === id && x.size === sz; });
+    var sz = document.getElementById('sz-' + id).value; var i = cart.find(function(x) { return x.id === id && x.size === sz; });
     if (i) { if(i.q < p.stock) i.q++; else return; } else { cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, q: 1 }); }
     p.stock--; upUI(); rnd(db); togA(1);
 }
@@ -46,8 +44,31 @@ function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove
 function togM(id, o) { if (id === 'pay' && cart.length === 0) return; if (id === 'pay' && o) togA(0); document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 function togCh() { document.getElementById('c-box').classList.toggle('open'); }
 function wsp(isC) { var m = isC ? "🕷️ Comprobante Antony Black:\n" : "🕷️ Pedido Antony Black:\n"; cart.forEach(function(i) { m += "• " + i.q + "x " + i.name + " [Talla: " + i.size + "]\n"; }); window.open("https://wa.me/527122111135?text=" + encodeURIComponent(m), '_blank'); }
+var initChat = false;
+function openSuggestedChips() {
+    if (initChat) return; var m = document.getElementById('c-msg');
+    m.innerHTML += '<div id="quick-chips" class="flex flex-wrap gap-1.5 pt-2"><button onclick="triggerQuickBot(\'precios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">💰 Precios</button><button onclick="triggerQuickBot(\'tallas\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">📏 Tallas</button><button onclick="triggerQuickBot(\'materiales\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">🕷️ Materiales</button><button onclick="triggerQuickBot(\'envios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">📍 Entregas</button></div>';
+    initChat = true;
+}
+function toggleChat() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); openSuggestedChips(); } }
+document.getElementById('t-cht').onclick = toggleChat;
+function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
 function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
 function snap() { var p = document.getElementById('v-photo'); if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; } p.classList.remove('hidden'); document.getElementById('ai-res').innerHTML = 'Colorimetría: Armonía para tez ' + ai_t.P + ' y ojos ' + ai_t.O + '. Para tu perfil de tipo <strong>' + ai_t.S + '</strong>, te recomendamos rotundamente combinar una <strong>Camisa Blanca formal con un Pantalón de Mezclilla azul denim</strong> como la imagen mostrada. Este contraste puro de luz equilibra tus facciones faciales dándote un porte imponente antes de complementar tu outfit con las capas oversize oscuras de nuestra marca.'; document.getElementById('anl').classList.remove('hidden'); }
-function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var m = document.getElementById('c-msg'); var t = i.value.trim().toLowerCase(); if (!t) return; m.innerHTML += '<div class="text-right text-[#ff1a1a] font-brand font-bold">' + i.value + '</div>'; i.value = ''; setTimeout(function() { var r = "Contacto directo: WhatsApp 7122111135. 🕷️"; if (t.indexOf('precio') !== -1 || t.indexOf('cuanto') !== -1) { r = "Sudadera: $899, Pants: $1150, Crop: $750. Puedes ver el total didáctico sumado en tu bolsa."; } else if (t.indexOf('talla') !== -1 || t.indexOf('medida') !== -1) { r = "Corte <strong>Oversize Premium</strong>. Didáctica: Si buscas el estilo holgado de la marca, pide tu talla de siempre. Si la quieres justa, pide una menos."; } else if (t.indexOf('material') !== -1 || t.indexOf('tela') !== -1) { r = "Algodón pesado premium (Heavy Cotton) de alto gramaje. No se deforma y mantiene la caída urbana perfecta."; } else if (t.indexOf('envio') !== -1 || t.indexOf('entrega') !== -1) { r = "Entregamos gratis en Desviación Jocotitlán, San Pedro de los Baños y Jocotitlán Centro (Frente a Palacio)."; } else if (t.indexOf('pago') !== -1 || t.indexOf('cuenta') !== -1) { r = "CLABE SPEI: 722969010522000447 (Mercado Pago Wallet) o directo con tarjeta usando el botón azul de tu bolsa."; } m.innerHTML += '<div class="bg-[#121216] p-2.5 rounded-lg mt-1 border border-white/5">' + r + '</div>'; m.scrollTop = m.scrollHeight; }, 400); }
+function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return; answerBot(t.toLowerCase(), t); i.value = ''; }
+function answerBot(cleanText, rawText) {
+    var m = document.getElementById('c-msg');
+    m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#ff1a1a] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
+    setTimeout(function() {
+        var r = "Qué onda hermano, escríbenos directo por WhatsApp al 7122111135 para armar tu outfit de volada. 🕷️";
+        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "<strong>🔥 LISTA DE PRECIOS DIDÁCTICA:</strong><br>• Sudadera Oversize: $899<br>• Pants Táctico: $1150<br>• Crop Hoodie: $750<br>• Wide Leg Jeans: $990<br><br>⚡ <i>Promoción: Si juntas más de $2000 en tu bolsa, el sistema te añade una playera sorpresa totalmente GRATIS.</i>"; }
+        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "<strong>📏 GUÍA DE ESTILO OVERSIZE:</strong><br>Nuestras prendas están diseñadas con un patrón amplio y hombros caídos de nivel premium. <br><br>• Si te gusta el porte holgado original de la marca, pide tu <strong>talla de siempre</strong>.<br>• Si prefieres que te quede a la medida justa del cuerpo, te sugerimos pedir <strong>una talla menos</strong>."; }
+        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "<strong>🕷️ CALIDAD TEXTIL PREMIUM:</strong><br>Confeccionamos exclusivamente con <strong>Heavy Cotton (Algodón pesado de alto gramaje)</strong>. Esta tela le da una estructura rígida e imponente a las sudaderas y playeras, asegurando que no se deformen con las lavadas y mantengan esa caída urbana perfecta."; }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "<strong>📍 LOGÍSTICA DE ENTREGA GRATUITA:</strong><br>Hacemos entregas personales sin costo en Jocotitlán:<br>• Desviación Jocotitlán (Cruce rápido)<br>• Jocotitlán Centro (Frente a Presidencia - Seguro)<br>• San Pedro de los Baños (Puntos clave)<br><br>Al confirmar tu pago coordinamos la hora exacta por WhatsApp."; }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "<strong>💳 MÉTODOS DE PAGO:</strong><br>• Tarjeta de Crédito/Débito vía Mercado Pago.<br>• Transferencia Directa SPEI:<br><strong>Banco:</strong> Mercado Pago Wallet<br><strong>CLABE:</strong> 722969010522000447<br><strong>A nombre de:</strong> Jose Antonio Mejia Hernandez"; }
+        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c24] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>';
+        m.scrollTop = m.scrollHeight;
+    }, 450);
+}
 rnd(db); snap();

@@ -16,15 +16,22 @@
         .drawer.open { right:0; }
         .modal { position:fixed; inset:0; background:rgba(4,4,6,0.85); backdrop-filter:blur(8px); z-index:1001; display:none; justify-content:center; align-items:center; padding:10px; }
         .modal.active { display:flex; }
-        .btn-f { position:fixed; bottom:20px; width:50px; height:50px; background:#121216; border:1px solid rgba(255,255,255,0.1); color:#fff; display:flex; justify-content:center; align-items:center; z-index:999; border-radius:50%; }
+        .btn-f { position:fixed; bottom:20px; width:50px; height:50px; background:#121216; border:1px solid rgba(255,255,255,0.1); color:#fff; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:999; border-radius:50%; }
+        .music-btn { left:20px; } .chat-btn { right:20px; background:#ff2a2a; }
+        .chat-container { position:fixed; bottom:90px; right:20px; width:300px; height:380px; background:#111116; border:1px solid rgba(255,255,255,0.1); border-radius:15px; z-index:1000; display:none; flex-col:hidden; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+        .chat-container.open { display:flex; flex-direction:column; }
     </style>
 </head>
-<body>
+<body class="antialiased">
+
     <audio id="music" loop><source src="https://archive.org/download/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg"></audio>
 
     <nav class="fixed w-full top-0 z-50 glass py-4 px-6 flex justify-between items-center">
-        <a href="#" class="font-display text-xl font-bold tracking-widest uppercase">Antony<span class="text-[#ff2a2a]">Black</span></a>
-        <button onclick="togA(1)" class="relative p-2"><i class="fas fa-shopping-bag text-lg"></i><span id="c-count" class="absolute top-0 right-0 bg-[#ff2a2a] text-[9px] rounded-full w-4 h-4 flex items-center justify-center">0</span></button>
+        <a href="#" class="font-display text-xl font-bold tracking-widest uppercase">Antony<span class="text-accent">Black</span></a>
+        <button onclick="togA(1)" class="relative text-white p-2">
+            <i class="fas fa-shopping-bag text-lg"></i>
+            <span id="c-count" class="absolute top-0 right-0 bg-[#ff2a2a] text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+        </button>
     </nav>
 
     <header class="h-screen flex items-center justify-center text-center px-4 relative">
@@ -74,7 +81,7 @@
         <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3">
             <button onclick="togM('pay',0)" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
             <h3 class="font-display text-sm font-bold uppercase">💳 Opciones de Pago</h3>
-            <a href="https://link.mercadopago.com.mx" target="_blank" class="w-full bg-[#009EE3] text-white font-bold text-xs py-2.5 rounded block text-center uppercase tracking-wider">Pagar con Mercado Pago</a>
+            <button onclick="irAMercadoPago()" class="w-full bg-[#009EE3] text-white font-display font-bold text-[11px] py-2.5 rounded text-center uppercase tracking-wider">Pagar con Mercado Pago</button>
             <div class="bg-black/40 p-3 rounded text-[11px] text-gray-400 text-left border border-white/5 space-y-0.5">
                 <p class="text-[#ff2a2a] font-bold mb-1">Transferencia SPEI Directa:</p>
                 <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
@@ -89,22 +96,18 @@
         <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3 max-h-[90vh] overflow-y-auto">
             <button onclick="togM('ai',0)" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
             <h3 class="font-display text-sm font-bold uppercase">Probador & Análisis IA</h3>
-            
             <div class="text-left space-y-2 bg-black/30 p-3 rounded-lg border border-white/5 text-xs">
                 <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Sexo:</label><select id="ai-sex" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Hombre">Hombre</option><option value="Mujer">Mujer</option></select></div>
                 <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tono de Piel:</label><select id="ai-skin" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Claro">Tez Clara</option><option value="Medio">Tez Media / Bronceada</option><option value="Oscuro">Tez Morena / Oscura</option></select></div>
                 <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Color de Ojos:</label><select id="ai-eyes" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Cafés">Cafés / Oscuros</option><option value="Claros">Verdes / Azules</option><option value="Miel">Miel / Avellana</option></select></div>
             </div>
-
             <div class="w-full h-32 bg-black/60 rounded-lg flex flex-col justify-center items-center p-2 relative">
                 <video id="v-stream" autoplay playsinline class="w-full h-full object-cover hidden rounded-lg"></video>
                 <canvas id="v-canvas" class="hidden"></canvas><img id="v-photo" class="w-full h-full object-cover hidden rounded-lg">
                 <p id="v-fall" class="text-gray-500 text-[10px] px-4">Opcional: Captura tu rostro para complementar la lectura.</p>
             </div>
-            
             <div class="flex gap-2"><button id="b-cam" onclick="cam()" class="flex-1 bg-white text-black text-[10px] font-bold py-2 rounded">CÁMARA 📷</button><button id="b-snap" onclick="snap()" class="flex-1 bg-[#ff2a2a] text-white text-[10px] font-bold py-2 rounded hidden">CAPTURAR 📸</button><label class="flex-1 bg-white/5 border border-white/10 text-white text-[10px] font-bold py-2 rounded cursor-pointer block">GALERÍA<input type="file" onchange="ldImg(event)" accept="image/*" class="hidden"/></label></div>
             <button onclick="generarEstilo()" class="w-full bg-white text-black text-xs font-bold py-2 rounded uppercase tracking-wider">Generar Referencia de Estilo ✨</button>
-            
             <div id="anl" class="hidden text-left bg-black/50 p-2.5 rounded border border-white/5 text-[11px] space-y-1">
                 <p class="text-[#ff2a2a] font-bold text-[10px] uppercase border-b border-white/5 pb-1">✨ Sugerencia de Perfil Real Antony Black:</p>
                 <p id="ai-res-perfil"></p>
@@ -114,10 +117,10 @@
     </div>
 
     <button id="t-mus" class="btn-f music-btn"><i class="fas fa-volume-up" id="m-ico"></i></button>
-    <div id="t-cht" class="btn-f chat-btn" onclick="document.getElementById('c-box').classList.toggle('open')"><i class="fas fa-comment-dots"></i></div>
+    <div id="t-cht" class="btn-f chat-btn" onclick="toggleChatbot()"><i class="fas fa-comment-dots"></i></div>
 
-    <div id="c-box" class="drawer flex flex-col !w-72 !h-96 !top-auto !bottom-24 !right-5 rounded-xl border border-white/10 !bg-[#111116]">
-        <div class="bg-[#ff2a2a] p-3 flex justify-between items-center rounded-t-xl text-xs font-bold uppercase"><span>Soporte</span><button onclick="document.getElementById('c-box').classList.remove('open')" class="text-white">×</button></div>
+    <div id="c-box" class="chat-container">
+        <div class="bg-[#ff2a2a] p-3 flex justify-between items-center text-xs font-bold uppercase text-white"><span>Soporte</span><button onclick="toggleChatbot()" class="text-white text-lg font-bold px-2">×</button></div>
         <div id="c-msg" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] bg-[#0e0e11]"><div>¡Qué onda! Pregúntame sobre tus depósitos o entregas. 🕷️</div></div>
         <form class="p-2 border-t border-white/5 flex gap-1" onsubmit="bot(event)"><input type="text" id="c-in" placeholder="Escribe..." class="flex-1 bg-transparent text-xs outline-none text-white px-1"><button type="submit" class="text-[#ff2a2a] p-1"><i class="fas fa-paper-plane"></i></button></form>
     </div>
@@ -140,6 +143,8 @@
         function rem(id) { crt=crt.filter(x=>x.id!==id); upUI(); }
         function togA(o) { document.getElementById('cart').classList[o?'add':'remove']('open'); }
         function togM(id,o) { if(id==='pay'&&crt.length===0)return; if(id==='pay'&&o) togA(0); document.getElementById('m-'+id).classList[o?'add':'remove']('active'); if(!o&&id==='ai') clsCam(); }
+        function irAMercadoPago() { window.location.href = "https://link.mercadopago.com.mx"; }
+        function toggleChatbot() { document.getElementById('c-box').classList.toggle('open'); }
         function wsp(isC) { let m=isC?"🕷️ Envío mi comprobante de pago Antony Black:\n":"🕷️ Mi pedido:\n"; crt.forEach(i=>m+=`• ${i.q}x ${i.name}\n`); window.open(`https://wa.me/527122111135?text=${encodeURIComponent(m)}`,'_blank'); }
         async function cam() { try { stm=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}); const v=document.getElementById('v-stream'); v.srcObject=stm; v.classList.remove('hidden'); document.getElementById('v-fall').classList.add('hidden'); document.getElementById('b-cam').classList.add('hidden'); document.getElementById('b-snap').classList.remove('hidden'); } catch(e){} }
         function snap() { const v=document.getElementById('v-stream'), c=document.getElementById('v-canvas'), p=document.getElementById('v-photo'); const ctx=c.getContext('2d'); c.width=300; c.height=220; ctx.drawImage(v,0,0,c.width,c.height); p.src=c.toDataURL('image/png'); p.classList.remove('hidden'); v.classList.add('hidden'); document.getElementById('b-snap').classList.add('hidden'); }
@@ -150,4 +155,4 @@
         rnd(db);
     </script>
 </body>
-</html>
+    </html>

@@ -1,25 +1,31 @@
-var cart = []; var db = []; var baseId = 1;
-var raw_h = [
-    { name: "Oversized Hoodie 'No Rules'", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400" },
-    { name: "Cargo Pants Tactical Black", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400" },
-    { name: "Graphic Tee 'Spider Neon'", price: 550, img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=400" },
-    { name: "Cyberpunk Windbreaker", price: 1450, img: "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=400" }
-];
-var raw_m = [
-    { name: "Crop Hoodie 'Rebel' Red", price: 750, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400" },
-    { name: "Wide Leg Jeans Vintage Gray", price: 990, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400" },
-    { name: "Oversize Tee 'Dark Angel'", price: 520, img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=400" },
-    { name: "Tactical Vest 'Gothic Pink'", price: 1200, img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=400" }
+var cart = []; var db = [];
+
+// 👕 LOS 5 PRODUCTOS EXCLUSIVOS DE HOMBRE
+var productos_hombres = [
+    { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
+    { name: "Cargo Pants Tactical Black #102", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400", stock: 5 },
+    { name: "Graphic Tee 'Spider Neon' #103", price: 550, img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=400", stock: 12 },
+    { name: "Cyberpunk Windbreaker #104", price: 1450, img: "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=400", stock: 4 },
+    { name: "Heavy Cotton Sweatshirt #105", price: 950, img: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=400", stock: 7 }
 ];
 
-for (var i = 1; i <= 50; i++) {
-    var h_item = raw_h[(i - 1) % raw_h.length]; var stkH = (i % 7 === 0) ? 0 : Math.floor(Math.random() * 8) + 2;
-    db.push({ id: baseId++, name: h_item.name + " #" + (100 + i), price: h_item.price, cat: "hombres", img: h_item.img, stock: stkH });
-}
-for (var j = 1; j <= 50; j++) {
-    var m_item = raw_m[(j - 1) % raw_m.length]; var stkM = (j % 9 === 0) ? 0 : Math.floor(Math.random() * 8) + 2;
-    db.push({ id: baseId++, name: m_item.name + " #" + (200 + j), price: m_item.price, cat: "mujeres", img: m_item.img, stock: stkM });
-}
+// 👚 LOS 5 PRODUCTOS EXCLUSIVOS DE MUJER
+var productos_mujeres = [
+    { name: "Crop Hoodie 'Rebel' Red #201", price: 750, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400", stock: 6 },
+    { name: "Wide Leg Jeans Vintage Gray #202", price: 990, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400", stock: 9 },
+    { name: "Oversize Tee 'Dark Angel' #203", price: 520, img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=400", stock: 10 },
+    { name: "Tactical Vest 'Gothic Pink' #204", price: 1200, img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=400", stock: 3 },
+    { name: "Streetwear Cargo Skirt #205", price: 850, img: "https://images.unsplash.com/photo-1551163943-3f6a855d1153?q=80&w=400", stock: 5 }
+];
+
+// Llenamos la base de datos local con los identificadores correctos
+var baseId = 1;
+productos_hombres.forEach(function(p) {
+    db.push({ id: baseId++, name: p.name, price: p.price, cat: "hombres", img: p.img, stock: p.stock });
+});
+productos_mujeres.forEach(function(p) {
+    db.push({ id: baseId++, name: p.name, price: p.price, cat: "mujeres", img: p.img, stock: p.stock });
+});
 
 function rnd(arr) {
     var g = document.getElementById('grid'); if (!g) return; g.innerHTML = '';
@@ -30,6 +36,7 @@ function rnd(arr) {
         g.innerHTML += '<div class="card p-4 space-y-3 flex flex-col justify-between"><div class="aspect-square bg-black overflow-hidden"><img src="' + p.img + '" class="w-full h-full object-cover"></div><div class="space-y-1"><h3 class="text-xs font-bold text-gray-200 truncate">' + p.name + '</h3><div class="flex justify-between items-center"><span class="text-[#e11d48] font-brand font-bold text-base">$' + p.price + '</span>' + stkTxt + '</div><div class="flex items-center gap-1 text-[11px] pt-1"><span class="text-gray-500">Talla:</span><select id="sz-' + p.id + '" class="bg-[#1c1c24] text-white outline-none px-1 rounded border border-white/5"><option value="CH">CH</option><option value="M" selected>M</option><option value="G">G</option><option value="XG">XG</option></select></div></div>' + btnHtml + '</div>';
     }
 }
+
 function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
@@ -38,27 +45,13 @@ function add(id) {
     if (i) { if(i.q < p.stock) i.q++; else return; } else { cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, q: 1 }); }
     p.stock--; upUI(); rnd(db); togA(1);
 }
+
 function upUI() { var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; var t = 0; for (var i = 0; i < cart.length; i++) { var item = cart[i]; t += item.price * item.q; c.innerHTML += '<div class="flex gap-3 bg-white/5 p-2 rounded items-center text-xs"><img src="' + item.img + '" class="w-10 h-10 object-cover rounded"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px] text-gray-200">' + item.name + ' (' + item.size + ')</h4><p class="text-[#e11d48] font-brand text-[11px]">' + item.price + ' x' + item.q + '</p></div><button onclick="rem(' + item.id + ',\'' + item.size + '\',' + item.q + ')" class="text-gray-500 hover:text-[#e11d48] px-2"><i class="fas fa-trash"></i></button></div>'; } document.getElementById('c-total').textContent = '$' + t.toFixed(2); document.getElementById('c-count').textContent = cart.reduce(function(s, k) { return s + k.q; }, 0); }
 function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-/* 📦 LÓGICA DEL RASTREADOR DE PEDIDOS */
-function rastrearPedido() {
-    var id = document.getElementById('track-id').value.trim().toUpperCase();
-    var res = document.getElementById('track-result');
-    if(!id) return;
-    res.classList.remove('hidden');
-    
-    // Simulación inteligente basada en cualquier número que metan para que sea didáctico
-    if(id.indexOf('AB-') !== -1) {
-        res.innerHTML = '<p class="text-emerald-400 font-bold">✓ PEDIDO LOCALIZADO</p><p><span class="text-gray-500">Estatus:</span> En ruta de entrega</p><p><span class="text-gray-500">Zona:</span> Jocotitlán Centro</p><p class="text-[10px] text-gray-400 mt-2">El repartidor llegará al punto acordado a la hora pactada. Mantente al tanto de tu WhatsApp.</p>';
-    } else {
-        res.innerHTML = '<p class="text-yellow-500 font-bold">⚠ EN PROCESO DE VALIDACIÓN</p><p>El folio ingresado está siendo verificado por José Antonio. Si acabas de transferir, el estatus cambiará a "Liberado" en unos minutos.</p>';
-    }
-}
-
-/* CHATBOT CON INTELIGENCIA LIBRE */
+// CHATBOT CON INTELIGENCIA LIBRE
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -87,7 +80,7 @@ function answerBot(cleanText, rawText) {
         else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { respuestaIA = "Puedes liquidar directo con tarjeta en la bolsa o mediante transferencia SPEI a nuestra cuenta de Mercado Pago Wallet (CLABE: 722969010522000447) a nombre de Jose Antonio Mejia Hernandez."; }
         var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
         var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';
-        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + respuestaIA + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;
+        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg daylight-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + respuestaIA + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;
     }, 50);
 }
 rnd(db);

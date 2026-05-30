@@ -3,400 +3,584 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antony Black | Moda y Estilo</title>
-    <!-- FontAwesome para los íconos -->
+    <title>Antonio Black | Moda y Estilo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* --- ESTILOS CSS --- */
         :root {
-            --primary-yellow: #ffe600;
-            --background-gray: #ebebeb;
-            --text-dark: #333333;
-            --text-light: #666666;
-            --price-color: #333333;
-            --shipping-green: #00a650;
-            --link-blue: #3483fa;
+            --primary-red: #d32f2f;
+            --dark-red: #9a0007;
             --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --text-dark: #333333;
+            --transition: all 0.3s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Proxima Nova', -apple-system, 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--background-gray);
+            background-color: var(--light-gray);
             color: var(--text-dark);
         }
 
-        /* Header Principal */
+        /* Header */
         .header {
-            background-color: var(--primary-yellow);
-            padding: 10px 0 0 0;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .header-container {
+        .header-top {
+            background-color: var(--primary-red);
+            color: var(--white);
+            text-align: center;
+            padding: 8px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            animation: slideDown 0.5s ease;
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
-            gap: 30px;
+            padding: 15px 20px;
         }
 
         .logo h1 {
-            font-size: 24px;
+            color: var(--primary-red);
+            font-size: 28px;
             font-weight: 900;
-            color: #2d3277;
-            letter-spacing: -1px;
-        }
-
-        /* Barra de Búsqueda */
-        .search-bar {
-            flex-grow: 1;
-            display: flex;
-            background: var(--white);
-            border-radius: 2px;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
-            height: 40px;
-        }
-
-        .search-bar input {
-            flex-grow: 1;
-            border: none;
-            padding: 0 15px;
-            font-size: 16px;
-            border-radius: 2px 0 0 2px;
-            outline: none;
-        }
-
-        .search-bar button {
-            background: none;
-            border: none;
-            padding: 0 15px;
-            color: var(--text-light);
-            cursor: pointer;
-            border-left: 1px solid #e6e6e6;
-        }
-
-        .promo-text {
-            font-size: 14px;
-            color: var(--text-dark);
-        }
-
-        /* Menú de Navegación */
-        .nav-bar {
-            max-width: 1200px;
-            margin: 10px auto 0;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .nav-links {
+            display: flex;
+            gap: 25px;
             list-style: none;
-            display: flex;
-            gap: 20px;
         }
 
-        .nav-links a, .user-menu a {
+        .nav-links a {
             text-decoration: none;
-            color: rgba(51,51,51,.6);
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover, .user-menu a:hover {
             color: var(--text-dark);
+            font-weight: 600;
+            transition: var(--transition);
         }
 
-        .user-menu {
-            display: flex;
-            gap: 20px;
-            align-items: center;
+        .nav-links a:hover {
+            color: var(--primary-red);
         }
 
         .cart-icon {
+            font-size: 20px;
+            color: var(--primary-red);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--text-dark);
+            color: var(--white);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        /* Info Section (Pagos y Entregas) */
+        .info-bar {
+            background-color: var(--white);
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 20px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .info-box {
+            border-left: 4px solid var(--primary-red);
+            padding-left: 15px;
+        }
+
+        .info-box h3 {
+            color: var(--primary-red);
+            margin-bottom: 10px;
             font-size: 16px;
         }
 
-        /* Banner */
-        .banner {
-            background: linear-gradient(90deg, #2d3277 0%, #1a1c4b 100%);
-            color: var(--white);
-            text-align: center;
-            padding: 40px 20px;
-            margin-bottom: 30px;
+        .info-box ul {
+            list-style: none;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        /* Contenedor Principal */
+        .info-box ul li i {
+            width: 20px;
+            color: var(--primary-red);
+        }
+
+        /* Products Grid */
         .main-content {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 60px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         .section-title {
-            font-size: 24px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            color: var(--text-light);
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            text-transform: uppercase;
         }
 
-        /* Grid de Productos (Responsive) */
+        .section-title span {
+            color: var(--primary-red);
+        }
+
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
         }
 
-        /* Tarjeta de Producto */
         .product-card {
             background: var(--white);
-            border-radius: 4px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-            transition: box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            position: relative;
         }
 
         .product-card:hover {
-            box-shadow: 0 7px 16px 0 rgba(0,0,0,.1);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.2);
         }
 
         .product-image {
-            width: 100%;
-            height: 250px;
+            height: 300px;
             overflow: hidden;
-            border-bottom: 1px solid #eee;
+            position: relative;
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .virtual-try-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            color: var(--primary-red);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            width: 80%;
+        }
+
+        .virtual-try-btn:hover {
+            background: var(--primary-red);
+            color: var(--white);
         }
 
         .product-info {
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+            text-align: center;
         }
 
-        .price {
-            font-size: 24px;
-            color: var(--price-color);
-            margin-bottom: 4px;
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
-        .installments {
-            font-size: 13px;
-            color: var(--shipping-green);
-            margin-bottom: 8px;
-        }
-
-        .shipping {
-            font-size: 12px;
-            color: var(--shipping-green);
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .title {
-            font-size: 14px;
-            color: var(--text-light);
-            font-weight: 300;
-            line-height: 1.3;
+        .product-price {
+            color: var(--primary-red);
+            font-size: 22px;
+            font-weight: bold;
             margin-bottom: 15px;
-            flex-grow: 1;
         }
 
         .add-to-cart {
-            background-color: rgba(65, 137, 230, 0.15);
-            color: var(--link-blue);
+            background: var(--primary-red);
+            color: var(--white);
             border: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-weight: 600;
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
         .add-to-cart:hover {
-            background-color: rgba(65, 137, 230, 0.25);
+            background: var(--dark-red);
         }
 
-        /* Footer */
-        .footer {
-            background-color: var(--white);
+        /* Chatbot Floating */
+        .chatbot-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-red);
+            color: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(211,47,47,0.4);
+            z-index: 1000;
+            animation: bounce 2s infinite;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .chat-header {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-body {
+            height: 250px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .chat-msg {
+            background: #eee;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            width: 80%;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: var(--primary-red);
+            color: var(--white);
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+
+        /* Virtual Try-On Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
-            padding: 30px 20px;
-            color: var(--text-light);
-            font-size: 13px;
-            border-top: 1px solid #e6e6e6;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
         }
 
-        /* Media Queries para Responsive Design */
-        @media (max-width: 900px) {
-            .header-container {
-                flex-direction: column;
-                gap: 15px;
-                padding-bottom: 10px;
-            }
-            .search-bar {
-                width: 100%;
-            }
-            .nav-bar {
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            .nav-links {
-                margin-right: 20px;
-            }
-            .promo-text {
-                display: none;
-            }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .camera-icon {
+            font-size: 60px;
+            color: var(--primary-red);
+            margin: 20px 0;
+        }
+
+        .modal-btn {
+            background: var(--text-dark);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .info-bar { grid-template-columns: 1fr; }
+            .nav-links { display: none; /* Simplificado para móvil */ }
         }
     </style>
 </head>
 <body>
 
-    <!-- --- ESTRUCTURA HTML --- -->
+    <!-- Header -->
     <header class="header">
-        <div class="header-container">
+        <div class="header-top">
+            ENVÍOS RÁPIDOS | PAGO SEGURO | ESTILO ÚNICO
+        </div>
+        <div class="nav-container">
             <div class="logo">
-                <h1>Antony Black</h1>
+                <h1>Antonio Black</h1>
             </div>
-            
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar camisas, pantalones, tenis y más...">
-                <button type="button"><i class="fas fa-search"></i></button>
-            </div>
-            
-            <div class="promo-text">
-                <p><i class="fas fa-truck"></i> Envío gratis en carritos desde $299</p>
+            <ul class="nav-links">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Hombres</a></li>
+                <li><a href="#">Mujeres</a></li>
+                <li><a href="#">Novedades</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count" id="cart-count">0</span>
             </div>
         </div>
-        
-        <!-- Navegación -->
-        <nav class="nav-bar">
-            <div class="nav-container">
-                <ul class="nav-links">
-                    <li><a href="#">Categorías <i class="fas fa-chevron-down"></i></a></li>
-                    <li><a href="#">Ofertas</a></li>
-                    <li><a href="#">Hombre</a></li>
-                    <li><a href="#">Mujer</a></li>
-                    <li><a href="#">Niños</a></li>
-                    <li><a href="#">Marcas</a></li>
-                </ul>
-                <div class="user-menu">
-                    <a href="#">Crea tu cuenta</a>
-                    <a href="#">Ingresa</a>
-                    <a href="#">Mis compras</a>
-                    <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
-                </div>
-            </div>
-        </nav>
     </header>
 
-    <!-- Banner Principal -->
-    <section class="banner">
-        <div class="banner-content">
-            <h2>Nueva Colección de Verano</h2>
-            <p>Hasta 40% de descuento en ropa seleccionada</p>
+    <!-- Información de Pagos y Envíos -->
+    <div class="info-bar">
+        <div class="info-box">
+            <h3><i class="fas fa-credit-card"></i> Formas de Pago Aceptadas</h3>
+            <ul>
+                <li><i class="fas fa-handshake"></i> Mercado Pago</li>
+                <li><i class="fas fa-exchange-alt"></i> SPEI / Transferencia Bancaria</li>
+                <li><i class="fas fa-money-bill-wave"></i> Pago Contra Entrega</li>
+            </ul>
         </div>
-    </section>
+        <div class="info-box">
+            <h3><i class="fas fa-map-marker-alt"></i> Puntos de Entrega Exclusivos</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Desviación de Jocotitlán</li>
+                <li><i class="fas fa-check-circle"></i> Jococentro</li>
+                <li><i class="fas fa-check-circle"></i> San Pedro de los Baños</li>
+            </ul>
+        </div>
+    </div>
 
-    <!-- Contenedor de Productos -->
+    <!-- Contenido Principal -->
     <main class="main-content">
-        <h2 class="section-title">Basado en tus intereses</h2>
+        <h2 class="section-title">Colección <span>Exclusiva</span></h2>
         
         <div class="product-grid">
             <!-- Producto 1 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=300&q=80" alt="Playera Básica">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80" alt="Chamarra Roja">
+                    <button class="virtual-try-btn" onclick="openVirtualRoom('Chamarra Urbana Roja')"><i class="fas fa-magic"></i> Probador Virtual</button>
                 </div>
                 <div class="product-info">
-                    <span class="price">$249</span>
-                    <span class="installments">en 3x $83 sin interés</span>
-                    <span class="shipping">Envío gratis <i class="fas fa-bolt"></i></span>
-                    <h3 class="title">Playera Básica Algodón Cuello Redondo Hombre</h3>
-                    <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
+                    <h3 class="product-title">Chamarra Urbana Roja</h3>
+                    <div class="product-price">$899.00</div>
+                    <button class="add-to-cart" onclick="addToCart()">Añadir a la bolsa</button>
                 </div>
             </div>
 
             <!-- Producto 2 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=300&q=80" alt="Jeans Slim Fit">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Vestido Blanco">
+                    <button class="virtual-try-btn" onclick="openVirtualRoom('Vestido Elegante Blanco')"><i class="fas fa-magic"></i> Probador Virtual</button>
                 </div>
                 <div class="product-info">
-                    <span class="price">$599</span>
-                    <span class="installments">en 6x $99 sin interés</span>
-                    <span class="shipping">Envío gratis <i class="fas fa-bolt"></i></span>
-                    <h3 class="title">Pantalón Jeans Mezclilla Slim Fit Para Hombre</h3>
-                    <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
+                    <h3 class="product-title">Vestido Elegante Blanco</h3>
+                    <div class="product-price">$650.00</div>
+                    <button class="add-to-cart" onclick="addToCart()">Añadir a la bolsa</button>
                 </div>
             </div>
 
             <!-- Producto 3 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=300&q=80" alt="Chamarra de Cuero">
+                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80" alt="Camisa Casual">
+                    <button class="virtual-try-btn" onclick="openVirtualRoom('Camisa Casual Antonio Black')"><i class="fas fa-magic"></i> Probador Virtual</button>
                 </div>
                 <div class="product-info">
-                    <span class="price">$1,299</span>
-                    <span class="installments">en 12x $108 sin interés</span>
-                    <span class="shipping">Envío gratis <i class="fas fa-bolt"></i></span>
-                    <h3 class="title">Chamarra De Piel Sintética Biker Para Mujer</h3>
-                    <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
-                </div>
-            </div>
-
-            <!-- Producto 4 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=300&q=80" alt="Tenis Casuales">
-                </div>
-                <div class="product-info">
-                    <span class="price">$849</span>
-                    <span class="installments">en 3x $283 sin interés</span>
-                    <span class="shipping">Envío gratis <i class="fas fa-bolt"></i></span>
-                    <h3 class="title">Tenis Casuales Blancos Antony Black Unisex</h3>
-                    <button class="add-to-cart" onclick="addToCart()">Agregar al carrito</button>
+                    <h3 class="product-title">Camisa Casual Antonio Black</h3>
+                    <div class="product-price">$450.00</div>
+                    <button class="add-to-cart" onclick="addToCart()">Añadir a la bolsa</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <p>Trabaja con nosotros - Términos y condiciones - Cómo cuidamos tu privacidad</p>
-        <p>Copyright © 2026 Antony Black. Todos los derechos reservados.</p>
-    </footer>
+    <!-- Modal Probador Virtual -->
+    <div class="modal-overlay" id="virtual-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVirtualRoom()">&times;</span>
+            <h2 style="color: var(--primary-red); margin-bottom: 10px;">Probador Virtual 3D</h2>
+            <p id="virtual-item-name" style="font-weight: bold; margin-bottom: 20px;"></p>
+            <i class="fas fa-camera camera-icon"></i>
+            <p>Conecta tu cámara o sube una foto de cuerpo completo para ver cómo te queda esta prenda usando nuestra IA de estilo.</p>
+            <button class="modal-btn"><i class="fas fa-upload"></i> Subir Fotografía</button>
+            <button class="modal-btn" style="background: var(--primary-red);"><i class="fas fa-video"></i> Activar Cámara</button>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-btn" onclick="toggleChat()">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+    <div class="chatbot-window" id="chatbot">
+        <div class="chat-header">
+            Asistente Antonio Black
+            <i class="fas fa-times" style="cursor: pointer;" onclick="toggleChat()"></i>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-msg">¡Hola! Bienvenido a Antonio Black. ¿Tienes dudas sobre tu talla, pagos o nuestros puntos de entrega en Jocotitlán?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input-text" placeholder="Escribe tu mensaje...">
+            <button onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
 
     <!-- --- CÓDIGO JAVASCRIPT --- -->
     <script>
-        // Variable para llevar el conteo del carrito
+        // Funcionalidad del Carrito
         let cartItemCount = 0;
-
-        // Función para agregar un artículo
         function addToCart() {
-            // Incrementamos el contador
             cartItemCount++;
-            
-            // Actualizamos el número en el HTML
             document.getElementById('cart-count').innerText = cartItemCount;
             
-            // Pequeño feedback visual
-            alert("¡Producto agregado a tu carrito de Antony Black!");
+            // Efecto visual rápido en el icono
+            const cartIcon = document.querySelector('.cart-icon');
+            cartIcon.style.transform = 'scale(1.2)';
+            setTimeout(() => { cartIcon.style.transform = 'scale(1)'; }, 200);
+        }
+
+        // Funcionalidad del Chatbot
+        function toggleChat() {
+            const chat = document.getElementById('chatbot');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMsg() {
+            const input = document.getElementById('chat-input-text');
+            const msg = input.value.trim();
+            if(msg !== "") {
+                const chatBody = document.getElementById('chat-body');
+                // Mensaje del usuario
+                chatBody.innerHTML += `<div class="chat-msg" style="background: var(--primary-red); color: white; margin-left: auto;">${msg}</div>`;
+                input.value = "";
+                
+                // Respuesta automática simulada
+                setTimeout(() => {
+                    chatBody.innerHTML += `<div class="chat-msg">Excelente pregunta. Un asesor de estilo se conectará en un momento. Recuerda que aceptamos Pago Contra Entrega en San Pedro de los Baños.</div>`;
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 1000);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        // Permitir Enter en el chat
+        document.getElementById('chat-input-text').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMsg();
+            }
+        });
+
+        // Funcionalidad del Probador Virtual
+        const modal = document.getElementById('virtual-modal');
+        function openVirtualRoom(itemName) {
+            document.getElementById('virtual-item-name').innerText = "Prenda: " + itemName;
+            modal.style.display = 'flex';
+        }
+
+        function closeVirtualRoom() {
+            modal.style.display = 'none';
+        }
+
+        // Cerrar modal si hacen clic fuera de la ventana blanca
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeVirtualRoom();
+            }
         }
     </script>
 </body>
-</html>
+    </html>

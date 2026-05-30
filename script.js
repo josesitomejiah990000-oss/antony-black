@@ -1,11 +1,9 @@
 var cart = []; var db = [];
 
-// Activación del SDK oficial con tu Clave Pública real de la captura de pantalla
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
 
-// Los 5 productos exclusivos de hombre
 var productos_hombres = [
     { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
     { name: "Cargo Pants Tactical Black #102", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400", stock: 5 },
@@ -14,7 +12,6 @@ var productos_hombres = [
     { name: "Heavy Cotton Sweatshirt #105", price: 950, img: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=400", stock: 7 }
 ];
 
-// Los 5 productos exclusivos de mujer
 var productos_mujeres = [
     { name: "Crop Hoodie 'Rebel' Red #201", price: 750, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400", stock: 6 },
     { name: "Wide Leg Jeans Vintage Gray #202", price: 990, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400", stock: 9 },
@@ -36,9 +33,7 @@ function rnd(arr) {
         g.innerHTML += '<div class="card p-4 space-y-3 flex flex-col justify-between"><div class="aspect-square bg-black overflow-hidden"><img src="' + p.img + '" class="w-full h-full object-cover"></div><div class="space-y-1"><h3 class="text-xs font-bold text-gray-200 truncate">' + p.name + '</h3><div class="flex justify-between items-center"><span class="text-[#e11d48] font-brand font-bold text-base">$' + p.price + '</span>' + stkTxt + '</div><div class="flex items-center gap-1 text-[11px] pt-1"><span class="text-gray-500">Talla:</span><select id="sz-' + p.id + '" class="bg-[#1c1c24] text-white outline-none px-1 rounded border border-white/5"><option value="CH">CH</option><option value="M" selected>M</option><option value="G">G</option><option value="XG">XG</option></select></div></div>' + btnHtml + '</div>';
     }
 }
-
 function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
-
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
     var sz = document.getElementById('sz-' + id) ? document.getElementById('sz-' + id).value : 'M';
@@ -46,34 +41,27 @@ function add(id) {
     if (i) { if(i.q < p.stock) i.q++; else return; } else { cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, q: 1 }); }
     p.stock--; upUI(); rnd(db); togA(1);
 }
-
 function upUI() { var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; var t = 0; for (var i = 0; i < cart.length; i++) { var item = cart[i]; t += item.price * item.q; c.innerHTML += '<div class="flex gap-3 bg-white/5 p-2 rounded items-center text-xs"><img src="' + item.img + '" class="w-10 h-10 object-cover rounded"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px] text-gray-200">' + item.name + ' (' + item.size + ')</h4><p class="text-[#e11d48] font-brand text-[11px]">' + item.price + ' x' + item.q + '</p></div><button onclick="rem(' + item.id + ',\'' + item.size + '\',' + item.q + ')" class="text-gray-500 hover:text-[#e11d48] px-2"><i class="fas fa-trash"></i></button></div>'; } document.getElementById('c-total').textContent = '$' + t.toFixed(2); document.getElementById('c-count').textContent = cart.reduce(function(s, k) { return s + k.q; }, 0); }
 function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// Muestra el desglose de productos y la cantidad exacta a pagar en la pasarela
 function openCheckout() {
     if(cart.length === 0) return;
-    var total = 0;
-    var summaryContainer = document.getElementById('pay-items-summary');
+    var total = 0; var summaryContainer = document.getElementById('pay-items-summary');
     summaryContainer.innerHTML = ''; 
-    
     cart.forEach(function(x) { 
         total += x.price * x.q; 
         summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>';
     });
-    
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
-    togA(0); 
-    togM('pay', 1); 
+    togA(0); togM('pay', 1); 
 }
 
-// Envío real enlazado al Gmail por defecto
 function procesarOrden(e) {
     e.preventDefault();
     var btn = document.getElementById('btn-pay-submit');
-    btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> PROCESANDO TRANSFERENCIA...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> ENCRIPTANDO TRANSACCIÓN...';
     btn.disabled = true;
 
     var c_name = document.getElementById('u-name').value;
@@ -83,43 +71,35 @@ function procesarOrden(e) {
     
     var resumenRopa = ""; var totalCompra = 0;
     cart.forEach(function(item) {
-        resumenRopa += "• " + item.name + " (Talla: " + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n";
+        resumenRopa += "• " + item.name + " (" + item.size + ") x" + item.q + "\n";
         totalCompra += item.price * item.q;
     });
 
+    var mensajeCompleto = "🔥 NUEVA ORDEN ANTONY BLACK Realizada por " + c_name + " (Email: " + c_email + ", WhatsApp: " + c_phone + "). Entrega pactada en: " + c_spot + ".\n\nPrendas:\n" + resumenRopa + "\nTotal Cobrado Simulado: $" + totalCompra.toFixed(2);
+
     var templateParams = {
         to_email: "antencionalclienteantonyblack@gmail.com",
-        from_name: "Tienda Antony Black",
-        message: "¡ALERTA DE ORDEN PAGADA POR TARJETA!\n\n" +
-                 "DATOS DEL CLIENTE:\n" +
-                 "• Nombre: " + c_name + "\n" +
-                 "• Correo: " + c_email + "\n" +
-                 "• WhatsApp: " + c_phone + "\n" +
-                 "• Punto de Entrega: " + c_spot + "\n\n" +
-                 "PRENDAS VENDIDAS:\n" + resumenRopa + "\n" +
-                 "CANTIDAD COBRADA: $" + totalCompra.toFixed(2)
+        message: mensajeCompleto
     };
 
-    // Al usar 'default_service' apunta directo al Gmail de tu captura
+    // Intento de envío por EmailJS
     emailjs.send('default_service', 'template_default', templateParams)
         .then(function() {
-            ejecutarExito(c_email, btn);
+            finalizarFlujo(mensajeCompleto);
         }, function(error) {
-            console.log("Falta plantilla personalizada en la interfaz, enviando de respaldo...", error);
-            ejecutarExito(c_email, btn);
+            // Si la cuenta de EmailJS no tiene la plantilla configurada, se activa el respaldo por WhatsApp
+            finalizarFlujo(mensajeCompleto);
         });
 }
 
-function ejecutarExito(c_email, btn) {
-    alert("🔒 ¡TRANSACCIÓN AUTORIZADA EXITOSAMENTE!\n\nSe ha debitado el saldo de la tarjeta bancaria. El reporte detallado con las piezas y la cantidad cobrada fue enviado a: antencionalclienteantonyblack@gmail.com");
-    cart = [];
-    upUI();
-    togM('pay', 0);
-    btn.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Autorizar Pago Seguro';
-    btn.disabled = false;
+function finalizarFlujo(msg) {
+    alert("🔒 SIMULACIÓN DE CARGO COMPLETADA\n\nEl sistema simuló la aprobación. Al dar aceptar, se abrirá tu WhatsApp para enviarte a ti mismo el resumen con los datos del cliente, evitando pérdidas.");
+    var urlWsp = "https://wa.me/527122111135?text=" + encodeURIComponent(msg);
+    window.open(urlWsp, '_blank');
+    cart = []; upUI(); togM('pay', 0);
+    var b = document.getElementById('btn-pay-submit'); b.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Autorizar Pago Seguro'; b.disabled = false;
 }
 
-// Formateo visual dinámico de tarjeta
 document.getElementById('card-number').addEventListener('input', function(e) {
     var v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     var matches = v.match(/\d{4,16}/g); var match = matches && matches[0] || ''; var parts = [];
@@ -131,7 +111,7 @@ document.getElementById('card-expiry').addEventListener('input', function(e) {
     if (v.length >= 2) { e.target.value = v.substring(0,2) + '/' + v.substring(2,4); } else { e.target.value = v; }
 });
 
-/* CHATBOT CON IA */
+/* CHATBOT */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');

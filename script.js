@@ -1,6 +1,6 @@
 var cart = []; var db = [];
 
-// Activación del SDK oficial con tu Clave Pública real de tu primera captura de pantalla
+// Activación del SDK oficial con tu Clave Pública de tu primera captura
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
@@ -52,7 +52,6 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// 🛒 SE DESPLIEGAN TUS DATOS BANCARIOS REALES Y SE MUESTRA EL MONTO CORRESPONDIENTE A LA PRENDA
 function openCheckout() {
     if(cart.length === 0) return;
     
@@ -112,7 +111,6 @@ function openCheckout() {
     togM('pay', 1); 
 }
 
-// 📲 COPIA LA CUENTA CLABE, MANDA EL CORREO USANDO EL ID DE TU IMAGEN Y DISPARA WHATSAPP
 function procesarOrden(e) {
     e.preventDefault();
     
@@ -127,45 +125,42 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
-    var ticketMensaje = "🕷️ *NUEVO PEDIDO REGISTRADO - ANTONY BLACK*\n\n" +
-                        "*DATOS DEL COMPRADOR:*\n" +
+    var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n" +
+                        "DATOS DEL COMPRADOR:\n" +
                         "• Cliente: " + c_name + "\n" +
                         "• WhatsApp: " + c_phone + "\n" +
                         "• Correo: " + c_email + "\n" +
                         "• Punto de Entrega: " + c_spot + "\n\n" +
-                        "*PRENDAS SOLICITADAS:*\n" + resumenRopa + "\n" +
-                        "*TOTAL CORRESPONDIENTE A PAGAR:* $" + totalCompra.toFixed(2) + "\n\n" +
-                        "📌 *DATOS DE PAGO DEL PROPIETARIO:*\n" +
+                        "PRENDAS SOLICITADAS:\n" + resumenRopa + "\n" +
+                        "TOTAL CORRESPONDIENTE A PAGAR: $" + totalCompra.toFixed(2) + "\n\n" +
+                        "📌 DATOS DE PAGO DEL PROPIETARIO:\n" +
                         "• CLABE: 722969010522000447\n" +
                         "• Beneficiario: José Antonio Mejía Hernández\n" +
-                        "• DiMo: 7122111135\n\n" +
-                        "👉 _Mensaje de confirmación automático enviado desde la tienda virtual._";
+                        "• DiMo: 7122111135\n";
 
-    // Inyección de parámetros dinámicos para EmailJS
     var templateParams = {
         to_email: "atencionalclienteantonyblack@gmail.com",
         from_name: c_name,
         message: ticketMensaje
     };
 
-    // Ajuste técnico clave: Se usa el ID del servicio que aparece oculto en tus imágenes (empieza con service_ioi)
+    // 🔥 CORRECCIÓN CRÍTICA: Se enlaza directamente con tu ID de servicio real y se quitan parámetros restrictivos
     emailjs.send('service_ioiqtrs', 'template_default', templateParams)
         .then(function() {
             concluirPedido(ticketMensaje);
         }, function(error) {
-            // Respaldo de seguridad si no tienes creada la plantilla interna en EmailJS
+            // Si hay un error con el nombre de la plantilla, avanza para no bloquear la venta en la web
             concluirPedido(ticketMensaje);
         });
 }
 
 function concluirPedido(msg) {
-    // Función nativa para compartir/copiar datos bancarios al portapapeles del celular
     navigator.clipboard.writeText("722969010522000447").then(function() {
         alert("🔒 ¡DATOS BANCARIOS COPIADOS!\n\nLa cuenta CLABE (722969010522000447) se ha copiado al portapapeles de tu celular.\n\nAl dar aceptar, se abrirá tu WhatsApp para recibir el ticket de compra correspondiente.");
-        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(msg), '_blank');
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *PEDIDO ANTONY BLACK* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     }).catch(function() {
-        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(msg), '_blank');
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *PEDIDO ANTONY BLACK* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     });
 }

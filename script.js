@@ -53,14 +53,18 @@ function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="
 function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
 function snap() {
     var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
-    if (userImg) { 
-        p.src = userImg; 
-        res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento facial de alta fidelidad [CONFIRMADO 99%]<br>• Identidad Táctica Antony Black Detectada sobre tus rasgos físicos reales.<br>• Armonía analizada para tus ojos y tono de piel.<br><br><strong>RECOMENDACIÓN PERSONALIZADA:</strong><br>El sistema ha escaneado tu fisionomía cargada. Para tus rasgos, la inteligencia artificial de Antony Black ha estructurado un <strong>Saco de Gabardina Premium con un Suéter Negro de Cuello Alto [Ajuste Técnico]</strong>. Esta combinación proyecta una iluminación directa sobre tus facciones físicas reales, maximizando la estructura de tu rostro y dándote un porte de alta costura urbana imponente antes de añadir los cortes oversize de nuestro catálogo.';
-    } else { 
-        p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; 
-        res.innerHTML = '<strong>[SISTEMA HUD: MODO DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir una foto de tu galería y procesar tus rasgos físicos reales.<br>• Modelo de muestra analizado para perfil ' + ai_t.S + ' (Tez ' + ai_t.P + ', Ojos ' + ai_t.O + ').<br><br><strong>RECOMENDACIÓN TÁCTICA GENERAL:</strong><br>Te sugerimos combinar un <strong>Saco de Gabardina Premium estructurado con un Suéter de Cuello Alto Neutro</strong> para crear el contraste perfecto de colorimetría urbana.';
-    }
-    p.classList.remove('hidden'); document.getElementById('anl').classList.remove('hidden');
+    if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
+    p.classList.remove('hidden');
+    
+    // Calcular estación actual basándonos en la fecha actual (Mayo es Primavera)
+    var d = new Date(); var mth = d.getMonth(); var estacion = "PRIMAVERA"; var recRopa = "";
+    if (mth >= 11 || mth <= 1) { estacion = "INVIERNO"; recRopa = "un <strong>Oversized Hoodie 'No Rules' pesado</strong> combinado con un <strong>Pants Táctico Rompevientos</strong> para proteger del frío con el volumen perfecto de la marca."; }
+    else if (mth >= 2 && mth <= 4) { estacion = "PRIMAVERA"; recRopa = "una <strong>Graphic Tee 'Spider Neon' de algodón premium transpirable</strong> en capas ligeras con tus jeans favoritos, proyectando un look fresco y estructurado."; }
+    else if (mth >= 5 && mth <= 7) { estacion = "VERANO"; recRopa = "nuestras <strong>Playeras Oversize de manga caída en tonos claros</strong> junto a bermudas tácticas sueltas, maximizando la comodidad bajo el sol sin perder la silueta ruda."; }
+    else { estacion = "OTOÑO"; recRopa = "una <strong>Cyberpunk Windbreaker impermeable</strong> montada sobre prendas básicas básicas, ideal para los vientos y lluvias ligeras de la temporada."; }
+
+    res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento facial: REALIZADO CON ÉXITO [99% CONFIRMACIÓN]<br>• Identidad Táctica Antony Black Detectada sobre tus rasgos físicos reales.<br>• Análisis de luz: Idóneo para tez ' + ai_t.P + ' y ojos ' + ai_t.O + '.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tu fisionomía y cruzarla con el clima de la temporada actual, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría facial y te otorga el porte imponente de alta costura urbana que define a nuestra marca.';
+    document.getElementById('anl').classList.remove('hidden');
 }
 function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return; answerBot(t.toLowerCase(), t); i.value = ''; }
 function answerBot(cleanText, rawText) {

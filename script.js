@@ -52,7 +52,6 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// 🎫 FUNCIÓN EXCLUSIVA PARA GENERAR FOLIOS REALES BASADOS EN TIEMPO
 function generarFolioReal() {
     var d = new Date();
     var anio = d.getFullYear();
@@ -60,11 +59,10 @@ function generarFolioReal() {
     var dia = String(d.getDate()).padStart(2, '0');
     var hora = String(d.getHours()).padStart(2, '0');
     var min = String(d.getMinutes()).padStart(2, '0');
-    var aleatorio = Math.floor(10 + Math.random() * 90); // 2 dígitos aleatorios extra
+    var aleatorio = Math.floor(10 + Math.random() * 90);
     return "AB-" + anio + mes + dia + "-" + hora + min + "-" + aleatorio;
 }
 
-// Despliega tus datos bancarios, calcula el monto exacto y el FOLIO ÚNICO en pantalla
 function openCheckout() {
     if(cart.length === 0) return;
     
@@ -79,7 +77,6 @@ function openCheckout() {
     
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
     
-    // Generamos el folio único del pedido para mostrarlo en el formulario
     var folioActual = generarFolioReal();
     
     var formContainer = document.getElementById('checkout-form');
@@ -132,7 +129,6 @@ function openCheckout() {
     togM('pay', 1); 
 }
 
-// 📲 COPIA LA CLABE, DISPARA EL CORREO Y ABRE WHATSAPP CON EL FOLIO INCORPORADO
 function procesarOrden(e) {
     e.preventDefault();
     
@@ -140,7 +136,7 @@ function procesarOrden(e) {
     var c_phone = document.getElementById('u-phone').value;
     var c_email = document.getElementById('u-email').value;
     var c_spot = document.getElementById('u-delivery').value;
-    var c_folio = document.getElementById('p-folio-txt').textContent; // Jalamos el folio creado
+    var c_folio = document.getElementById('p-folio-txt').textContent;
     
     var resumenRopa = ""; var totalCompra = 0;
     cart.forEach(function(item) {
@@ -148,6 +144,7 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
+    // ⚡ CORRECCIÓN AQUÍ: Cambiado a TOTAL NETO A PAGAR e instrucción de recibo adjunto agregada
     var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n" +
                         "🎫 FOLIO DE COMPRA: " + c_folio + "\n\n" +
                         "DATOS DEL CLIENTE:\n" +
@@ -156,7 +153,8 @@ function procesarOrden(e) {
                         "• Correo: " + c_email + "\n" +
                         "• Punto de Entrega: " + c_spot + "\n\n" +
                         "PRENDAS SOLICITADAS:\n" + resumenRopa + "\n" +
-                        "TOTAL NETO COBRADO: $" + totalCompra.toFixed(2) + "\n\n" +
+                        "TOTAL NETO A PAGAR: $" + totalCompra.toFixed(2) + "\n\n" +
+                        "⚠️ FAVOR DE ADJUNTAR SU RECIBO DE PAGO PARA CONFIRMAR LA COMPRA.\n\n" +
                         "📌 DATOS DE PAGO DEL PROPIETARIO:\n" +
                         "• CLABE: 722969010522000447\n" +
                         "• Beneficiario: José Antonio Mejía Hernández\n" +
@@ -164,11 +162,10 @@ function procesarOrden(e) {
 
     var templateParams = {
         to_email: "atencionalclienteantonyblack@gmail.com",
-        from_name: c_name + " (Folio: " + c_folio + ")", // Se añade el folio al título del mail
+        from_name: c_name + " (Folio: " + c_folio + ")",
         message: ticketMensaje
     };
 
-    // Envío directo a tu EmailJS certificado
     emailjs.send('service_ioiqtrs', 'my_first_template', templateParams)
         .then(function() {
             concluirPedido(ticketMensaje, c_folio);
@@ -180,7 +177,8 @@ function procesarOrden(e) {
 
 function concluirPedido(msg, folio) {
     navigator.clipboard.writeText("722969010522000447").then(function() {
-        alert("🔒 ¡DATOS COPIADOS Y FOLIO GENERADO!\n\nTu orden se registró con el Folio Seguro: " + folio + "\n\nLa cuenta CLABE se copió a tu celular. Al dar aceptar, se enviará el ticket correspondiente a José Antonio.");
+        // Se añade el aviso también en la ventana flotante para doble seguridad
+        alert("🔒 ¡DATOS COPIADOS Y FOLIO GENERADO!\n\nTu orden se registró con el Folio Seguro: " + folio + "\n\nLa cuenta CLABE se copió a tu celular. Al dar aceptar, envía el mensaje por WhatsApp junto con tu recibo de pago para confirmar.");
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     }).catch(function() {

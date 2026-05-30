@@ -52,7 +52,19 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// Despliega tus datos bancarios y calcula el monto exacto correspondiente a las prendas elegidas
+// 🎫 FUNCIÓN EXCLUSIVA PARA GENERAR FOLIOS REALES BASADOS EN TIEMPO
+function generarFolioReal() {
+    var d = new Date();
+    var anio = d.getFullYear();
+    var mes = String(d.getMonth() + 1).padStart(2, '0');
+    var dia = String(d.getDate()).padStart(2, '0');
+    var hora = String(d.getHours()).padStart(2, '0');
+    var min = String(d.getMinutes()).padStart(2, '0');
+    var aleatorio = Math.floor(10 + Math.random() * 90); // 2 dígitos aleatorios extra
+    return "AB-" + anio + mes + dia + "-" + hora + min + "-" + aleatorio;
+}
+
+// Despliega tus datos bancarios, calcula el monto exacto y el FOLIO ÚNICO en pantalla
 function openCheckout() {
     if(cart.length === 0) return;
     
@@ -67,9 +79,17 @@ function openCheckout() {
     
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
     
+    // Generamos el folio único del pedido para mostrarlo en el formulario
+    var folioActual = generarFolioReal();
+    
     var formContainer = document.getElementById('checkout-form');
     formContainer.innerHTML = `
         <div class="space-y-4">
+            <div class="bg-[#1e1e24] border border-[#e11d48]/30 rounded-xl p-3 text-center flex justify-between items-center">
+                <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Folio de Orden:</span>
+                <span id="p-folio-txt" class="text-xs font-mono font-bold text-[#e11d48] tracking-wider">${folioActual}</span>
+            </div>
+
             <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold block">1. Registra tu información de entrega</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input id="u-name" type="text" placeholder="Tu Nombre Completo" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
@@ -112,7 +132,7 @@ function openCheckout() {
     togM('pay', 1); 
 }
 
-// Envía la alerta real enlazada a tu service_ioiqtrs y plantilla de EmailJS
+// 📲 COPIA LA CLABE, DISPARA EL CORREO Y ABRE WHATSAPP CON EL FOLIO INCORPORADO
 function procesarOrden(e) {
     e.preventDefault();
     
@@ -120,6 +140,7 @@ function procesarOrden(e) {
     var c_phone = document.getElementById('u-phone').value;
     var c_email = document.getElementById('u-email').value;
     var c_spot = document.getElementById('u-delivery').value;
+    var c_folio = document.getElementById('p-folio-txt').textContent; // Jalamos el folio creado
     
     var resumenRopa = ""; var totalCompra = 0;
     cart.forEach(function(item) {
@@ -127,39 +148,43 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
-    var ticketMensaje = "NUEVO PEDIDO EN TIENDA WEB VIRTUAL\n\n" +
+    var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n" +
+                        "🎫 FOLIO DE COMPRA: " + c_folio + "\n\n" +
                         "DATOS DEL CLIENTE:\n" +
                         "• Nombre: " + c_name + "\n" +
                         "• WhatsApp: " + c_phone + "\n" +
                         "• Correo: " + c_email + "\n" +
                         "• Punto de Entrega: " + c_spot + "\n\n" +
                         "PRENDAS SOLICITADAS:\n" + resumenRopa + "\n" +
-                        "TOTAL NETO COBRADO: $" + totalCompra.toFixed(2);
+                        "TOTAL NETO COBRADO: $" + totalCompra.toFixed(2) + "\n\n" +
+                        "📌 DATOS DE PAGO DEL PROPIETARIO:\n" +
+                        "• CLABE: 722969010522000447\n" +
+                        "• Beneficiario: José Antonio Mejía Hernández\n" +
+                        "• DiMo: 7122111135\n";
 
     var templateParams = {
         to_email: "atencionalclienteantonyblack@gmail.com",
-        from_name: c_name,
+        from_name: c_name + " (Folio: " + c_folio + ")", // Se añade el folio al título del mail
         message: ticketMensaje
     };
 
-    // Apunta a tu service_ioiqtrs y a la plantilla vinculada en tu cuenta
+    // Envío directo a tu EmailJS certificado
     emailjs.send('service_ioiqtrs', 'my_first_template', templateParams)
         .then(function() {
-            concluirPedido(ticketMensaje);
+            concluirPedido(ticketMensaje, c_folio);
         }, function(error) {
             console.log("Error de transmisión:", error);
-            concluirPedido(ticketMensaje);
+            concluirPedido(ticketMensaje, c_folio);
         });
 }
 
-function concluirPedido(msg) {
-    // Copia de seguridad automática de tu cuenta CLABE al portapapeles del cliente
+function concluirPedido(msg, folio) {
     navigator.clipboard.writeText("722969010522000447").then(function() {
-        alert("🔒 ¡DATOS BANCARIOS COPIADOS!\n\nLa cuenta CLABE (722969010522000447) se ha copiado al portapapeles de tu celular.\n\nAl dar aceptar, se abrirá tu WhatsApp para recibir el ticket de compra correspondiente.");
-        window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *PEDIDO ANTONY BLACK* \n\n" + msg), '_blank');
+        alert("🔒 ¡DATOS COPIADOS Y FOLIO GENERADO!\n\nTu orden se registró con el Folio Seguro: " + folio + "\n\nLa cuenta CLABE se copió a tu celular. Al dar aceptar, se enviará el ticket correspondiente a José Antonio.");
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     }).catch(function() {
-        window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *PEDIDO ANTONY BLACK* \n\n" + msg), '_blank');
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     });
 }

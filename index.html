@@ -6,6 +6,7 @@
     <title>ANTONY BLACK | Alta Costura Urbana</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body class="bg-[#09090b] text-[#fafafa] antialiased">
@@ -15,7 +16,6 @@
             <a href="#" class="font-brand text-2xl tracking-tighter text-white hover:text-[#e11d48] transition-colors">
                 ANTONY BLACK<span class="text-[#e11d48]">.</span>
             </a>
-            
             <div class="flex items-center gap-6">
                 <button onclick="togA(1)" class="relative p-2 text-gray-400 hover:text-white transition-colors">
                     <i class="fa-solid fa-bag-shopping text-xl"></i>
@@ -28,7 +28,6 @@
     <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-black">
         <div class="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1200')] bg-cover bg-center mix-blend-luminosity"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-black/50"></div>
-        
         <div class="relative z-10 text-center space-y-6 px-4 max-w-3xl">
             <span class="text-xs uppercase tracking-[0.4em] text-[#e11d48] font-bold block">Nueva Colección Táctica</span>
             <h1 class="font-brand text-5xl md:text-7xl text-white leading-none">CORTES OVERSIZE<br>HEAVY COTTON</h1>
@@ -36,9 +35,7 @@
                 Diseño disruptivo con estructura rígida que redefine la silueta urbana callejera. Confección premium con entregas locales gratis.
             </p>
             <div class="pt-4">
-                <a href="#catalogo" class="inline-block bg-white text-black font-semibold text-xs uppercase tracking-widest px-8 py-4 rounded-full hover:bg-[#e11d48] hover:text-white transition-all transform hover:-translate-y-0.5 shadow-lg">
-                    Explorar Catálogo
-                </a>
+                <a href="#catalogo" class="inline-block bg-white text-black font-semibold text-xs uppercase tracking-widest px-8 py-4 rounded-full hover:bg-[#e11d48] hover:text-white transition-all transform hover:-translate-y-0.5 shadow-lg">Explorar Catálogo</a>
             </div>
         </div>
     </header>
@@ -47,7 +44,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/5 pb-8">
             <div>
                 <h2 class="font-brand text-2xl text-white">Prendas Disponibles</h2>
-                <p class="text-xs text-gray-500 mt-1">Ediciones limitadas de 50 piezas por género</p>
+                <p class="text-xs text-gray-500 mt-1">Colección Cápsula Exclusiva | 5 Hombre & 5 Mujer</p>
             </div>
             <div class="flex flex-wrap gap-2">
                 <button id="b-all" onclick="flt('todos')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white transition-all">Todos</button>
@@ -65,33 +62,30 @@
                 <h2 class="font-brand text-3xl md:text-5xl text-white">Puntos de Entrega <span class="text-[#e11d48]">Gratis</span></h2>
                 <p class="text-gray-400 text-xs md:text-sm max-w-md mx-auto font-light">Coordinamos tu entrega de forma rápida y segura en estas ubicaciones de Jocotitlán.</p>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-[#121214] border border-white/5 p-8 rounded-2xl flex flex-col justify-between space-y-6 text-center hover:border-[#e11d48]/40 transition-all duration-300">
                     <div class="space-y-4">
-                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20 shadow-lg"><i class="fa-solid fa-map-pin"></i></div>
+                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20"><i class="fa-solid fa-map-pin"></i></div>
                         <h3 class="font-brand text-lg text-white tracking-wide">Desviación de Jocotitlán</h3>
                         <p class="text-gray-400 text-xs font-light leading-relaxed px-2">Zona estratégica en el cruce de carretera para recolecciones y accesos rápidos.</p>
                     </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Desviacion+de+Jocotitlan" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
+                    <a href="https://maps.app.goo.gl/vJb6mZfXvU7XzYFp9" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
                 </div>
-
                 <div class="bg-[#121214] border border-white/5 p-8 rounded-2xl flex flex-col justify-between space-y-6 text-center hover:border-[#e11d48]/40 transition-all duration-300">
                     <div class="space-y-4">
-                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20 shadow-lg"><i class="fa-solid fa-building-flag"></i></div>
+                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20"><i class="fa-solid fa-building-flag"></i></div>
                         <h3 class="font-brand text-lg text-white tracking-wide">Jocotitlán Centro</h3>
                         <p class="text-gray-400 text-xs font-light leading-relaxed px-2">Entregas seguras justo en frente del Palacio Municipal, un punto concurrido y céntrico.</p>
                     </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Palacio+Municipal+Jocotitlan" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
+                    <a href="https://maps.app.goo.gl/g6z7M36jN9tYVfS87" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
                 </div>
-
                 <div class="bg-[#121214] border border-white/5 p-8 rounded-2xl flex flex-col justify-between space-y-6 text-center hover:border-[#e11d48]/40 transition-all duration-300">
                     <div class="space-y-4">
-                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20 shadow-lg"><i class="fa-solid fa-store"></i></div>
+                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20"><i class="fa-solid fa-store"></i></div>
                         <h3 class="font-brand text-lg text-white tracking-wide">San Pedro de los Baños</h3>
                         <p class="text-gray-400 text-xs font-light leading-relaxed px-2">Entregas programadas en los puntos de encuentro principales de la comunidad.</p>
                     </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=San+Pedro+de+los+Banos+Jocotitlan" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
+                    <a href="https://maps.app.goo.gl/m8K3X75N9tYVfS765" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
                 </div>
             </div>
         </div>
@@ -110,26 +104,67 @@
                 <span class="text-xs text-gray-400">Total Estimado:</span>
                 <span id="c-total" class="font-brand text-xl text-[#e11d48]">$0.00</span>
             </div>
-            <button onclick="togM('pay', 1)" class="w-full bg-white text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all">Proceder al Pago</button>
+            <button onclick="openCheckout()" class="w-full bg-white text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all">Proceder al Pago</button>
         </div>
     </div>
 
     <div id="m-pay" class="modal">
-        <div class="bg-[#121214] border border-white/10 rounded-2xl w-full max-w-md p-6 relative text-center space-y-6">
-            <button onclick="togM('pay', 0)" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            <i class="fa-solid fa-building-columns text-4xl text-[#e11d48]"></i>
-            <div>
-                <h3 class="font-brand text-lg text-white">Pago Directo SPEI</h3>
-                <p class="text-xs text-gray-500 mt-1">Transfiere desde tu app bancaria de forma segura.</p>
+        <div class="bg-[#121214] border border-white/10 rounded-2xl w-full max-w-xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto space-y-6">
+            <button onclick="togM('pay', 0)" class="absolute top-6 right-6 text-gray-500 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="text-center border-b border-white/5 pb-4">
+                <h3 class="font-brand text-xl text-white">Checkout Seguro Antony Black</h3>
+                <p class="text-xs text-gray-500 mt-1">Completa tus datos para procesar el cargo y agendar tu entrega.</p>
             </div>
-            <div class="bg-black/40 border border-white/5 p-4 rounded-xl text-left space-y-2 text-xs font-mono">
-                <p class="flex justify-between"><span class="text-gray-500">Banco:</span> <span class="text-white">Mercado Pago Wallet</span></p>
-                <p class="flex justify-between"><span class="text-gray-500">CLABE:</span> <span class="text-white text-[#e11d48] select-all">722969010522000447</span></p>
-                <p class="flex justify-between"><span class="text-gray-500">Titular:</span> <span class="text-white">Jose Antonio Mejia Hernandez</span></p>
-            </div>
-            <p class="text-[11px] text-gray-400 leading-normal">
-                Una vez hecha tu transferencia, envíanos captura por WhatsApp al <strong class="text-white">7122111135</strong> junto a tu folio para liberar tu mercancía y coordinar la entrega.
-            </p>
+
+            <form id="checkout-form" onsubmit="procesarOrden(event); return false;" class="space-y-6">
+                <div class="space-y-3">
+                    <label class="block text-xs uppercase tracking-widest text-[#e11d48] font-bold">1. Registro del Comprador</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input id="u-name" type="text" placeholder="Nombre Completo" required class="bg-[#1c1c21] text-white text-xs px-4 py-3 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+                        <input id="u-phone" type="tel" placeholder="WhatsApp (10 dígitos)" required class="bg-[#1c1c21] text-white text-xs px-4 py-3 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+                    </div>
+                    <input id="u-email" type="email" placeholder="Correo Electrónico para Confirmación" required class="w-full bg-[#1c1c21] text-white text-xs px-4 py-3 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+                    <select id="u-delivery" class="w-full bg-[#1c1c21] text-white text-xs px-4 py-3 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+                        <option value="Desviación de Jocotitlán">Entrega en: Desviación de Jocotitlán</option>
+                        <option value="Jocotitlán Centro">Entrega en: Jocotitlán Centro (Presidencia)</option>
+                        <option value="San Pedro de los Baños">Entrega en: San Pedro de los Baños</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4 pt-2 border-t border-white/5">
+                    <label class="block text-xs uppercase tracking-widest text-[#e11d48] font-bold">2. Método de Pago: Tarjeta de Crédito / Débito</label>
+                    
+                    <div class="bg-gradient-to-br from-[#1c1c21] to-[#09090b] border border-white/10 rounded-xl p-5 space-y-6 shadow-xl">
+                        <div class="flex justify-between items-center">
+                            <i class="fa-solid fa-microchip text-3xl text-yellow-600/80"></i>
+                            <i class="fa-brands fa-cc-visa text-3xl text-white/40"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <input id="card-number" type="text" maxlength="19" placeholder="0000 0000 0000 0000" required class="w-full bg-transparent text-white font-mono text-lg tracking-widest outline-none placeholder-white/20">
+                            <span class="text-[9px] text-gray-600 uppercase tracking-widest block">Número de Tarjeta</span>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <div class="flex-1">
+                                <input id="card-holder" type="text" placeholder="NOMBRE DEL TITULAR" required class="w-full bg-transparent text-white font-mono text-xs uppercase tracking-wider outline-none placeholder-white/20">
+                                <span class="text-[9px] text-gray-600 uppercase tracking-widest block mt-1">Titular</span>
+                            </div>
+                            <div class="w-20">
+                                <input id="card-expiry" type="text" maxlength="5" placeholder="MM/AA" required class="w-full bg-transparent text-white font-mono text-xs text-center outline-none placeholder-white/20">
+                                <span class="text-[9px] text-gray-600 uppercase tracking-widest block mt-1 text-center">Expiración</span>
+                            </div>
+                            <div class="w-16">
+                                <input id="card-cvv" type="password" maxlength="3" placeholder="***" required class="w-full bg-transparent text-white font-mono text-xs text-center outline-none placeholder-white/20">
+                                <span class="text-[9px] text-gray-600 uppercase tracking-widest block mt-1 text-center">CVV</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-pay-submit" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-shield-halved"></i> Autorizar Pago Seguro & Finalizar
+                </button>
+            </form>
         </div>
     </div>
 
@@ -157,4 +192,4 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+    </html>

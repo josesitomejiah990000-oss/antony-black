@@ -32,7 +32,8 @@ function rnd(arr) {
 function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
-    var sz = document.getElementById('sz-' + id).value; var i = cart.find(function(x) { return x.id === id && x.size === sz; });
+    var sz = document.getElementById('sz-' + id) ? document.getElementById('sz-' + id).value : 'M';
+    var i = cart.find(function(x) { return x.id === id && x.size === sz; });
     if (i) { if(i.q < p.stock) i.q++; else return; } else { cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, q: 1 }); }
     p.stock--; upUI(); rnd(db); togA(1);
 }
@@ -55,10 +56,10 @@ function togCh() {
     } 
 }
 document.getElementById('t-cht').onclick = togCh;
-
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
-function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
+var reader = new FileReader();
+function ldImg(e) { var f = e.target.files[0]; if (f) { r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
 function snap() {
     var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
     if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
@@ -68,24 +69,19 @@ function snap() {
     else if (mth >= 2 && mth <= 4) { estacion = "PRIMAVERA"; recRopa = "una <strong>Graphic Tee 'Spider Neon' de algodón premium transpirable</strong> en capas ligeras con tus jeans favoritos."; }
     else if (mth >= 5 && mth <= 7) { estacion = "VERANO"; recRopa = "nuestras <strong>Playeras Oversize de manga caída en tonos claros</strong> junto a bermudas tácticas sueltas."; }
     else { estacion = "OTOÑO"; recRopa = "una <strong>Cyberpunk Windbreaker impermeable</strong> montada sobre prendas básicas."; }
-    
-    var ptEntrega = "Desviación Jocotitlán";
-    if (ai_t.O === 'Azules') ptEntrega = "Jocotitlán Centro (Presidencia)";
-    if (ai_t.O === 'Verdes') ptEntrega = "San Pedro de los Baños";
-
+    var ptEntrega = "Desviación Jocotitlán"; if (ai_t.O === 'Azules') ptEntrega = "Jocotitlán Centro (Presidencia)"; if (ai_t.O === 'Verdes') ptEntrega = "San Pedro de los Baños";
     if (userImg) { res.innerHTML = '<strong>[FUSIÓN BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento de Imagen: CONFIRMADO<br>• Identidad Táctica Antony Black montada.<br><br><strong>📍 PUNTO DE RECOLECCIÓN:</strong><br>' + ptEntrega + '<br><br><strong>🍁 DETECCIÓN CLIMÁTICA (' + estacion + '):</strong><br>La IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría y te otorga el porte imponente de la marca.'; }
     else { res.innerHTML = '<strong>[SISTEMA HUD: DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir tu foto.<br>• Muestra seleccionada para perfil ' + ai_t.S + '.<br>• Punto elegido: ' + ptEntrega + '<br><br><strong>RECOMENDACIÓN TÁCTICA:</strong><br>Te sugerimos combinar prendas oscuras estructuradas de alto gramaje para crear el contraste perfecto.'; }
     document.getElementById('anl').classList.remove('hidden');
 }
-
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 
-/* LÓGICA DE RESPUESTA DIRECTA CON FILTRO DE VENTAS INTEGRADO */
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
     setTimeout(function() {
         var r = "Qué onda hermano, claro que sí. Oye, ¿te interesa comprar alguna de nuestras prendas de ropa hoy? Te puedo apartar tu talla de una vez.";
-        
+        var showPromoBtn = true;
+
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { 
             r = "<strong>🔥 LISTA DE PRECIOS OFICIAL:</strong><br>• Sudadera Oversize: $899<br>• Pants Táctico: $1150<br>• Crop Hoodie: $750<br>• Wide Leg Jeans: $990<br><br>Recuerda que si juntas más de $2000 el sistema te regala una playera sorpresa.<br><br><strong>🛒 ¿Te gustaría comprar alguna de estas piezas de ropa ahorita mismo?</strong> Dime cuál y te ayudo."; 
         }
@@ -95,14 +91,20 @@ function answerBot(cleanText, rawText) {
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { 
             r = "<strong>Confección:</strong> Usamos puro 100% Heavy Cotton (Algodón pesado de alto gramaje). No se deforma y tiene una caída espectacular.<br><br>Calidad de boutique internacional.<br><br><strong>🔥 ¿Estás listo para estrenar y comprar ropa con este nivel de calidad textil?</strong>"; 
         }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('lugar') !== -1) { 
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('lugar') !== -1 || cleanText.indexOf('punto') !== -1) { 
             r = "<strong>Zonas de entrega gratis en Jocotitlán:</strong> Centro (Frente a Presidencia), Desviación, y San Pedro de los Baños.<br><br>Tú eliges el horario y nos vemos ahí de forma segura.<br><br><strong>📍 ¿Te gustaría comprar ropa hoy para coordinar tu entrega de inmediato en alguno de estos puntos?</strong>"; 
         }
         else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { 
             r = "<strong>Métodos de Pago:</strong> Tarjeta mediante la pasarela de la página o transferencia SPEI Directa (CLABE: 722969010522000447).<br><br><strong>💳 ¿Quieres proceder a comprar tu ropa y apartar tu pedido en este momento?</strong>"; 
         }
+        else if (cleanText.indexOf('comprar') !== -1 || cleanText.indexOf('ropa') !== -1 || cleanText.indexOf('catalogo') !== -1 || cleanText.indexOf('quiero') !== -1) {
+            r = "<strong>🔥 PRENDAS TOP RECOMENDADAS DE LA MARCA:</strong><br><div class='mt-2 space-y-2'><div class='flex gap-2 bg-black/40 p-1.5 rounded border border-white/5 items-center'><img src='https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=100' class='w-10 h-10 object-cover rounded'><div class='flex-1 min-w-0'><p class='truncate font-bold text-[11px] text-white'>Oversized Hoodie</p><p class='text-[#e11d48] font-bold text-[10px]'>$899</p></div><button onclick='add(1)' class='bg-[#e11d48] text-white text-[9px] px-2 py-1 uppercase rounded font-bold'>Añadir</button></div><div class='flex gap-2 bg-black/40 p-1.5 rounded border border-white/5 items-center'><img src='https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=100' class='w-10 h-10 object-cover rounded'><div class='flex-1 min-w-0'><p class='truncate font-bold text-[11px] text-white'>Crop Hoodie Rebel</p><p class='text-[#e11d48] font-bold text-[10px]'>$750</p></div><button onclick='add(3)' class='bg-[#e11d48] text-white text-[9px] px-2 py-1 uppercase rounded font-bold'>Añadir</button></div></div><br><strong>¿Te interesa comprar ropa hoy mismo o prefieres seguir viendo modelos en el catálogo?</strong>";
+            showPromoBtn = false;
+        }
+
+        var btnWsp = showPromoBtn ? '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio,%20quiero%20comprar%20ropa%20de%20Antony%20Black\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar ropa por WhatsApp 🕷️</button></div>' : '';
         
-        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>'; m.scrollTop = m.scrollHeight;
-    }, 50); // Bajado de 450ms a solo 50ms para respuesta táctica instantánea
+        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;
+    }, 50);
 }
 rnd(db); snap();

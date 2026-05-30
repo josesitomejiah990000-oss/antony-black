@@ -47,40 +47,36 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// Al presionar "Proceder al Pago", manda de inmediato al link real de Mercado Pago sin rodeos básicos
+// Procesa el carrito, calcula montos y lo despacha de inmediato al WhatsApp oficial de cobro
 function openCheckout() {
     if(cart.length === 0) return;
     
-    // 💳 TU ENLACE OFICIAL Y EXCLUSIVO DE MERCADO PAGO INTEGRADO
-    var linkMercadoPago = "https://link.mercadopago.com.mx/antonyblack"; 
+    var resumenRopa = ""; var totalCompra = 0;
+    cart.forEach(function(item) {
+        resumenRopa += "• " + item.name + " (Talla: " + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n";
+        totalCompra += item.price * item.q;
+    });
 
-    var cartContainer = document.getElementById('cart');
-    var btnPagarOriginal = cartContainer.querySelector('button[onclick="openCheckout()"]');
-    if(btnPagarOriginal) {
-        btnPagarOriginal.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Abriendo Mercado Pago Seguro...';
-        btnPagarOriginal.disabled = true;
-    }
+    // Construcción del ticket digital limpio
+    var ticketMensaje = "🕷️ *NUEVA ORDEN DE COMPRA - ANTONY BLACK*\n\n" +
+                        "¡Hola José Antonio! Acabo de armar mi carrito en la tienda y quiero confirmar mi pedido:\n\n" +
+                        "*Prendas Solicitadas:*\n" + resumenRopa + "\n" +
+                        "*Monto Total Exacto:* $" + totalCompra.toFixed(2) + "\n\n" +
+                        "👉 _Por favor compárteme tu código QR o CLABE de Mercado Pago para realizarte la transferencia con esta cantidad exacta e indicarte mi punto de entrega gratis en Jocotitlán._";
 
-    setTimeout(function() {
-        // Redirección directa hacia tu cuenta de cobro de Antony Black
-        window.open(linkMercadoPago, '_blank');
-        
-        // Se limpia la bolsa para dar por concluida la sesión local de compra
-        cart = []; 
-        upUI(); 
-        togA(0);
-        
-        if(btnPagarOriginal) {
-            btnPagarOriginal.innerHTML = 'Proceder al Pago Seguro';
-            btnPagarOriginal.disabled = false;
-        }
-    }, 600);
+    // Enrutador directo a tu WhatsApp
+    var urlWhatsApp = "https://wa.me/527122111135?text=" + encodeURIComponent(ticketMensaje);
+    
+    // Abre el chat con toda la información calculada al instante
+    window.open(urlWhatsApp, '_blank');
+    
+    // Limpieza de bolsa local
+    cart = []; upUI(); togA(0);
 }
 
-// Función de respaldo para compatibilidad
 function procesarOrden(e) { if(e) e.preventDefault(); openCheckout(); }
 
-/* CHATBOT CON IA */
+/* CHATBOT CON INTELIGENCIA ARTIFICIAL LIBRE */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -90,16 +86,17 @@ function openSuggestedChips() {
 function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); if(box.classList.contains('open')) { openSuggestedChips(); } } }
 document.getElementById('t-cht').onclick = togCh;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
+var infoBot = "Excelente pregunta. En ANTONY BLACK nos enfocamos en el diseño disruptivo y la cultura urbana de alta costura para que cada prenda eleve tu presencia en las calles.";
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
     setTimeout(function() {
-        var r = "Excelente pregunta. En ANTONY BLACK nos enfocamos en el diseño disruptivo y la cultura urbana de alta costura para que cada prenda eleve tu presencia en las calles.";
+        var r = infoBot;
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "Nuestras prendas premium manejan los siguientes costos didácticos: Sudaderas Oversize en $899, Cargo Pants en $1150, Crop Hoodies en $750 y Wide Leg Jeans en $990. Vale totalmente cada centavo por el gramaje pesado de confección."; }
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "El corte es Oversize de patrón amplio con hombros caídos. Pide tu talla de siempre si te gusta el look holgado urbano original, o una talla menos si prefieres que te quede más justo. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { r = "Confeccionamos únicamente con Heavy Cotton (Algodón pesado de alto gramaje). Esto le da una estructura rígida e imponente al cuerpo que no pierde la forma con las lavadas."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { r = "Hacemos entregas personales totalmente gratuitas en Jocotitlán: Centro (Frente a Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños. Coordinamos la hora exacta de inmediato por WhatsApp."; }
-        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Puedes procesar tu pago seguro de forma 100% real a través de nuestra pasarela oficial conectada a Mercado Pago."; }
+        else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "Al confirmar tu bolsa, el sistema genera el desglose neto de tus prendas y te manda directo a nuestro WhatsApp de cobro para procesar tu pedido de manera inmediata."; }
         var remateVenta = "<br><br>📦 <strong>Por cierto, hermano: ¿Te interesa comprar ropa hoy mismo para apartar tu talla y coordinar tu entrega antes de que se agote el stock?</strong>";
         var btnWsp = '<div class="mt-2.5"><button onclick="window.open(\'https://wa.me/527122111135?text=Hola%20José%20Antonio\',\'_blank\')" class="w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg transition-all uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fab fa-whatsapp text-xs"></i> Comprar Ropa por WhatsApp 🕷️</button></div>';
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + remateVenta + btnWsp + '</div></div>'; m.scrollTop = m.scrollHeight;

@@ -50,19 +50,25 @@ function toggleChat() { var box = document.getElementById('c-box'); if(box) { bo
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
 
-// Parche de Seguridad: Convertir imagen local a URL segura de memoria (Blob)
 function ldImg(e) {
     var f = e.target.files[0];
     if (f) {
-        if (userImg) { URL.revokeObjectURL(userImg); }
-        userImg = URL.createObjectURL(f);
-        snap();
+        var r = new FileReader();
+        r.onload = function(el) { userImg = el.target.result; snap(); };
+        r.readAsDataURL(f);
     }
 }
 
 function snap() {
     var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
-    if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
+    
+    // Forzar actualización visual directa cambiando el source inmediatamente
+    if (userImg) { 
+        p.src = userImg; 
+    } else { 
+        p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; 
+    }
+    
     p.classList.remove('hidden');
     
     var d = new Date(); var mth = d.getMonth(); var estacion = "PRIMAVERA"; var recRopa = "";
@@ -72,12 +78,13 @@ function snap() {
     else { estacion = "OTOÑO"; recRopa = "una <strong>Cyberpunk Windbreaker impermeable</strong> montada sobre prendas básicas, ideal para los vientos y lluvias ligeras de la temporada."; }
 
     if (userImg) {
-        res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento facial: REALIZADO CON ÉXITO [99% CONFIRMACIÓN]<br>• Identidad Táctica Antony Black Detectada sobre tus rasgos físicos reales.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tu fisionomía cargada y cruzarla con el clima de la temporada actual, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría facial y te otorga el porte imponente de la marca.';
+        res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento de Imagen: REALIZADO CON ÉXITO [CONFIRMADO]<br>• Identidad Táctica Antony Black montada sobre tu registro físico real.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tus rasgos y cruzarlos con el clima actual de la temporada, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría y te otorga el porte imponente de la marca.';
     } else {
         res.innerHTML = '<strong>[SISTEMA HUD: MODO DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir una foto de tu galería y procesar tus rasgos físicos reales.<br>• Muestra analizada para perfil ' + ai_t.S + ' (Tez ' + ai_t.P + ', Ojos ' + ai_t.O + ').<br><br><strong>RECOMENDACIÓN TÁCTICA GENERAL:</strong><br>Te sugerimos combinar prendas oscuras estructuradas de alto gramaje para crear el contraste perfecto de colorimetría urbana.';
     }
     document.getElementById('anl').classList.remove('hidden');
 }
+
 function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return; answerBot(t.toLowerCase(), t); i.value = ''; }
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#ff1a1a] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';

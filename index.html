@@ -32,12 +32,6 @@
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-        #loader {
-            position: fixed; inset: 0; background: var(--primary); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .glitch { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-weight: 900; text-align: center; line-height: 1.1; }
         
         .product-card { transition: all 0.4s ease; background: #151515; border: 1px solid #222; }
         .product-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 42, 42, 0.2); }
@@ -72,7 +66,6 @@
         .modal-content { background: #111; border: 1px solid var(--accent); padding: 30px; border-radius: 15px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 0 30px rgba(255, 42, 42, 0.2); }
 
         @media (max-width: 768px) {
-            .glitch { font-size: 3rem; }
             .chat-btn { right: 20px; width: 50px; height: 50px; bottom: 20px;}
             .music-btn { left: 20px; bottom: 20px;}
             .chatbot-container { width: calc(100% - 40px); right: 20px; bottom: 80px; }
@@ -80,18 +73,11 @@
         }
     </style>
 </head>
-<body class="antialiased font-sans selection:bg-accent selection:text-white" style="overflow: hidden;">
+<body class="antialiased font-sans selection:bg-accent selection:text-white">
 
     <audio id="bg-music" loop preload="auto">
         <source src="https://archive.org/download/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg">
     </audio>
-
-    <div id="loader">
-        <h1 class="glitch text-white text-5xl mb-8">ANTONY BLACK</h1>
-        <button onclick="iniciarExperiencia()" class="bg-accent text-white font-bold uppercase tracking-widest py-4 px-10 rounded-full shadow-[0_0_20px_rgba(255,42,42,0.5)] z-50 pointer-events-auto cursor-pointer relative">
-            Entrar a la experiencia
-        </button>
-    </div>
 
     <nav class="fixed w-full top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 py-4 px-6 flex justify-between items-center">
         <div>
@@ -125,11 +111,11 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
         <div class="relative z-10 text-center px-4">
             <p class="text-accent font-bold tracking-[0.3em] mb-4 uppercase text-sm">La nueva era del Streetwear</p>
-            <h1 class="glitch text-white text-6xl mb-6">Antony Black</h1>
+            <h1 class="text-white font-display uppercase font-black text-5xl md:text-7xl mb-6 tracking-wide">Antony Black</h1>
             <p class="text-gray-300 max-w-2xl mx-auto mb-10 text-lg">Moda urbana exclusiva para jóvenes que dictan tendencias.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <a href="#catalogo" onclick="filterProducts('hombres')" class="bg-white text-black font-bold uppercase tracking-wider py-4 px-8 text-center">Hombres</a>
-                <a href="#catalogo" onclick="filterProducts('mujeres')" class="bg-accent text-white font-bold uppercase tracking-wider py-4 px-8 text-center">Mujeres</a>
+                <a href="#catalogo" onclick="filterProducts('hombres')" class="bg-white text-black font-bold uppercase tracking-wider py-4 px-8 text-center rounded">Hombres</a>
+                <a href="#catalogo" onclick="filterProducts('mujeres')" class="bg-accent text-white font-bold uppercase tracking-wider py-4 px-8 text-center rounded hover:bg-accent-hover">Mujeres</a>
             </div>
             <button onclick="openAIModal()" class="bg-[#1a1a1a] border border-accent text-white font-bold uppercase tracking-wider py-3 px-8 hover:bg-accent transition-all rounded-full mx-auto flex items-center justify-center gap-2">
                 📸 Probador Virtual IA
@@ -207,7 +193,7 @@
         <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4"></div>
         <div class="p-6 bg-black border-t border-gray-800">
             <div class="flex justify-between mb-4 font-bold text-lg"><span>Total:</span><span id="cart-total">$0.00 MXN</span></div>
-            <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-bold uppercase py-4 hover:bg-accent-hover rounded">Proceder al Pago</button>
+            <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-bold uppercase py-4 rounded hover:bg-accent-hover">Proceder al Pago</button>
         </div>
     </div>
 
@@ -221,4 +207,68 @@
                 <button onclick="pagarConMercadoPago()" class="w-full bg-[#009EE3] text-white font-bold uppercase py-4 rounded flex items-center justify-center gap-3 hover:bg-blue-600 transition-colors">
                     <i class="fas fa-wallet text-xl"></i> Pagar con Mercado Pago
                 </button>
-                <div class="bg-black p-4 rounded border border-gray-800 text-xs
+                <div class="bg-black p-4 rounded border border-gray-800 text-xs text-gray-400 space-y-1">
+                    <p class="text-white font-bold mb-1">O por transferencia directa:</p>
+                    <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
+                    <p><strong>CLABE:</strong> 722969010522000447</p>
+                </div>
+            </div>
+            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-bold uppercase py-3 rounded flex items-center justify-center gap-2 hover:bg-green-600"><i class="fab fa-whatsapp text-xl"></i> Notificar pedido por WhatsApp</button>
+        </div>
+    </div>
+
+    <div id="ai-modal">
+        <div class="modal-content text-center">
+            <button onclick="closeAIModal()" class="absolute top-4 right-4 text-gray-400 text-3xl">×</button>
+            <h3 class="font-display text-2xl uppercase font-bold text-white mb-2">Probador Virtual Real</h3>
+            <p class="text-accent text-sm font-bold tracking-widest mb-6">ANTONY BLACK IA</p>
+            
+            <div class="w-full h-72 bg-gray-900 border border-gray-700 rounded-lg flex flex-col justify-center items-center mb-6 relative overflow-hidden">
+                <video id="camera-stream" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
+                <canvas id="camera-canvas" class="hidden"></canvas>
+                <img id="captured-photo" class="absolute inset-0 w-full h-full object-cover hidden" alt="Tu foto">
+                
+                <div id="camera-placeholder" class="text-center z-10 px-4">
+                    <i class="fas fa-camera text-4xl text-gray-600 mb-2"></i>
+                    <p class="text-gray-500 text-sm">Haz clic en "Activar Cámara" para otorgar permisos al navegador.</p>
+                </div>
+            </div>
+            
+            <button id="btn-activar-camara" onclick="encenderCamara()" class="w-full bg-white text-black font-bold uppercase py-3 rounded hover:bg-gray-200 transition-colors mb-2">
+                Activar Cámara 📷
+            </button>
+            <button id="btn-tomar-foto" onclick="tomarFoto()" class="w-full bg-accent text-white font-bold uppercase py-3 rounded hover:bg-accent-hover transition-colors mb-2 hidden">
+                💥 ¡Tomar Foto!
+            </button>
+            <button id="btn-reiniciar-camara" onclick="repetirFoto()" class="w-full bg-gray-800 text-white font-bold uppercase py-3 rounded hover:bg-gray-700 transition-colors mb-2 hidden">
+                🔄 Volver a tomar foto
+            </button>
+        </div>
+    </div>
+
+    <button id="toggle-music" class="floating-btn music-btn"><i class="fas fa-volume-up" id="music-icon"></i></button>
+    <div id="toggle-chat" class="floating-btn chat-btn"><i class="fas fa-comment-dots"></i></div>
+
+    <div id="chatbot-box" class="chatbot-container flex flex-col">
+        <div class="bg-accent p-4 flex justify-between items-center">
+            <div class="flex items-center gap-2"><i class="fas fa-robot text-xl"></i><span class="font-bold uppercase text-sm">Asistente Personal</span></div>
+            <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-xl">×</button>
+        </div>
+        <div id="chat-messages" class="chat-messages bg-black">
+            <div class="msg bot">¡Qué onda! Soy el Asistente de Antony Black 🕷️. Pregúntame sobre envíos o métodos de pago.</div>
+        </div>
+        <form class="chat-input" onsubmit="handleUserChat(event)">
+            <input type="text" id="chat-input-field" placeholder="Escribe..." class="flex-1 bg-transparent text-white outline-none text-sm px-2">
+            <button type="submit" class="text-accent"><i class="fas fa-paper-plane"></i></button>
+        </form>
+    </div>
+
+    <script>
+        // Intenta reproducir música al primer clic general en la tienda
+        let isMusicPlaying = false;
+        document.body.addEventListener('click', () => {
+            if(!isMusicPlaying){
+                try {
+                    const bgMusic = document.getElementById('bg-music');
+                    bgMusic.volume = 0.2;
+                    bgMusic.play().then(() => { isMusicPlaying = true; 

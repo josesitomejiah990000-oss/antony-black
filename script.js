@@ -47,23 +47,35 @@ function openSuggestedChips() {
     initChat = true;
 }
 function toggleChat() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); openSuggestedChips(); } }
-document.getElementById('t-cht').onclick = toggleChat;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
-function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
+
+// Parche de Seguridad: Convertir imagen local a URL segura de memoria (Blob)
+function ldImg(e) {
+    var f = e.target.files[0];
+    if (f) {
+        if (userImg) { URL.revokeObjectURL(userImg); }
+        userImg = URL.createObjectURL(f);
+        snap();
+    }
+}
+
 function snap() {
     var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
     if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
     p.classList.remove('hidden');
     
-    // Calcular estación actual basándonos en la fecha actual (Mayo es Primavera)
     var d = new Date(); var mth = d.getMonth(); var estacion = "PRIMAVERA"; var recRopa = "";
     if (mth >= 11 || mth <= 1) { estacion = "INVIERNO"; recRopa = "un <strong>Oversized Hoodie 'No Rules' pesado</strong> combinado con un <strong>Pants Táctico Rompevientos</strong> para proteger del frío con el volumen perfecto de la marca."; }
-    else if (mth >= 2 && mth <= 4) { estacion = "PRIMAVERA"; recRopa = "una <strong>Graphic Tee 'Spider Neon' de algodón premium transpirable</strong> en capas ligeras con tus jeans favoritos, proyectando un look fresco y estructurado."; }
-    else if (mth >= 5 && mth <= 7) { estacion = "VERANO"; recRopa = "nuestras <strong>Playeras Oversize de manga caída en tonos claros</strong> junto a bermudas tácticas sueltas, maximizando la comodidad bajo el sol sin perder la silueta ruda."; }
-    else { estacion = "OTOÑO"; recRopa = "una <strong>Cyberpunk Windbreaker impermeable</strong> montada sobre prendas básicas básicas, ideal para los vientos y lluvias ligeras de la temporada."; }
+    else if (mth >= 2 && mth <= 4) { estacion = "PRIMAVERA"; recRopa = "una <strong>Graphic Tee 'Spider Neon' de algodón premium transpirable</strong> en capas ligeras con tus jeans favoritos, proyectando un look fresco y de alta costura."; }
+    else if (mth >= 5 && mth <= 7) { estacion = "VERANO"; recRopa = "nuestras <strong>Playeras Oversize de manga caída en tonos claros</strong> junto a bermudas tácticas sueltas, maximizando la comodidad sin perder la silueta ruda."; }
+    else { estacion = "OTOÑO"; recRopa = "una <strong>Cyberpunk Windbreaker impermeable</strong> montada sobre prendas básicas, ideal para los vientos y lluvias ligeras de la temporada."; }
 
-    res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento facial: REALIZADO CON ÉXITO [99% CONFIRMACIÓN]<br>• Identidad Táctica Antony Black Detectada sobre tus rasgos físicos reales.<br>• Análisis de luz: Idóneo para tez ' + ai_t.P + ' y ojos ' + ai_t.O + '.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tu fisionomía y cruzarla con el clima de la temporada actual, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría facial y te otorga el porte imponente de alta costura urbana que define a nuestra marca.';
+    if (userImg) {
+        res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento facial: REALIZADO CON ÉXITO [99% CONFIRMACIÓN]<br>• Identidad Táctica Antony Black Detectada sobre tus rasgos físicos reales.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tu fisionomía cargada y cruzarla con el clima de la temporada actual, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría facial y te otorga el porte imponente de la marca.';
+    } else {
+        res.innerHTML = '<strong>[SISTEMA HUD: MODO DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir una foto de tu galería y procesar tus rasgos físicos reales.<br>• Muestra analizada para perfil ' + ai_t.S + ' (Tez ' + ai_t.P + ', Ojos ' + ai_t.O + ').<br><br><strong>RECOMENDACIÓN TÁCTICA GENERAL:</strong><br>Te sugerimos combinar prendas oscuras estructuradas de alto gramaje para crear el contraste perfecto de colorimetría urbana.';
+    }
     document.getElementById('anl').classList.remove('hidden');
 }
 function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return; answerBot(t.toLowerCase(), t); i.value = ''; }
@@ -79,4 +91,4 @@ function answerBot(cleanText, rawText) {
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c24] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>'; m.scrollTop = m.scrollHeight;
     }, 450);
 }
-rnd(db); snap();
+document.getElementById('t-cht').onclick = toggleChat; rnd(db); snap();

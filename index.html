@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antony Black | Streetwear para Jóvenes</title>
+    <!-- Tailwind CSS (Framework de diseño profesional) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#0a0a0a',
+                        'black-light': '#1a1a1a',
+                        accent: '#ff2a2a', // Rojo agresivo para streetwear
+                        'accent-hover': '#cc0000',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ===== ESTILOS CSS PERSONALIZADOS (Animaciones y UI avanzada) ===== */
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #ffffff;
+            --accent: #ff2a2a;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--secondary);
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Loader */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--primary); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%; border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Hero Text Glitch Effect */
+        .glitch {
+            position: relative;
+            color: white;
+            font-size: 5rem;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        
+        /* Navegación Glassmorphism */
+        .nav-scrolled {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Tarjetas de Producto */
+        .product-card {
+            transition: all 0.4s ease;
+            background: #151515;
+            border: 1px solid #222;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 42, 42, 0.2);
+        }
+        .product-image-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        .product-image-wrapper img {
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-image-wrapper img {
+            transform: scale(1.1);
+        }
+        .add-to-cart-btn {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            transition: bottom 0.3s ease;
+        }
+        .product-card:hover .add-to-cart-btn {
+            bottom: 0;
+        }
+
+        /* Marquee continuo */
+        .marquee {
+            width: 100%; overflow: hidden; white-space: nowrap;
+            background: var(--accent); color: white; padding: 10px 0;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Modales y Drawers */
+        .cart-drawer {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px;
+            height: 100vh; background: #111; z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.8, 0, 0.2, 1);
+            border-left: 1px solid #333;
+            display: flex; flex-direction: column;
+        }
+        .cart-drawer.open { right: 0; }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 999; display: none; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .overlay.active { display: block; opacity: 1; }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed; bottom: 90px; right: 30px; width: 350px;
+            background: #1a1a1a; border: 1px solid #333; border-radius: 15px;
+            z-index: 998; overflow: hidden;
+            transform: scale(0); transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .chatbot-container.open { transform: scale(1); }
+        .chat-messages {
+            height: 300px; overflow-y: auto; padding: 15px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .msg { padding: 10px 15px; border-radius: 10px; max-width: 80%; font-size: 0.9rem; }
+        .msg.bot { background: #2a2a2a; align-self: flex-start; border-bottom-left-radius: 0;}
+        .msg.user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 0;}
+        .chat-input {
+            display: flex; border-top: 1px solid #333; padding: 10px; background: #111;
+        }
+        .chat-options {
+            display: flex; flex-wrap: wrap; gap: 5px; padding: 10px 15px; background: #111; border-top: 1px solid #222;
+        }
+        .chat-option-btn {
+            font-size: 0.8rem; padding: 5px 10px; border: 1px solid var(--accent);
+            color: var(--accent); border-radius: 20px; cursor: pointer; transition: all 0.2s;
+        }
+        .chat-option-btn:hover { background: var(--accent); color: white; }
+
+        /* Botones Flotantes */
+        .floating-btn {
+            position: fixed; bottom: 30px; width: 60px; height: 60px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 28px; color: white; cursor: pointer; z-index: 997;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease;
+        }
+        .floating-btn:hover { transform: scale(1.1); }
+        .whatsapp-btn { right: 110px; background: #25D366; }
+        .chat-btn { right: 30px; background: var(--accent); }
+
+        /* Botón de Música */
+        .music-btn {
+            left: 30px; right: auto; background: #1a1a1a; border: 1px solid #333;
+        }
+
+        /* Tarjetas de Ubicación */
+        .location-card {
+            background: #111; border: 1px solid #333; padding: 30px;
+            border-radius: 10px; transition: all 0.3s;
+        }
+        .location-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+
+        /* Nuevos estilos para IA y Modales */
+        .typing-indicator {
+            display: flex; gap: 4px; padding: 10px 15px; background: #2a2a2a;
+            border-radius: 10px; border-bottom-left-radius: 0; width: fit-content;
+        }
+        .typing-indicator span {
+            width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        
+        #ai-modal, #payment-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            z-index: 1001; display: none; justify-content: center; align-items: center; opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #ai-modal.active, #payment-modal.active { display: flex; opacity: 1; }
+        .ai-modal-content {
+            background: #111; border: 1px solid var(--accent); padding: 30px; border-radius: 15px;
+            max-width: 500px; width: 90%; position: relative; box-shadow: 0 0 30px rgba(255, 42, 42, 0.2);
+        }
+
+        /* Selectable Text para Modal de Pago */
+        .selectable-text { user-select: all; cursor: pointer; }
+
+        /* Responsive Hero */
+        @media (max-width: 768px) {
+            .glitch { font-size: 3rem; }
+            .whatsapp-btn { right: 90px; width: 50px; height: 50px; font-size: 24px; bottom: 20px;}
+            .chat-btn { right: 20px; width: 50px; height: 50px; font-size: 24px; bottom: 20px;}
+            .chatbot-container { width: calc(100% - 40px); right: 20px; bottom: 80px; }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans selection:bg-accent selection:text-white overflow-hidden">
+
+    <!-- Audio de Fondo (Lofi Hip-Hop sin copyright de Archive.org) -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://ia801309.us.archive.org/28/items/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Pantalla de Carga y Botón de Entrada -->
+    <div id="loader" class="flex-col gap-8 bg-black">
+        <div class="text-center">
+            <div class="spinner mx-auto mb-6"></div>
+            <h1 class="glitch" style="font-size: 3rem; margin-bottom: 0;">Antony Black</h1>
+            <p class="text-accent uppercase tracking-widest text-xs font-bold mt-2">Streetwear Experience</p>
+        </div>
+        <button id="enter-site-btn" class="bg-accent text-white font-bold uppercase py-4 px-10 rounded-full shadow-[0_0_30px_rgba(255,42,42,0.4)] hover:shadow-[0_0_50px_rgba(255,42,42,0.8)] hover:scale-105 transition-all duration-300 flex items-center gap-3">
+            <i class="fas fa-play"></i> Entrar a la tienda
+        </button>
+    </div>
+
+    <!-- Navegación -->
+    <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 py-4 px-6 md:px-12 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <a href="#" class="font-display text-2xl md:text-3xl font-bold tracking-wider uppercase text-white">
+                Antony<span class="text-accent">Black</span>
+            </a>
+        </div>
+        
+        <!-- Enlaces Desktop -->
+        <div class="hidden md:flex items-center gap-8 font-semibold text-sm tracking-widest uppercase">
+            <a href="#inicio" class="hover:text-accent transition-colors">Inicio</a>
+            <a href="#catalogo" class="hover:text-accent transition-colors" onclick="filterProducts('hombres')">Hombres</a>
+            <a href="#catalogo" class="hover:text-accent transition-colors" onclick="filterProducts('mujeres')">Mujeres</a>
+            <a href="#pagos" class="hover:text-accent transition-colors">Pagos</a>
+            <a href="#ubicaciones" class="hover:text-accent transition-colors">Puntos de Entrega</a>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <button id="cart-icon" class="relative hover:text-accent transition-colors">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+            </button>
+            <button class="md:hidden text-2xl hover:text-accent" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Menú Móvil -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black z-40 hidden flex-col justify-center items-center gap-8 text-2xl font-display uppercase tracking-widest">
+        <button id="close-mobile-menu" class="absolute top-6 right-6 text-4xl text-gray-400 hover:text-accent">&times;</button>
+        <a href="#inicio" class="mobile-link hover:text-accent">Inicio</a>
+        <a href="#catalogo" class="mobile-link hover:text-accent" onclick="filterProducts('hombres')">Hombres</a>
+        <a href="#catalogo" class="mobile-link hover:text-accent" onclick="filterProducts('mujeres')">Mujeres</a>
+        <a href="#pagos" class="mobile-link hover:text-accent">Métodos de Pago</a>
+        <a href="#ubicaciones" class="mobile-link hover:text-accent">Puntos de Entrega</a>
+    </div>
+
+    <!-- Sección Hero -->
+    <header id="inicio" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Fondo oscuro con patrón/imagen sutil -->
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
+        
+        <div class="relative z-10 text-center px-4">
+            <p class="text-accent font-bold tracking-[0.3em] mb-4 uppercase text-sm md:text-base">La nueva era del Streetwear</p>
+            <h1 class="glitch mb-6">Antony Black</h1>
+            <p class="text-gray-300 max-w-2xl mx-auto mb-10 text-lg">Moda urbana exclusiva para jóvenes que dictan tendencias. Diseños únicos para hombres y mujeres.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+                <a href="#catalogo" onclick="filterProducts('hombres')" class="bg-white text-black font-bold uppercase tracking-wider py-4 px-8 hover:bg-gray-200 transition-colors">Colección Hombres</a>
+                <a href="#catalogo" onclick="filterProducts('mujeres')" class="bg-accent text-white font-bold uppercase tracking-wider py-4 px-8 hover:bg-accent-hover transition-colors">Colección Mujeres</a>
+            </div>
+            <button onclick="generateOutfitIdea()" class="bg-[#1a1a1a] border border-accent text-white font-bold uppercase tracking-wider py-3 px-8 hover:bg-accent hover:text-white transition-all rounded-full mx-auto flex items-center justify-center gap-2">
+                ✨ Inspirador de Estilo IA
+            </button>
+        </div>
+    </header>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            🔥 ENVÍOS A TODO MÉXICO &nbsp;&nbsp;|&nbsp;&nbsp; 💸 ACEPTAMOS TRANSFERENCIAS BANCARIAS &nbsp;&nbsp;|&nbsp;&nbsp; 📦 PAGO CONTRA ENTREGA DISPONIBLE &nbsp;&nbsp;|&nbsp;&nbsp; 🔥 NUEVA COLECCIÓN DISPONIBLE &nbsp;&nbsp;|&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <!-- Beneficios -->
+    <section class="py-16 bg-black-light border-b border-gray-800">
+        <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="p-6">
+                <i class="fas fa-money-bill-wave text-4xl text-accent mb-4"></i>
+                <h3 class="font-display text-xl uppercase mb-2">Pago Contra Entrega</h3>
+                <p class="text-gray-400 text-sm">Paga en efectivo al recibir tu pedido en nuestras zonas de cobertura.</p>
+            </div>
+            <div class="p-6">
+                <i class="fas fa-mobile-alt text-4xl text-accent mb-4"></i>
+                <h3 class="font-display text-xl uppercase mb-2">Transferencias</h3>
+                <p class="text-gray-400 text-sm">Aceptamos SPEI y Mercado Pago de forma segura y rápida.</p>
+            </div>
+            <div class="p-6">
+                <i class="fas fa-store text-4xl text-accent mb-4"></i>
+                <h3 class="font-display text-xl uppercase mb-2">3 Puntos de Entrega</h3>
+                <p class="text-gray-400 text-sm">Jocotitlán, Joco Centro y San Pedro de los Baños listos para atenderte.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo de Productos -->
+    <section id="catalogo" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+                <h2 class="font-display text-4xl md:text-5xl uppercase font-bold mb-2">Nuestra <span class="text-accent">Colección</span></h2>
+                <p class="text-gray-400">Streetwear premium sin compromisos.</p>
+            </div>
+            <!-- Filtros -->
+            <div class="flex gap-4 border border-gray-800 p-1 rounded-full bg-black-light">
+                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn active bg-accent text-white px-6 py-2 rounded-full text-sm font-bold uppercase transition-colors">Todos</button>
+                <button onclick="filterProducts('hombres')" id="btn-hombres" class="filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-sm font-bold uppercase transition-colors">Hombres</button>
+                <button onclick="filterProducts('mujeres')" id="btn-mujeres" class="filter-btn text-gray-400 hover:text-white px-6 py-2 rounded-full text-sm font-bold uppercase transition-colors">Mujeres</button>
+            </div>
+        </div>
+
+        <!-- Grid de Productos (Renderizado con JS) -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Los productos se inyectan aquí -->
+        </div>
+    </section>
+
+    <!-- Banner Promocional / Pagos -->
+    <section id="pagos" class="relative py-24 bg-black overflow-hidden border-y border-gray-800">
+        <div class="absolute right-0 top-0 w-1/2 h-full bg-[url('https://images.unsplash.com/photo-1523398002811-999aa8e95707?q=80&w=1000&auto=format&fit=crop')] bg-cover opacity-20 transform skew-x-12 translate-x-20"></div>
+        <div class="container mx-auto px-6 md:px-12 relative z-10">
+            <div class="max-w-2xl">
+                <span class="text-accent font-bold tracking-widest uppercase text-sm mb-2 block">Facilidades de Compra</span>
+                <h2 class="font-display text-4xl md:text-6xl font-bold uppercase mb-6 leading-tight">Compra fácil,<br>viste con estilo.</h2>
+                <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                    En Antony Black sabemos que lo importante es el drip. Por eso te facilitamos la vida con métodos de pago accesibles.
+                </p>
+                <ul class="space-y-4 mb-10">
+                    <li class="flex items-center gap-4 text-lg">
+                        <i class="fas fa-check-circle text-accent"></i> <strong>Transferencia / Mercado Pago</strong> - Seguro y desde tu celular (Dimo® / SPEI).
+                    </li>
+                    <li class="flex items-center gap-4 text-lg">
+                        <i class="fas fa-check-circle text-accent"></i> <strong>Pago Contra Entrega</strong> - Paga en efectivo al recibir tu paquete en zonas locales.
+                    </li>
+                </ul>
+                <a href="#ubicaciones" class="inline-block border-2 border-white py-3 px-8 font-bold uppercase hover:bg-white hover:text-black transition-colors">Ver Puntos de Entrega</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Puntos de Entrega (Rediseñado) -->
+    <section id="ubicaciones" class="py-24 bg-black-light relative border-t border-gray-800">
+        <!-- Elementos decorativos de fondo -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+            <div class="absolute top-[-

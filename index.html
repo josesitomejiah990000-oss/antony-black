@@ -17,8 +17,8 @@
             </a>
             
             <div class="flex items-center gap-6">
-                <button onclick="togM('ai', 1)" class="text-xs uppercase tracking-widest bg-white/5 border border-white/10 hover:border-[#e11d48] hover:bg-[#e11d48] text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-[#e11d48] id-icon"></i> Probador IA
+                <button onclick="togM('track', 1)" class="text-xs uppercase tracking-widest bg-white/5 border border-white/10 hover:border-[#e11d48] hover:bg-[#e11d48] text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-truck-ramp-box text-[#e11d48]"></i> Rastrea tu Pedido
                 </button>
                 
                 <button onclick="togA(1)" class="relative p-2 text-gray-400 hover:text-white transition-colors">
@@ -37,7 +37,7 @@
             <span class="text-xs uppercase tracking-[0.4em] text-[#e11d48] font-bold block">Nueva Colección Táctica</span>
             <h1 class="font-brand text-5xl md:text-7xl text-white leading-none">CORTES OVERSIZE<br>HEAVY COTTON</h1>
             <p class="text-sm md:text-base text-gray-400 max-w-xl mx-auto font-light leading-relaxed">
-                Diseño disruptivo con estructura rígida que redefine la silueta urbana callejera. Confección premium con envíos y entregas locales en Jocotitlán.
+                Diseño disruptivo con estructura rígida que redefine la silueta urbana callejera. Confección premium con entregas locales gratis.
             </p>
             <div class="pt-4">
                 <a href="#catalogo" class="inline-block bg-white text-black font-semibold text-xs uppercase tracking-widest px-8 py-4 rounded-full hover:bg-[#e11d48] hover:text-white transition-all transform hover:-translate-y-0.5 shadow-lg">
@@ -51,94 +51,68 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/5 pb-8">
             <div>
                 <h2 class="font-brand text-2xl text-white">Prendas Disponibles</h2>
-                <p class="text-xs text-gray-500 mt-1">Ediciones limitadas de alto gramaje</p>
+                <p class="text-xs text-gray-500 mt-1">Ediciones limitadas de 50 piezas por género</p>
             </div>
-            
             <div class="flex flex-wrap gap-2">
                 <button id="b-all" onclick="flt('todos')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white transition-all">Todos</button>
                 <button id="b-men" onclick="flt('hombres')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 hover:text-white border border-white/5 transition-all">Hombres</button>
                 <button id="b-women" onclick="flt('mujeres')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 hover:text-white border border-white/5 transition-all">Mujeres</button>
             </div>
         </div>
-
-        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            </div>
+        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
     </section>
 
-    <div id="m-ai" class="modal">
-        <div class="ia-panel w-full max-w-4xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="togM('ai', 0)" class="absolute top-6 right-6 text-gray-500 hover:text-white text-xl transition-colors">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="text-center md:text-left mb-8">
-                <h2 class="font-brand text-xl md:text-2xl text-white flex items-center justify-center md:justify-start gap-2">
-                    <i class="fa-solid fa-fingerprint text-[#e11d48]"></i> Escáner de Estilo Biométrico
-                </h2>
-                <p class="text-xs text-gray-500 mt-1">Sube tu foto para adaptar la colorimetría urbana a tus rasgos físicos reales.</p>
+    <section class="py-24 bg-black/40 border-t border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 space-y-16">
+            <div class="text-center space-y-3">
+                <span class="text-[#e11d48] font-brand text-xs uppercase tracking-widest block"><i class="fa-solid fa-truck-fast"></i> Logística Local</span>
+                <h2 class="font-brand text-3xl md:text-5xl text-white">Puntos de Entrega <span class="text-[#e11d48]">Gratis</span></h2>
+                <p class="text-gray-400 text-xs md:text-sm max-w-md mx-auto font-light">Coordinamos tu entrega de forma rápida y segura en estas ubicaciones de Jocotitlán.</p>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:grid lg:col-span-5 space-y-6 flex flex-col justify-between">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-[#121214] border border-white/5 p-8 rounded-2xl flex flex-col justify-between space-y-6 text-center hover:border-[#e11d48]/40 transition-all duration-300">
                     <div class="space-y-4">
-                        <label class="block text-xs uppercase tracking-widest text-gray-400 font-bold">1. Datos Fisionómicos</label>
-                        <div class="space-y-3">
-                            <div>
-                                <span class="text-[11px] text-gray-500 block mb-1">Perfil Corporativo</span>
-                                <div class="flex gap-2">
-                                    <button id="ch-S-Hombre" onclick="selC('S','Hombre')" class="selector-chip flex-1 text-center active">Hombre</button>
-                                    <button id="ch-S-Mujer" onclick="selC('S','Mujer')" class="selector-chip flex-1 text-center">Mujer</button>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <span class="text-[11px] text-gray-500 block mb-1"><i class="fa-solid fa-location-dot text-[#e11d48]"></i> Punto de Entrega Requerido</span>
-                                <div class="flex flex-col gap-1.5">
-                                    <button id="ch-O-Cafes" onclick="selC('O','Cafes')" class="selector-chip text-left active flex items-center gap-2">
-                                        <i class="fa-solid fa-road text-[10px]"></i> Desviación Jocotitlán (Cruce)
-                                    </button>
-                                    <button id="ch-O-Azules" onclick="selC('O','Azules')" class="selector-chip text-left flex items-center gap-2">
-                                        <i class="fa-solid fa-building text-[10px]"></i> Jocotitlán Centro (Presidencia)
-                                    </button>
-                                    <button id="ch-O-Verdes" onclick="selC('O','Verdes')" class="selector-chip text-left flex items-center gap-2">
-                                        <i class="fa-solid fa-store text-[10px]"></i> San Pedro de los Baños
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20 shadow-lg"><i class="fa-solid fa-map-pin"></i></div>
+                        <h3 class="font-brand text-lg text-white tracking-wide">Desviación Jocotitlán</h3>
+                        <p class="text-gray-400 text-xs font-light leading-relaxed px-2">Zona estratégica en el cruce de carretera para recolecciones y accesos rápidos.</p>
                     </div>
-
-                    <div class="space-y-3">
-                        <label class="block text-xs uppercase tracking-widest text-gray-400 font-bold">2. Cargar Registro Físico</label>
-                        <div class="relative group">
-                            <input type="file" accept="image/*" onchange="ldImg(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                            <div class="border-2 border-dashed border-white/10 group-hover:border-[#e11d48] bg-[#1c1c21]/50 rounded-xl p-4 text-center transition-all">
-                                <i class="fa-solid fa-cloud-arrow-up text-xl text-gray-500 group-hover:text-[#e11d48] mb-1 block"></i>
-                                <span class="text-[11px] font-medium text-gray-400 block">Seleccionar Foto o Selfie</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="snap()" class="w-full bg-[#e11d48] hover:bg-[#f43f5e] text-white text-xs uppercase tracking-widest font-bold py-4 rounded-xl transition-all shadow-lg">
-                        GENERAR ESTILO INTELIGENTE
-                    </button>
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
                 </div>
-
-                <div class="lg:grid lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-black/40 p-4 rounded-2xl border border-white/5">
-                    <div class="relative aspect-[3/4] bg-[#121214] rounded-xl overflow-hidden border border-white/5 flex items-center justify-center">
-                        <div class="scan-laser"></div>
-                        <img id="v-photo" src="https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400" class="w-full h-full object-cover transition-all duration-300">
+                <div class="bg-[#121214] border border-white/5 p-8 rounded-2xl flex flex-col justify-between space-y-6 text-center hover:border-[#e11d48]/40 transition-all duration-300">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20 shadow-lg"><i class="fa-solid fa-building-flag"></i></div>
+                        <h3 class="font-brand text-lg text-white tracking-wide">Jocotitlán Centro</h3>
+                        <p class="text-gray-400 text-xs font-light leading-relaxed px-2">Entregas seguras justo en frente del Palacio Municipal, un punto concurrido y céntrico.</p>
                     </div>
-                    
-                    <div id="anl" class="flex flex-col justify-between hidden">
-                        <div class="space-y-4">
-                            <span class="text-[10px] font-mono bg-[#e11d48]/10 text-[#e11d48] border border-[#e11d48]/20 px-2 py-1 rounded inline-block">ENGINE_V2.5 ACTIVO</span>
-                            <div id="ai-res" class="text-xs text-gray-300 leading-relaxed space-y-2 font-light">
-                                </div>
-                        </div>
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
+                </div>
+                <div class="bg-[#121214] border border-white/5 p-8 rounded-2xl flex flex-col justify-between space-y-6 text-center hover:border-[#e11d48]/40 transition-all duration-300">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-[#e11d48]/10 text-[#e11d48] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#e11d48]/20 shadow-lg"><i class="fa-solid fa-store"></i></div>
+                        <h3 class="font-brand text-lg text-white tracking-wide">San Pedro de los Baños</h3>
+                        <p class="text-gray-400 text-xs font-light leading-relaxed px-2">Entregas programadas en los puntos de encuentro principales de la comunidad.</p>
                     </div>
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot"></i> Abrir Ubicación</a>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <div id="m-track" class="modal">
+        <div class="bg-[#121214] border border-white/10 rounded-2xl w-full max-w-md p-6 relative text-center space-y-6">
+            <button onclick="togM('track', 0)" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <i class="fa-solid fa-magnifying-glass-location text-4xl text-[#e11d48]"></i>
+            <div>
+                <h3 class="font-brand text-lg text-white">Rastreador de Envío</h3>
+                <p class="text-xs text-gray-500 mt-1">Ingresa el folio didáctico que te dimos por WhatsApp.</p>
+            </div>
+            <div class="space-y-3">
+                <input id="track-id" type="text" placeholder="Ej: AB-105" class="w-full bg-[#1c1c21] text-white text-center font-bold placeholder-gray-600 text-xs px-4 py-3 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+                <button onclick="rastrearPedido()" class="w-full bg-[#e11d48] hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-widest py-3 rounded-xl transition-all">Buscar Estatus</button>
+            </div>
+            <div id="track-result" class="hidden bg-black/40 border border-white/5 p-4 rounded-xl text-left space-y-2 text-xs font-mono">
+                </div>
         </div>
     </div>
 
@@ -148,18 +122,14 @@
                 <h3 class="font-brand text-lg text-white">Tu Bolsa</h3>
                 <button onclick="togA(0)" class="text-gray-500 hover:text-white transition-colors text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="c-items" class="space-y-3">
-                </div>
+            <div id="c-items" class="space-y-3"></div>
         </div>
-
         <div class="border-t border-white/5 pt-4 mt-4 space-y-4">
             <div class="flex justify-between items-center">
                 <span class="text-xs text-gray-400">Total Estimado:</span>
                 <span id="c-total" class="font-brand text-xl text-[#e11d48]">$0.00</span>
             </div>
-            <button onclick="togM('pay', 1)" class="w-full bg-white text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all">
-                Proceder al Pago
-            </button>
+            <button onclick="togM('pay', 1)" class="w-full bg-white text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all">Proceder al Pago</button>
         </div>
     </div>
 
@@ -183,7 +153,6 @@
     </div>
 
     <div id="t-cht" class="btn-f"><i class="fa-solid fa-comment-dots text-lg"></i></div>
-    
     <div id="c-box" class="chat-container">
         <div class="bg-[#1c1c21] px-4 py-3 flex justify-between items-center border-b border-white/5">
             <div class="flex items-center gap-2">
@@ -192,11 +161,9 @@
             </div>
             <button onclick="togCh()" class="text-gray-400 hover:text-white text-sm"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        
         <div id="c-msg" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs bg-black/20">
-            <div class="flex justify-start"><div class="bg-[#1c1c21] text-gray-300 p-3 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 leading-relaxed">¿Qué onda hermano? Soy el asistente de la marca. Selecciona un tema rápido o pregunta lo que quieras aquí abajo. 🕷️</div></div>
+            <div class="flex justify-start"><div class="bg-[#1c1c21] text-gray-300 p-3 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 leading-relaxed">¿Qué onda hermano? Soy la IA de la marca. Pregúntame sobre telas, precios o entregas libres y te ayudo. 🕷️</div></div>
         </div>
-
         <form onsubmit="bot(event); return false;" class="p-3 border-t border-white/5 bg-[#121214] flex gap-2">
             <input id="c-in" type="text" placeholder="Pregunta por precios, telas, entregas..." class="flex-1 bg-[#1c1c21] text-white placeholder-gray-600 text-xs px-3 py-2.5 rounded-lg outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
             <button type="submit" class="bg-[#e11d48] text-white px-3 rounded-lg hover:bg-[#f43f5e] transition-colors"><i class="fa-solid fa-paper-plane"></i></button>

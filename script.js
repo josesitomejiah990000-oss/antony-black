@@ -46,45 +46,23 @@ function openSuggestedChips() {
     m.innerHTML += '<div id="quick-chips" class="flex flex-wrap gap-1.5 pt-2"><button onclick="triggerQuickBot(\'precios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">💰 Precios</button><button onclick="triggerQuickBot(\'tallas\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">📏 Tallas</button><button onclick="triggerQuickBot(\'materiales\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">🕷️ Materiales</button><button onclick="triggerQuickBot(\'envios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#ff1a1a]">📍 Entregas</button></div>';
     initChat = true;
 }
-function toggleChat() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); openSuggestedChips(); } }
+function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); openSuggestedChips(); } }
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
-
-function ldImg(e) {
-    var f = e.target.files[0];
-    if (f) {
-        var r = new FileReader();
-        r.onload = function(el) { userImg = el.target.result; snap(); };
-        r.readAsDataURL(f);
-    }
-}
-
+function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
 function snap() {
     var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
-    
-    // Forzar actualización visual directa cambiando el source inmediatamente
-    if (userImg) { 
-        p.src = userImg; 
-    } else { 
-        p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; 
-    }
-    
+    if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
     p.classList.remove('hidden');
-    
     var d = new Date(); var mth = d.getMonth(); var estacion = "PRIMAVERA"; var recRopa = "";
     if (mth >= 11 || mth <= 1) { estacion = "INVIERNO"; recRopa = "un <strong>Oversized Hoodie 'No Rules' pesado</strong> combinado con un <strong>Pants Táctico Rompevientos</strong> para proteger del frío con el volumen perfecto de la marca."; }
     else if (mth >= 2 && mth <= 4) { estacion = "PRIMAVERA"; recRopa = "una <strong>Graphic Tee 'Spider Neon' de algodón premium transpirable</strong> en capas ligeras con tus jeans favoritos, proyectando un look fresco y de alta costura."; }
     else if (mth >= 5 && mth <= 7) { estacion = "VERANO"; recRopa = "nuestras <strong>Playeras Oversize de manga caída en tonos claros</strong> junto a bermudas tácticas sueltas, maximizando la comodidad sin perder la silueta ruda."; }
     else { estacion = "OTOÑO"; recRopa = "una <strong>Cyberpunk Windbreaker impermeable</strong> montada sobre prendas básicas, ideal para los vientos y lluvias ligeras de la temporada."; }
-
-    if (userImg) {
-        res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento de Imagen: REALIZADO CON ÉXITO [CONFIRMADO]<br>• Identidad Táctica Antony Black montada sobre tu registro físico real.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tus rasgos y cruzarlos con el clima actual de la temporada, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría y te otorga el porte imponente de la marca.';
-    } else {
-        res.innerHTML = '<strong>[SISTEMA HUD: MODO DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir una foto de tu galería y procesar tus rasgos físicos reales.<br>• Muestra analizada para perfil ' + ai_t.S + ' (Tez ' + ai_t.P + ', Ojos ' + ai_t.O + ').<br><br><strong>RECOMENDACIÓN TÁCTICA GENERAL:</strong><br>Te sugerimos combinar prendas oscuras estructuradas de alto gramaje para crear el contraste perfecto de colorimetría urbana.';
-    }
+    if (userImg) { res.innerHTML = '<strong>[FUSIÓN DE RASGOS BIOMÉTRICOS ACTIVA]</strong><br>• Procesamiento de Imagen: REALIZADO CON ÉXITO [CONFIRMADO]<br>• Identidad Táctica Antony Black montada sobre tu registro físico real.<br><br><strong>🍁 DETECCIÓN CLIMÁTICA AUTOMÁTICA (' + estacion + '):</strong><br>Al escanear tus rasgos y cruzarlos con el clima actual de la temporada, la IA te recomienda vestir ' + recRopa + ' Este outfit equilibra científicamente tu colorimetría y te otorga el porte imponente de la marca.'; }
+    else { res.innerHTML = '<strong>[SISTEMA HUD: MODO DEMOSTRACIÓN]</strong><br>• Usa el botón de arriba para subir una foto de tu galería y procesar tus rasgos físicos reales.<br>• Muestra analizada para perfil ' + ai_t.S + ' (Tez ' + ai_t.P + ', Ojos ' + ai_t.O + ').<br><br><strong>RECOMENDACIÓN TÁCTICA GENERAL:</strong><br>Te sugerimos combinar prendas oscuras estructuradas de alto gramaje para crear el contraste perfecto de colorimetría urbana.'; }
     document.getElementById('anl').classList.remove('hidden');
 }
-
 function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return; answerBot(t.toLowerCase(), t); i.value = ''; }
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#ff1a1a] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
@@ -98,4 +76,4 @@ function answerBot(cleanText, rawText) {
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c24] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>'; m.scrollTop = m.scrollHeight;
     }, 450);
 }
-document.getElementById('t-cht').onclick = toggleChat; rnd(db); snap();
+rnd(db); snap();

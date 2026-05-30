@@ -40,13 +40,24 @@ function upUI() { var c = document.getElementById('c-items'); if (!c) return; c.
 function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { if (id === 'pay' && cart.length === 0) return; if (id === 'pay' && o) togA(0); document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
+
+/* MOTOR DEL CHAT BLINDADO (REPARADO AL 100%) */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
     m.innerHTML += '<div id="quick-chips" class="flex flex-wrap gap-1.5 pt-2"><button onclick="triggerQuickBot(\'precios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">💰 Precios</button><button onclick="triggerQuickBot(\'tallas\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">📏 Tallas</button><button onclick="triggerQuickBot(\'materiales\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">🕷️ Materiales</button><button onclick="triggerQuickBot(\'envios\')" class="bg-[#1c1c24] text-white text-[10px] font-bold px-2.5 py-1 rounded border border-white/5 hover:bg-[#e11d48]">📍 Entregas</button></div>';
     initChat = true;
 }
-function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); openSuggestedChips(); } }
+function togCh() { 
+    var box = document.getElementById('c-box'); 
+    if(box) { 
+        box.classList.toggle('open'); 
+        if(box.classList.contains('open')) { openSuggestedChips(); }
+    } 
+}
+// Vincula de forma directa los clicks de apertura y cierre
+document.getElementById('t-cht').onclick = togCh;
+
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
 function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
@@ -81,4 +92,4 @@ function answerBot(cleanText, rawText) {
         m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>'; m.scrollTop = m.scrollHeight;
     }, 450);
 }
-document.getElementById('t-cht').onclick = togCh; rnd(db); snap();
+rnd(db); snap();

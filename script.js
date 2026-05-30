@@ -47,11 +47,11 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// Salta directo a tu pasarela oficial y real de Mercado Pago sin rodeos
+// Al presionar "Proceder al Pago", manda de inmediato al link real de Mercado Pago sin rodeos básicos
 function openCheckout() {
     if(cart.length === 0) return;
     
-    // 💳 TU ENLACE PERSONALIZADO OFICIAL INTEGRADO
+    // 💳 TU ENLACE OFICIAL Y EXCLUSIVO DE MERCADO PAGO INTEGRADO
     var linkMercadoPago = "https://link.mercadopago.com.mx/antonyblack"; 
 
     var cartContainer = document.getElementById('cart');
@@ -65,7 +65,7 @@ function openCheckout() {
         // Redirección directa hacia tu cuenta de cobro de Antony Black
         window.open(linkMercadoPago, '_blank');
         
-        // Limpiamos la bolsa local tras despachar al cliente al banco
+        // Se limpia la bolsa para dar por concluida la sesión local de compra
         cart = []; 
         upUI(); 
         togA(0);
@@ -74,9 +74,10 @@ function openCheckout() {
             btnPagarOriginal.innerHTML = 'Proceder al Pago Seguro';
             btnPagarOriginal.disabled = false;
         }
-    }, 800);
+    }, 600);
 }
 
+// Función de respaldo para compatibilidad
 function procesarOrden(e) { if(e) e.preventDefault(); openCheckout(); }
 
 /* CHATBOT CON IA */

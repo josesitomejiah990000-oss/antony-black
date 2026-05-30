@@ -3,584 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antonio Black | Moda y Estilo</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Antony Black | Streetwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- ESTILOS CSS --- */
-        :root {
-            --primary-red: #d32f2f;
-            --dark-red: #9a0007;
-            --white: #ffffff;
-            --light-gray: #f5f5f5;
-            --text-dark: #333333;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--light-gray);
-            color: var(--text-dark);
-        }
-
-        /* Header */
-        .header {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-top {
-            background-color: var(--primary-red);
-            color: var(--white);
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            animation: slideDown 0.5s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
-
-        .logo h1 {
-            color: var(--primary-red);
-            font-size: 28px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-red);
-        }
-
-        .cart-icon {
-            font-size: 20px;
-            color: var(--primary-red);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--text-dark);
-            color: var(--white);
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 12px;
-        }
-
-        /* Info Section (Pagos y Entregas) */
-        .info-bar {
-            background-color: var(--white);
-            margin: 20px auto;
-            max-width: 1200px;
-            padding: 20px;
-            border-radius: 8px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .info-box {
-            border-left: 4px solid var(--primary-red);
-            padding-left: 15px;
-        }
-
-        .info-box h3 {
-            color: var(--primary-red);
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .info-box ul {
-            list-style: none;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .info-box ul li i {
-            width: 20px;
-            color: var(--primary-red);
-        }
-
-        /* Products Grid */
-        .main-content {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 30px;
-            color: var(--text-dark);
-            text-transform: uppercase;
-        }
-
-        .section-title span {
-            color: var(--primary-red);
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.2);
-        }
-
-        .product-image {
-            height: 300px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        .virtual-try-btn {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255,255,255,0.9);
-            color: var(--primary-red);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: var(--transition);
-            width: 80%;
-        }
-
-        .virtual-try-btn:hover {
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        .product-info {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .product-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .product-price {
-            color: var(--primary-red);
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .add-to-cart {
-            background: var(--primary-red);
-            color: var(--white);
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .add-to-cart:hover {
-            background: var(--dark-red);
-        }
-
-        /* Chatbot Floating */
-        .chatbot-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--primary-red);
-            color: var(--white);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(211,47,47,0.4);
-            z-index: 1000;
-            animation: bounce 2s infinite;
-        }
-
-        .chatbot-window {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 300px;
-            background: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            overflow: hidden;
-            border: 1px solid #eee;
-        }
-
-        .chat-header {
-            background: var(--primary-red);
-            color: var(--white);
-            padding: 15px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .chat-body {
-            height: 250px;
-            padding: 15px;
-            overflow-y: auto;
-            background: #fafafa;
-        }
-
-        .chat-msg {
-            background: #eee;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            width: 80%;
-        }
-
-        .chat-input {
-            display: flex;
-            border-top: 1px solid #eee;
-        }
-
-        .chat-input input {
-            flex-grow: 1;
-            padding: 10px;
-            border: none;
-            outline: none;
-        }
-
-        .chat-input button {
-            background: var(--primary-red);
-            color: var(--white);
-            border: none;
-            padding: 0 15px;
-            cursor: pointer;
-        }
-
-        /* Virtual Try-On Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-
-        .camera-icon {
-            font-size: 60px;
-            color: var(--primary-red);
-            margin: 20px 0;
-        }
-
-        .modal-btn {
-            background: var(--text-dark);
-            color: var(--white);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        /* Animations */
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .info-bar { grid-template-columns: 1fr; }
-            .nav-links { display: none; /* Simplificado para móvil */ }
-        }
+        body { background:#050507; color:#fff; overflow-x:hidden; font-family:'Plus Jakarta Sans',sans-serif; }
+        .font-brand { font-family:'Oswald',sans-serif; tracking-wider; }
+        .glass { background:rgba(6,6,8,0.85); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,42,42,0.1); }
+        .card { background:linear-gradient(145deg, rgba(20,20,25,0.7), rgba(10,10,12,0.4)); border:1px solid rgba(255,255,255,0.02); transition:0.3s; }
+        .card:hover { border-color:#ff2a2a; transform:translateY(-4px); box-shadow:0 8px 25px rgba(255,42,42,0.15); }
+        .drawer { position:fixed; top:0; right:-100%; width:100%; max-width:400px; height:100vh; background:#0a0a0d; z-index:1000; transition:0.3s; border-left:1px solid rgba(255,255,255,0.05); }
+        .drawer.open { right:0; }
+        .modal { position:fixed; inset:0; background:rgba(3,3,5,0.92); backdrop-filter:blur(12px); z-index:1001; display:none; justify-content:center; align-items:center; padding:10px; }
+        .modal.active { display:flex; }
+        .btn-f { position:fixed; bottom:20px; width:54px; height:54px; background:#ff2a2a; color:#fff; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:999; border-radius:50%; right:20px; box-shadow:0 4px 15px rgba(255,42,42,0.3); }
+        .chat-container { position:fixed; bottom:90px; right:20px; width:300px; height:380px; background:#0d0d12; border:1px solid rgba(255,42,42,0.1); border-radius:15px; z-index:1000; display:none; flex-direction:column; overflow:hidden; }
+        .chat-container.open { display:flex; }
+        .ia-panel { background:linear-gradient(180deg, #16161c 0%, #0b0b0f 100%); border:2px solid #555; box-shadow:0 0 30px rgba(255,42,42,0.3); position:relative; }
+        .selector-chip { cursor:pointer; background:#22222a; border:1px solid rgba(255,255,255,0.1); padding:5px 10px; border-radius:6px; transition:0.2s; display:flex; align-items:center; gap:4px; text-[11px]; color:#ccc; }
+        .selector-chip.active { background:#ff2a2a; border-color:#ff2a2a; color:white; }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-top">
-            ENVÍOS RÁPIDOS | PAGO SEGURO | ESTILO ÚNICO
-        </div>
-        <div class="nav-container">
-            <div class="logo">
-                <h1>Antonio Black</h1>
+    <nav class="fixed w-full top-0 z-50 glass py-4 px-6 flex justify-between items-center">
+        <a href="#" class="font-brand text-2xl font-bold tracking-widest uppercase text-white flex items-center gap-1.5">ANTONY <span class="text-[#ff2a2a]">BLACK</span> <i class="fas fa-spider text-xs text-[#ff2a2a] animate-pulse"></i></a>
+        <button onclick="togA(1)" class="relative text-white p-2 hover:text-[#ff2a2a] transition-colors"><i class="fas fa-shopping-bag text-lg"></i><span id="c-count" class="absolute top-0 right-0 bg-[#ff2a2a] text-[9px] font-brand font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span></button>
+    </nav>
+
+    <header class="h-screen flex items-center justify-center text-center px-4 relative">
+        <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image:url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200')"></div>
+        <div class="relative z-10 space-y-4">
+            <span class="text-[#ff2a2a] font-brand font-bold tracking-[0.2em] text-xs uppercase block">Streetwear Premium</span>
+            <h1 class="font-brand uppercase font-black text-6xl tracking-tighter text-white leading-none">ANTONY<br><span class="text-[#ff2a2a]">BLACK</span></h1>
+            <p class="text-gray-400 text-xs max-w-md mx-auto">Prendas oversize exclusivas diseñadas para imponer tu propio estilo.</p>
+            <div class="flex gap-3 max-w-xs mx-auto pt-2">
+                <button onclick="flt('hombres')" class="flex-1 bg-white text-black font-brand font-bold uppercase py-2.5 rounded-xl text-xs tracking-wider">Hombres</button>
+                <button onclick="flt('mujeres')" class="flex-1 bg-[#ff2a2a] text-white font-brand font-bold uppercase py-2.5 rounded-xl text-xs tracking-wider">Mujeres</button>
             </div>
-            <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Hombres</a></li>
-                <li><a href="#">Mujeres</a></li>
-                <li><a href="#">Novedades</a></li>
-            </ul>
-            <div class="cart-icon">
-                <i class="fas fa-shopping-bag"></i>
-                <span class="cart-count" id="cart-count">0</span>
-            </div>
+            <button onclick="togM('ai',1)" class="bg-[#111116] border border-white/10 text-white font-brand text-xs font-bold py-2.5 px-6 rounded-full mx-auto flex items-center gap-2 mt-3 hover:border-[#ff2a2a] transition-all">✨ PROBADOR VIRTUAL IA</button>
         </div>
     </header>
 
-    <!-- Información de Pagos y Envíos -->
-    <div class="info-bar">
-        <div class="info-box">
-            <h3><i class="fas fa-credit-card"></i> Formas de Pago Aceptadas</h3>
-            <ul>
-                <li><i class="fas fa-handshake"></i> Mercado Pago</li>
-                <li><i class="fas fa-exchange-alt"></i> SPEI / Transferencia Bancaria</li>
-                <li><i class="fas fa-money-bill-wave"></i> Pago Contra Entrega</li>
-            </ul>
-        </div>
-        <div class="info-box">
-            <h3><i class="fas fa-map-marker-alt"></i> Puntos de Entrega Exclusivos</h3>
-            <ul>
-                <li><i class="fas fa-check-circle"></i> Desviación de Jocotitlán</li>
-                <li><i class="fas fa-check-circle"></i> Jococentro</li>
-                <li><i class="fas fa-check-circle"></i> San Pedro de los Baños</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Contenido Principal -->
-    <main class="main-content">
-        <h2 class="section-title">Colección <span>Exclusiva</span></h2>
-        
-        <div class="product-grid">
-            <!-- Producto 1 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80" alt="Chamarra Roja">
-                    <button class="virtual-try-btn" onclick="openVirtualRoom('Chamarra Urbana Roja')"><i class="fas fa-magic"></i> Probador Virtual</button>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Chamarra Urbana Roja</h3>
-                    <div class="product-price">$899.00</div>
-                    <button class="add-to-cart" onclick="addToCart()">Añadir a la bolsa</button>
-                </div>
-            </div>
-
-            <!-- Producto 2 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Vestido Blanco">
-                    <button class="virtual-try-btn" onclick="openVirtualRoom('Vestido Elegante Blanco')"><i class="fas fa-magic"></i> Probador Virtual</button>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Vestido Elegante Blanco</h3>
-                    <div class="product-price">$650.00</div>
-                    <button class="add-to-cart" onclick="addToCart()">Añadir a la bolsa</button>
-                </div>
-            </div>
-
-            <!-- Producto 3 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80" alt="Camisa Casual">
-                    <button class="virtual-try-btn" onclick="openVirtualRoom('Camisa Casual Antonio Black')"><i class="fas fa-magic"></i> Probador Virtual</button>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">Camisa Casual Antonio Black</h3>
-                    <div class="product-price">$450.00</div>
-                    <button class="add-to-cart" onclick="addToCart()">Añadir a la bolsa</button>
-                </div>
+    <section id="catalogo" class="py-16 px-6 max-w-6xl mx-auto space-y-8">
+        <div class="flex justify-between items-center border-b border-white/5 pb-4">
+            <h2 class="font-brand text-2xl uppercase font-black tracking-wide">Catálogo</h2>
+            <div class="flex gap-1 border border-white/10 p-1 rounded-full text-[10px] bg-[#0c0c0f] font-brand font-bold uppercase">
+                <button onclick="flt('todos')" class="px-4 py-1.5 rounded-full bg-[#ff2a2a] text-white" id="b-all">Todos</button>
+                <button onclick="flt('hombres')" class="px-4 py-1.5 rounded-full text-gray-400" id="b-men">Hombres</button>
+                <button onclick="flt('mujeres')" class="px-4 py-1.5 rounded-full text-gray-400" id="b-women">Mujeres</button>
             </div>
         </div>
-    </main>
+        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
+    </section>
 
-    <!-- Modal Probador Virtual -->
-    <div class="modal-overlay" id="virtual-modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeVirtualRoom()">&times;</span>
-            <h2 style="color: var(--primary-red); margin-bottom: 10px;">Probador Virtual 3D</h2>
-            <p id="virtual-item-name" style="font-weight: bold; margin-bottom: 20px;"></p>
-            <i class="fas fa-camera camera-icon"></i>
-            <p>Conecta tu cámara o sube una foto de cuerpo completo para ver cómo te queda esta prenda usando nuestra IA de estilo.</p>
-            <button class="modal-btn"><i class="fas fa-upload"></i> Subir Fotografía</button>
-            <button class="modal-btn" style="background: var(--primary-red);"><i class="fas fa-video"></i> Activar Cámara</button>
+    <section class="py-16 bg-[#0a0a0d] px-6 border-t border-white/5 space-y-4 max-w-6xl mx-auto text-xs">
+        <h2 class="font-brand text-2xl text-center uppercase font-black tracking-wide">Puntos de Entregas</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card p-5 rounded-xl space-y-2"><p class="font-brand font-bold text-sm uppercase text-[#ff2a2a]">Desviación Jocotitlán</p><a href="http://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-brand font-bold uppercase text-[10px]">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2"><p class="font-brand font-bold text-sm uppercase text-[#ff2a2a]">San Pedro de los Baños</p><a href="http://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-brand font-bold uppercase text-[10px]">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2"><p class="font-brand font-bold text-sm uppercase text-[#ff2a2a]">Jocotitlán Centro</p><a href="http://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-brand font-bold uppercase text-[10px]">VER MAPA</a></div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-8 border-t border-white/5 text-center text-gray-400 text-xs tracking-widest uppercase space-y-2">
+        <div class="flex justify-center gap-6 text-xl">
+            <a href="https://www.instagram.com/jose_antonio_contreras17" target="_blank" class="text-white"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1BNK4Dr2Wv/" target="_blank" class="text-white"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/527122111135" target="_blank" class="text-white"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>Contacto Oficial: <span class="text-white font-bold">+52 712 211 1135</span></p>
+    </footer>
+
+    <div id="cart" class="drawer flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black"><h2 class="font-brand text-sm uppercase font-bold tracking-wider">Tu Bolsa</h2><button onclick="togA(0)" class="text-2xl text-gray-500">×</button></div>
+        <div id="c-items" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3"></div>
+        <div class="p-4 bg-[#07070a] border-t border-white/5 space-y-3"><div class="flex justify-between text-xs font-bold"><span>TOTAL:</span><span id="c-total" class="text-[#ff2a2a] font-brand">$0.00</span></div><button onclick="togM('pay',1)" class="w-full bg-[#ff2a2a] text-white font-brand font-bold text-xs py-2.5 rounded-xl uppercase">Proceder al Pago</button></div>
+    </div>
+
+    <div id="m-pay" class="modal">
+        <div class="bg-[#0f0f14] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3">
+            <button onclick="togM('pay',0)" class="absolute top-2 right-4 text-gray-400 text-2xl">×</button>
+            <h3 class="font-brand text-sm font-bold uppercase tracking-wider">💳 Opciones de Pago</h3>
+            <button onclick="window.location.href='https://link.mercadopago.com.mx'" class="w-full bg-[#009EE3] text-white font-brand font-bold text-xs py-2.5 rounded-xl block text-center uppercase tracking-wider">Pagar con Mercado Pago</button>
+            <div class="bg-black/50 p-3 rounded-xl text-[11px] text-gray-400 text-left border border-white/5 space-y-0.5">
+                <p class="text-[#ff2a2a] font-brand font-bold uppercase text-[10px]">Transferencia SPEI Directa:</p>
+                <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
+                <p><strong>Banco:</strong> Mercado Pago | <strong>CLABE:</strong> 722969010522000447</p>
+            </div>
+            <button onclick="wsp(true)" class="w-full bg-[#25D366] text-white font-brand font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 uppercase"><i class="fab fa-whatsapp"></i> Enviar Comprobante</button>
         </div>
     </div>
 
-    <!-- Chatbot -->
-    <div class="chatbot-btn" onclick="toggleChat()">
-        <i class="fas fa-comment-dots"></i>
-    </div>
-    <div class="chatbot-window" id="chatbot">
-        <div class="chat-header">
-            Asistente Antonio Black
-            <i class="fas fa-times" style="cursor: pointer;" onclick="toggleChat()"></i>
-        </div>
-        <div class="chat-body" id="chat-body">
-            <div class="chat-msg">¡Hola! Bienvenido a Antonio Black. ¿Tienes dudas sobre tu talla, pagos o nuestros puntos de entrega en Jocotitlán?</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chat-input-text" placeholder="Escribe tu mensaje...">
-            <button onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+    <div id="m-ai" class="modal">
+        <div class="ia-panel p-5 rounded-2xl w-full max-w-sm relative text-center space-y-3 max-h-[90vh] overflow-y-auto border-gray-600">
+            <button onclick="togM('ai',0)" class="absolute top-2 right-4 text-gray-400 text-2xl hover:text-[#ff2a2a]">×</button>
+            <h3 class="font-brand text-base font-black uppercase text-white tracking-widest border-b border-white/10 pb-1 text-center text-gray-200">PROBADOR VIRTUAL IA</h3>
+            <div class="text-left space-y-2.5 bg-black/50 p-3 rounded-xl border border-white/10 text-xs">
+                <div><span class="block text-[10px] font-brand font-bold text-gray-400 uppercase tracking-wider mb-1">Sexo:</span><div class="flex gap-2"><div class="selector-chip active" id="ch-S-Hombre" onclick="selC('S','Hombre')">Hombre</div><div class="selector-chip" id="ch-S-Mujer" onclick="selC('S','Mujer')">Mujer</div></div></div>
+                <div><span class="block text-[10px] font-brand font-bold text-gray-400 uppercase tracking-wider mb-1">Tono de Piel:</span><div class="flex gap-2"><div class="selector-chip active" id="ch-P-Claro" onclick="selC('P','Claro')">Claro</div><div class="selector-chip" id="ch-P-Medio" onclick="selC('P','Medio')">Medio</div><div class="selector-chip" id="ch-P-Oscuro" onclick="selC('P','Oscuro')">Oscuro</div></div></div>
+                <div><span class="block text-[10px] font-brand font-bold text-gray-400 uppercase tracking-wider mb-1">Color de Ojos:</span><div class="flex gap-2"><div class="selector-chip active" id="ch-O-Cafes" onclick="selC('O','Cafes')">Cafés</div><div class="selector-chip" id="ch-O-Claros" onclick="selC('O','Claros')">Claros</div><div class="selector-chip" id="ch-O-Miel" onclick="selC('O','Miel')">Miel</div></div></div>
+                <div class="pt-2 border-t border-white/5 flex items-center justify-between"><span class="text-[10px] text-gray-400 uppercase font-brand font-bold">¿Subir foto de tu galería?:</span><label class="bg-white/5 border border-white/20 text-white text-[9px] font-bold py-1 px-3 rounded-md cursor-pointer uppercase hover:bg-[#ff2a2a] transition-colors">Seleccionar Archivo<input type="file" onchange="ldImg(event)" accept="image/*" class="hidden"/></label></div>
+            </div>
+            <div class="w-full h-48 bg-black/80 rounded-xl flex items-center justify-center p-1 border border-white/10 overflow-hidden shadow-inner"><img id="v-photo" class="max-w-full max-h-full object-contain rounded"></div>
+            <button onclick="snap()" class="w-full bg-white text-black font-brand text-xs font-bold py-2.5 rounded-lg uppercase tracking-wider hover:bg-[#ff2a2a] hover:text-white transition-colors">GENERAR ESTILO ✨</button>
+            <div id="anl" class="hidden text-left bg-black/60 p-3 rounded-xl border border-white/10 text-[11px] space-y-2 backdrop-blur-sm shadow-lg">
+                <p class="text-[#ff2a2a] font-brand font-bold text-[10px] uppercase border-b border-white/5 pb-1 tracking-wider"><i class="fas fa-spider"></i> Sugerencia de Perfil Antony Black:</p>
+                <p id="ai-res" class="text-gray-300 leading-relaxed"></p>
+                <div class="pt-2 border-t border-white/10 text-[10px] text-gray-400 space-y-1">
+                    <p class="text-white font-bold uppercase text-[9px] text-gray-300">💡 ¿Sabes qué es la Colorimetría y cómo funciona?</p>
+                    <p class="leading-relaxed text-gray-400">Es el análisis que estudia cómo interactúa la luz reflejada en las prendas con los pigmentos naturales de tu piel, ojos y cabello. Al elegir los tonos correctos, se logran disimular imperfecciones e iluminar las facciones de tu rostro. En <strong>Antony Black</strong> estructuramos nuestras colecciones bajo este principio científico para darte un porte imponente.</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- --- CÓDIGO JAVASCRIPT --- -->
+    <div id="t-cht" class="btn-f" onclick="togCh()"><i class="fas fa-comment-dots text-lg"></i></div>
+    <div id="c-box" class="chat-container">
+        <div class="bg-[#ff2a2a] p-3 flex justify-between items-center font-brand text-xs font-bold uppercase text-white tracking-wider"><span>Soporte Didáctico</span><button onclick="togCh()" class="text-white text-lg font-bold px-1">×</button></div>
+        <div id="c-msg" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] bg-[#09090c] leading-relaxed"><div>¡Qué onda! Pregúntame por: <strong>precios</strong>, <strong>tallas</strong>, <strong>materiales</strong> o <strong>envíos</strong> y te enseño de forma didáctica. 🕷️</div></div>
+        <form class="p-2 border-t border-white/5 flex gap-1.5 bg-[#0b0b0f]" onsubmit="bot(event)"><input type="text" id="c-in" placeholder="Escribe algo..." class="flex-1 bg-transparent text-xs outline-none text-white px-2"><button type="submit" class="text-[#ff2a2a] p-1.5"><i class="fas fa-paper-plane"></i></button></form>
+    </div>
+
     <script>
-        // Funcionalidad del Carrito
-        let cartItemCount = 0;
-        function addToCart() {
-            cartItemCount++;
-            document.getElementById('cart-count').innerText = cartItemCount;
-            
-            // Efecto visual rápido en el icono
-            const cartIcon = document.querySelector('.cart-icon');
-            cartIcon.style.transform = 'scale(1.2)';
-            setTimeout(() => { cartIcon.style.transform = 'scale(1)'; }, 200);
-        }
-
-        // Funcionalidad del Chatbot
-        function toggleChat() {
-            const chat = document.getElementById('chatbot');
-            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function sendMsg() {
-            const input = document.getElementById('chat-input-text');
-            const msg = input.value.trim();
-            if(msg !== "") {
-                const chatBody = document.getElementById('chat-body');
-                // Mensaje del usuario
-                chatBody.innerHTML += `<div class="chat-msg" style="background: var(--primary-red); color: white; margin-left: auto;">${msg}</div>`;
-                input.value = "";
-                
-                // Respuesta automática simulada
-                setTimeout(() => {
-                    chatBody.innerHTML += `<div class="chat-msg">Excelente pregunta. Un asesor de estilo se conectará en un momento. Recuerda que aceptamos Pago Contra Entrega en San Pedro de los Baños.</div>`;
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                }, 1000);
-                chatBody.scrollTop = chatBody.scrollHeight;
+        var cart = [];
+        var ai_t = { S: 'Hombre', P: 'Claro', O: 'Cafes' };
+        var userImg = null;
+        var db = [
+            { id: 1, name: "Oversized Hoodie 'No Rules'", price: 899, cat: "hombres", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400" },
+            { id: 2, name: "Cargo Pants Tactical Black", price: 1150, cat: "hombres", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400" },
+            { id: 3, name: "Crop Hoodie 'Rebel' Red", price: 750, cat: "mujeres", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400" },
+            { id: 4, name: "Wide Leg Jeans Vintage Gray", price: 990, cat: "mujeres", img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400" }
+        ];
+        function rnd(arr) {
+            var g = document.getElementById('grid');
+            if (!g) return;
+            g.innerHTML = '';
+            for (var i = 0; i < arr.length; i++) {
+                var p = arr[i];
+                g.innerHTML += '<div class="card rounded-2xl overflow-hidden"><div class="h-56 bg-gray-950"><img src="' + p.img + '" class="w-full h-full object-cover"></div><div class="p-4 space-y-2"><h3 class="text-xs font-bold truncate text-gray-200">' + p.name + '</h3><p class="text-[#ff2a2a] font-brand font-bold text-base">$' + p.price + '</p><button onclick="add(' + p.id + ')" class="w-full bg-[#0d0d12] border border-white/5 hover:bg-[#ff2a2a] text-white font-brand text-[10px] uppercase font-bold py-2 rounded-xl transition-all">Añadir al Carrito</button></div></div>';
             }
         }
-
-        // Permitir Enter en el chat
-        document.getElementById('chat-input-text').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                sendMsg();
+        function flt(c) {
+            var cat = 'all';
+            if (c === 'hombres') { cat = 'men'; }
+            if (c === 'mujeres') { cat = 'women'; }
+            var ids = ['all', 'men', 'women'];
+            for (var i = 0; i < ids.length; i++) {
+                var b = document.getElementById('b-' + ids[i]);
+                if (b) b.className = "px-4 py-1.5 rounded-full text-gray-400";
             }
-        });
-
-        // Funcionalidad del Probador Virtual
-        const modal = document.getElementById('virtual-modal');
-        function openVirtualRoom(itemName) {
-            document.getElementById('virtual-item-name').innerText = "Prenda: " + itemName;
-            modal.style.display = 'flex';
+            var btn = document.getElementById('b-' + cat);
+            if (btn) btn.className = "px-4 py-1.5 rounded-full bg-[#ff2a2a] text-white";
+            if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); }
+            window.location.href = '#catalogo';
         }
-
-        function closeVirtualRoom() {
-            modal.style.display = 'none';
+        function add(id) {
+            var p = db.find(function(x) { return x.id === id; });
+            var i = cart.find(function(x) { return x.id === id; });
+            if (i) i.q++; else cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, q: 1 });
+            upUI();
+            togA(1);
         }
-
-        // Cerrar modal si hacen clic fuera de la ventana blanca
-        window.onclick = function(event) {
-            if (event.target === modal) {
-                closeVirtualRoom();
+        function upUI() {
+            var c = document.getElementById('c-items');
+            if (!c) return;
+            c.innerHTML = '';
+            var t = 0;
+            for (var i = 0; i < cart.length; i++) {
+                var item = cart[i];
+                t += item.price * item.q;
+                c.innerHTML += '<div class="flex gap-3 bg-white/5 p-2 rounded-xl items-center text-xs"><img src="' + item.img + '" class="w-10 h-10 object-cover rounded-lg"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px] text-gray-200">' + item.name + '</h4><p class="text-[#ff2a2a] font-brand text-[11px]">' + item.price + ' x' + item.q + '</p></div><button onclick="rem(' + item.id + ')" class="text-gray-500 hover:text-[#ff2a2a] px-2"><i class="fas fa-trash"></i></button></div>';
+            }
+            document.getElementById('c-total').textContent = '$' + t.toFixed(2);
+            document.getElementById('c-count').textContent = cart.reduce(function(s, k) { return s + k.q; }, 0);
+        }
+        function rem(id) {
+            cart = cart.filter(function(x) { return x.id !== id; });
+            upUI();
+        }
+        function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
+        function togM(id, o) {
+            if (id === 'pay' && cart.length === 0) return;
+            if (id === 'pay' && o) togA(0);
+            document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active');
+        }
+        function togCh() { document.getElementById('c-box').classList.toggle('open'); }
+        function wsp(isC) {
+            var m = isC ? "🕷️ Comprobante:\n" : "🕷️ Pedido:\n";
+            cart.forEach(function(i) { m += "• " + i.q + "x " + i.name + "\n"; });
+            window.open("https://wa.me/527122111135?text=" + encodeURIComponent(m), '_blank');
+        }
+        function selC(t, v) {
+            ai_t[t] = v;
+            var chips = document.querySelectorAll('[id^="ch-' + t + '-"]');
+            for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); }
+            var target = document.getElementById('ch-' + t + '-' + v);
+            if (target) target.classList.add('active');
+            snap();
+        }
+        function ldImg(e) {
+            var f = e.target.files[0];
+            if (f) {
+                var r = new FileReader();
+                r.onload = function(el) { userImg = el.target.result; snap(); };
+                r.readAsDataURL(f);
             }
         }
+        function snap() {
+            var p = document.getElementById('v-photo');
+            if (userImg) { p.src = userImg; 
+            } else { p.src = 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400'; }
+            p.classList.remove('hidden');
+            document.getElementById('ai-res').innerHTML = 'Colorimetría: Armonía para tez ' + ai_t.P + ' y ojos ' + ai_t.O + '. Para tu perfil de tipo <strong>' + ai_t.S + '</strong>, te recomendamos rotundamente combinar una <strong>Camisa Blanca formal con un Pantalón de Mezclilla azul denim</strong> como la imagen mostrada. Este contraste puro de luz equilibra tus facciones faciales dándote un porte imponente antes de complementar tu outfit con las capas oversize oscuras de nuestra marca.';
+            document.getElementById('anl').classList.remove('hidden');
+        }
+        function bot(e) {
+            e.preventDefault();
+            var i = document.getElementById('c-in');
+            var m = document.getElementById('c-msg');
+            var t = i.value.trim().toLowerCase();
+            if (!t) return;
+            m.innerHTML += '<div class="text-right text-[#ff2a2a] font-brand font-bold">' + i.value + '</div>';
+            i.value = '';
+            setTimeout(function() {
+                var r = "Contacto directo: WhatsApp 7122111135. 🕷️";
+                if (t.indexOf('precio') !== -1 || t.indexOf('cuanto') !== -1) { r = "Sudadera: $899, Pants: $1150, Crop: $750. Puedes ver el total didáctico sumado en tu bolsa."; }
+                else if (t.indexOf('talla') !== -1 || t.indexOf('medida') !== -1) { r = "Corte <strong>Oversize Premium</strong>. Didáctica: Si buscas el estilo holgado de la marca, pide tu talla de siempre. Si la quieres justa, pide una menos."; }
+                else if (t.indexOf('material') !== -1 || t.indexOf('tela') !== -1) { r = "Algodón pesado premium (Heavy Cotton) de alto gramaje. No se deforma y mantiene la caída urbana perfecta."; }
+                else if (t.indexOf('envio') !== -1 || t.indexOf('entrega') !== -1) { r = "Entregamos gratis en Desviación Jocotitlán, San Pedro de los Baños y Jocotitlán Centro (Frente a Palacio)."; }
+                else if (t.indexOf('pago') !== -1 || t.indexOf('cuenta') !== -1) { r = "CLABE SPEI: 722969010522000447 (Mercado Pago Wallet) o directo con tarjeta usando el botón azul de tu bolsa."; }
+                m.innerHTML += '<div class="bg-[#121216] p-2.5 rounded-lg mt-1 border border-white/5">' + r + '</div>';
+                m.scrollTop = m.scrollHeight;
+            }, 400);
+        }
+        rnd(db); snap();
     </script>
 </body>
-    </html>
+</html>

@@ -90,12 +90,19 @@
                                     <button id="ch-S-Mujer" onclick="selC('S','Mujer')" class="selector-chip flex-1 text-center">Mujer</button>
                                 </div>
                             </div>
+                            
                             <div>
-                                <span class="text-[11px] text-gray-500 block mb-1">Tono de Piel</span>
-                                <div class="flex gap-1.5 flex-wrap">
-                                    <button id="ch-P-Claro" onclick="selC('P','Claro')" class="selector-chip active">Claro</button>
-                                    <button id="ch-P-Medio" onclick="selC('P','Medio')" class="selector-chip">Medio</button>
-                                    <button id="ch-P-Moreno" onclick="selC('P','Moreno')" class="selector-chip">Moreno</button>
+                                <span class="text-[11px] text-gray-500 block mb-1"><i class="fa-solid fa-location-dot text-[#e11d48]"></i> Punto de Entrega Requerido</span>
+                                <div class="flex flex-col gap-1.5">
+                                    <button id="ch-O-Cafes" onclick="selC('O','Cafes')" class="selector-chip text-left active flex items-center gap-2">
+                                        <i class="fa-solid fa-road text-[10px]"></i> Desviación Jocotitlán (Cruce)
+                                    </button>
+                                    <button id="ch-O-Azules" onclick="selC('O','Azules')" class="selector-chip text-left flex items-center gap-2">
+                                        <i class="fa-solid fa-building text-[10px]"></i> Jocotitlán Centro (Presidencia)
+                                    </button>
+                                    <button id="ch-O-Verdes" onclick="selC('O','Verdes')" class="selector-chip text-left flex items-center gap-2">
+                                        <i class="fa-solid fa-store text-[10px]"></i> San Pedro de los Baños
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +119,7 @@
                         </div>
                     </div>
 
-                    <button onclick="snap()" class="w-full bg-[#e11d48] hover:bg-[#f43f5e] text-white text-xs uppercase tracking-widest font-bold py-4 rounded-xl transition-all shadow-lg shadow-shadow-rose-600/20">
+                    <button onclick="snap()" class="w-full bg-[#e11d48] hover:bg-[#f43f5e] text-white text-xs uppercase tracking-widest font-bold py-4 rounded-xl transition-all shadow-lg">
                         GENERAR ESTILO INTELIGENTE
                     </button>
                 </div>
@@ -190,11 +197,15 @@
             <div class="flex justify-start"><div class="bg-[#1c1c21] text-gray-300 p-3 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 leading-relaxed">¿Qué onda hermano? Soy el asistente de la marca. Selecciona un tema rápido o pregunta lo que quieras aquí abajo. 🕷️</div></div>
         </div>
 
-        <form onclick="event.stopPropagation()" onsubmit="bot(event)" class="p-3 border-t border-white/5 bg-[#121214] flex gap-2">
-            <input id="c-in" type="text" placeholder="Pregunta por precios, telas..." class="flex-1 bg-[#1c1c21] text-white placeholder-gray-600 text-xs px-3 py-2.5 rounded-lg outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+        <form onsubmit="bot(event); return false;" class="p-3 border-t border-white/5 bg-[#121214] flex gap-2">
+            <input id="c-in" type="text" placeholder="Pregunta por precios, telas, entregas..." class="flex-1 bg-[#1c1c21] text-white placeholder-gray-600 text-xs px-3 py-2.5 rounded-lg outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
             <button type="submit" class="bg-[#e11d48] text-white px-3 rounded-lg hover:bg-[#f43f5e] transition-colors"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
     </div>
+
+    <footer class="border-t border-white/5 py-8 text-center text-xs text-gray-600 bg-black/20">
+        <p>&copy; 2026 ANTONY BLACK. Todos los derechos reservados. Diseñado por José Antonio Mejía Hernández.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>

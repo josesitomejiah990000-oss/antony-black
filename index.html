@@ -8,36 +8,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { background:#050507; color:#fff; overflow-x:hidden; font-family:'Plus Jakarta Sans',sans-serif; }
+        body { background:#08080a; color:#fff; overflow-x:hidden; font-family:'Plus Jakarta Sans',sans-serif; }
         .font-brand { font-family:'Oswald',sans-serif; }
-        .glass { background:rgba(6,6,8,0.85); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,42,42,0.1); }
-        .card { background:linear-gradient(145deg, rgba(20,20,25,0.7), rgba(10,10,12,0.4)); border:1px solid rgba(255,255,255,0.02); transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card:hover { border-color:#ff2a2a; transform:translateY(-4px); box-shadow:0 12px 30px rgba(255,42,42,0.15); }
-        .drawer { position:fixed; top:0; right:-100%; width:100%; max-width:400px; height:100vh; background:#0a0a0d; z-index:1000; transition:0.3s; border-left:1px solid rgba(255,255,255,0.05); }
+        .glass { background:rgba(8,8,10,0.8); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.05); }
+        .card { background:rgba(18,18,22,0.6); border:1px solid rgba(255,255,255,0.03); transition:0.3s; }
+        .card:hover { border-color:#ff2a2a; transform:translateY(-4px); }
+        .drawer { position:fixed; top:0; right:-100%; width:100%; max-width:400px; height:100vh; background:#0c0c10; z-index:1000; transition:0.3s; border-left:1px solid rgba(255,255,255,0.05); }
         .drawer.open { right:0; }
-        .modal { position:fixed; inset:0; background:rgba(3,3,5,0.92); backdrop-filter:blur(12px); z-index:1001; display:none; justify-content:center; align-items:center; padding:12px; }
+        .modal { position:fixed; inset:0; background:rgba(4,4,6,0.85); backdrop-filter:blur(8px); z-index:1001; display:none; justify-content:center; align-items:center; padding:10px; }
         .modal.active { display:flex; }
-        .btn-f { position:fixed; bottom:20px; width:54px; height:54px; background:#ff2a2a; color:#fff; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:999; border-radius:50%; right:20px; box-shadow:0 4px 20px rgba(255,42,42,0.4); }
-        .chat-container { position:fixed; bottom:90px; right:20px; width:300px; height:380px; background:#0d0d12; border:1px solid rgba(255,42,42,0.1); border-radius:15px; z-index:1000; display:none; flex-direction:column; overflow:hidden; }
+        .btn-f { position:fixed; bottom:20px; width:50px; height:50px; background:#ff2a2a; color:#fff; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:999; border-radius:50%; right:20px; }
+        .chat-container { position:fixed; bottom:90px; right:20px; width:300px; height:380px; background:#111116; border:1px solid rgba(255,255,255,0.1); border-radius:15px; z-index:1000; display:none; flex-direction:column; overflow:hidden; }
         .chat-container.open { display:flex; }
-        .ia-panel { background:linear-gradient(180deg, #121217 0%, #09090c 100%); border:2px solid #ff2a2a; box-shadow:0 0 25px rgba(255,42,42,0.2); }
     </style>
 </head>
 <body class="antialiased">
 
     <nav class="fixed w-full top-0 z-50 glass py-4 px-6 flex justify-between items-center">
-        <a href="#" class="font-brand text-2xl font-bold tracking-widest uppercase text-white flex items-center gap-1.5">ANTONY <span class="text-[#ff2a2a]">BLACK</span> <i class="fas fa-spider text-xs text-[#ff2a2a] animate-pulse"></i></a>
-        <button onclick="togA(1)" class="relative text-white p-2"><i class="fas fa-shopping-bag text-lg"></i><span id="c-count" class="absolute top-0 right-0 bg-[#ff2a2a] text-[9px] font-brand font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md">0</span></button>
+        <a href="#" class="font-brand text-2xl font-bold tracking-widest uppercase text-white flex items-center gap-1.5">ANTONY <span class="text-[#ff2a2a]">BLACK</span> <i class="fas fa-spider text-xs text-[#ff2a2a]"></i></a>
+        <button onclick="togA(1)" class="relative text-white p-2"><i class="fas fa-shopping-bag text-lg"></i><span id="c-count" class="absolute top-0 right-0 bg-[#ff2a2a] text-[9px] font-brand font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span></button>
     </nav>
 
     <header class="h-screen flex items-center justify-center text-center px-4 relative">
-        <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image:url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200')"></div>
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image:url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200')"></div>
         <div class="relative z-10 space-y-4">
-            <span class="text-[#ff2a2a] font-brand font-bold tracking-[0.3em] text-xs uppercase block">💥 Streetwear Premium 💥</span>
-            <h1 class="font-brand uppercase font-black text-6xl tracking-tighter text-white leading-none">ANTONY<br><span class="text-[#ff2a2a] drop-shadow-[0_4px_15px_rgba(255,42,42,0.4)]">BLACK</span></h1>
-            <p class="text-gray-400 text-xs max-w-xs mx-auto font-medium">Prendas oversize exclusivas diseñadas para imponer tu propia ley en las calles.</p>
-            <div class="flex gap-3 max-w-xs mx-auto pt-2"><button onclick="flt('hombres')" class="flex-1 bg-white text-black font-brand font-bold uppercase py-2.5 rounded-xl text-xs tracking-wider">Hombres</button><button onclick="flt('mujeres')" class="flex-1 bg-[#ff2a2a] text-white font-brand font-bold uppercase py-2.5 rounded-xl text-xs tracking-wider">Mujeres</button></div>
-            <button onclick="togM('ai',1)" class="bg-[#0f0f14] border-2 border-[#ff2a2a]/50 text-white font-brand text-xs font-bold py-2.5 px-8 rounded-full mx-auto flex items-center gap-2 mt-3 tracking-wider">✨ PROBADOR VIRTUAL IA</button>
+            <span class="text-[#ff2a2a] font-brand font-bold tracking-[0.2em] text-xs uppercase block">Streetwear Premium</span>
+            <h1 class="font-brand uppercase font-black text-6xl tracking-tighter text-white leading-none">ANTONY<br><span class="text-[#ff2a2a]">BLACK</span></h1>
+            <p class="text-gray-400 text-xs max-w-md mx-auto">Prendas oversize exclusivas diseñadas para imponer tu propio estilo en las calles.</p>
+            <div class="flex gap-3 max-w-xs mx-auto"><button onclick="flt('hombres')" class="flex-1 bg-white text-black font-brand font-bold uppercase py-2 rounded text-xs tracking-wider">Hombres</button><button onclick="flt('mujeres')" class="flex-1 bg-[#ff2a2a] text-white font-brand font-bold uppercase py-2 rounded text-xs tracking-wider">Mujeres</button></div>
+            <button onclick="togM('ai',1)" class="bg-[#111116] border border-white/10 text-white font-brand text-xs font-bold py-2.5 px-6 rounded-full mx-auto flex items-center gap-2 mt-2">✨ Probador Virtual IA</button>
         </div>
     </header>
 
@@ -48,12 +47,12 @@
         <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
     </section>
 
-    <section class="py-16 bg-[#0a0a0d] px-6 border-t border-white/5 space-y-6">
+    <section class="py-16 bg-[#121216] px-6 border-t border-white/5 space-y-6">
         <h2 class="font-brand text-2xl text-center uppercase font-black tracking-wide">Puntos de <span class="text-[#ff2a2a]">Entrega</span></h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto text-xs">
-            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-brand font-bold text-sm uppercase tracking-wider border-b border-white/5">Desviación Jocotitlán</p><p class="text-gray-400">Punto de encuentro estratégico y seguro.</p><a href="http://maps.google.com/?q=Desviacion+Jocotitlan" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded-lg block text-center font-brand font-bold uppercase">VER MAPA</a></div>
-            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-brand font-bold text-sm uppercase tracking-wider border-b border-white/5">San Pedro de los Baños</p><p class="text-gray-400">Entregas programadas directo en la explanada de la delegación.</p><a href="http://maps.google.com/?q=San+Pedro+de+los+Banos" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded-lg block text-center font-brand font-bold uppercase">VER MAPA</a></div>
-            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-brand font-bold text-sm uppercase tracking-wider border-b border-white/5">Jocotitlán Centro</p><p class="text-gray-400">Entregas frente al palacio municipal.</p><a href="http://maps.google.com/?q=Jocotitlan+Centro" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded-lg block text-center font-brand font-bold uppercase">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-brand font-bold text-sm uppercase tracking-wider border-b border-white/5">Desviación Jocotitlán</p><p class="text-gray-400">Punto de encuentro estratégico y seguro.</p><a href="http://maps.google.com/?q=Desviacion+Jocotitlan" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-brand font-bold uppercase">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-brand font-bold text-sm uppercase tracking-wider border-b border-white/5">San Pedro de los Baños</p><p class="text-gray-400">Entregas programadas directo en la explanada de la delegación.</p><a href="http://maps.google.com/?q=San+Pedro+de+los+Banos" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-brand font-bold uppercase">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-brand font-bold text-sm uppercase tracking-wider border-b border-white/5">Jocotitlán Centro</p><p class="text-gray-400">Entregas frente al palacio municipal.</p><a href="http://maps.google.com/?q=Jocotitlan+Centro" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-brand font-bold uppercase">VER MAPA</a></div>
         </div>
     </section>
 
@@ -67,43 +66,43 @@
         <p class="text-gray-600 text-[10px]">© 2026 <strong class="text-gray-400 font-brand">ANTONY BLACK</strong>. Todos los derechos reservados.</p>
     </footer>
 
-    <div id="cart" class="drawer flex flex-col shadow-2xl">
-        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black"><h2 class="font-brand text-sm uppercase font-bold tracking-wider">Tu Bolsa</h2><button onclick="togA(0)" class="text-2xl text-gray-500">×</button></div>
+    <div id="cart" class="drawer flex flex-col">
+        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black"><h2 class="font-brand text-sm uppercase font-bold tracking-wider">Tu Bolsa</h2><button onclick="togA(0)" class="text-xl text-gray-500">×</button></div>
         <div id="c-items" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3"></div>
-        <div class="p-4 bg-[#07070a] border-t border-white/5 space-y-3"><div class="flex justify-between text-xs font-bold"><span>TOTAL:</span><span id="c-total" class="text-[#ff2a2a] font-brand">$0.00</span></div><button onclick="togM('pay',1)" class="w-full bg-[#ff2a2a] text-white font-brand font-bold text-xs py-2.5 rounded-xl uppercase tracking-wider">Proceder al Pago</button></div>
+        <div class="p-4 bg-[#0a0a0d] border-t border-white/5 space-y-3"><div class="flex justify-between text-xs font-bold"><span>TOTAL:</span><span id="c-total" class="text-[#ff2a2a] font-brand">$0.00</span></div><button onclick="togM('pay',1)" class="w-full bg-[#ff2a2a] text-white font-brand font-bold text-xs py-2.5 rounded uppercase">Proceder al Pago</button></div>
     </div>
 
     <div id="m-pay" class="modal">
-        <div class="bg-[#0f0f14] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3">
-            <button onclick="togM('pay',0)" class="absolute top-2 right-4 text-gray-400 text-2xl">×</button>
+        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3">
+            <button onclick="togM('pay',0)" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
             <h3 class="font-brand text-sm font-bold uppercase tracking-wider">💳 Opciones de Pago</h3>
-            <button onclick="irAMercadoPago()" class="w-full bg-[#009EE3] text-white font-brand font-bold text-xs py-2.5 rounded-xl uppercase">Pagar con Mercado Pago</button>
-            <div class="bg-black/50 p-3 rounded-xl text-[11px] text-gray-400 text-left border border-white/5 space-y-0.5">
+            <button onclick="irAMercadoPago()" class="w-full bg-[#009EE3] text-white font-brand font-bold text-xs py-2.5 rounded block text-center uppercase">Pagar con Mercado Pago</button>
+            <div class="bg-black/40 p-3 rounded text-[11px] text-gray-400 text-left border border-white/5 space-y-0.5">
                 <p class="text-[#ff2a2a] font-brand font-bold mb-1 uppercase text-[10px]">Transferencia SPEI Directa:</p>
-                <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez | <strong>Banco:</strong> Mercado Pago Wallet</p>
-                <p><strong>CLABE:</strong> 722969010522000447</p>
+                <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
+                <p><strong>Banco:</strong> Mercado Pago Wallet | <strong>CLABE:</strong> 722969010522000447</p>
             </div>
-            <button onclick="wsp(true)" class="w-full bg-[#25D366] text-white font-brand font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 uppercase"><i class="fab fa-whatsapp"></i> Enviar Comprobante</button>
+            <button onclick="wsp(true)" class="w-full bg-[#25D366] text-white font-brand font-bold text-xs py-2.5 rounded flex items-center justify-center gap-2 uppercase"><i class="fab fa-whatsapp"></i> Enviar Comprobante</button>
         </div>
     </div>
 
     <div id="m-ai" class="modal">
-        <div class="ia-panel p-5 rounded-2xl w-full max-w-sm relative text-center space-y-3 max-h-[90vh] overflow-y-auto">
-            <button onclick="togM('ai',0)" class="absolute top-2 right-4 text-gray-400 text-2xl">×</button>
-            <h3 class="font-brand text-base font-black uppercase text-white tracking-widest border-b border-white/10 pb-1">⚡ PROBADOR TÁCTICO</h3>
-            <div class="text-left space-y-2 bg-black/40 p-3 rounded-xl border border-white/5 text-xs">
-                <div><label class="block text-[10px] font-brand font-bold text-gray-400 uppercase mb-1">Sexo:</label><select id="ai-sex" class="w-full bg-[#14141a] border border-white/10 rounded-lg p-1.5 text-white outline-none"><option value="Hombre">Hombre 🕷️</option><option value="Mujer">Mujer 🕷️</option></select></div>
-                <div><label class="block text-[10px] font-brand font-bold text-gray-400 uppercase mb-1">Tono de Piel:</label><select id="ai-skin" class="w-full bg-[#14141a] border border-white/10 rounded-lg p-1.5 text-white outline-none"><option value="Claro">Tez Clara</option><option value="Medio">Tez Media</option><option value="Oscuro">Tez Morena</option></select></div>
-                <div><label class="block text-[10px] font-brand font-bold text-gray-400 uppercase mb-1">Color de Ojos:</label><select id="ai-eyes" class="w-full bg-[#14141a] border border-white/10 rounded-lg p-1.5 text-white outline-none"><option value="Cafés">Cafés</option><option value="Claros">Claros</option><option value="Miel">Miel</option></select></div>
+        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3 max-h-[90vh] overflow-y-auto">
+            <button onclick="togM('ai',0)" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
+            <h3 class="font-brand text-sm font-black uppercase text-white tracking-widest border-b border-white/10 pb-1">⚡ Probador & Análisis IA</h3>
+            <div class="text-left space-y-2 bg-black/30 p-3 rounded-lg border border-white/5 text-xs">
+                <div><label class="block text-[10px] font-brand font-bold text-gray-400 uppercase mb-1">Sexo:</label><select id="ai-sex" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Hombre">Hombre 🕷️</option><option value="Mujer">Mujer 🕷️</option></select></div>
+                <div><label class="block text-[10px] font-brand font-bold text-gray-400 uppercase mb-1">Tono de Piel:</label><select id="ai-skin" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Claro">Tez Clara</option><option value="Medio">Tez Media</option><option value="Oscuro">Tez Morena</option></select></div>
+                <div><label class="block text-[10px] font-brand font-bold text-gray-400 uppercase mb-1">Color de Ojos:</label><select id="ai-eyes" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Cafés">Cafés</option><option value="Claros">Claros</option><option value="Miel">Miel</option></select></div>
             </div>
-            <div class="w-full h-40 bg-black/70 rounded-xl flex flex-col justify-center items-center p-2 relative border border-[#ff2a2a]/20 overflow-hidden">
+            <div class="w-full h-40 bg-black/60 rounded-xl flex flex-col justify-center items-center p-2 relative border border-white/5">
                 <video id="v-stream" autoplay playsinline class="w-full h-full object-cover hidden rounded-lg"></video>
                 <canvas id="v-canvas" class="hidden"></canvas><img id="v-photo" class="w-full h-full object-contain hidden rounded-lg">
                 <p id="v-fall" class="text-[#ff2a2a]/60 font-brand text-[10px] uppercase tracking-wider animate-pulse">SISTEMA LISTO: ENCIENDE LA CÁMARA</p>
             </div>
-            <div class="flex gap-2"><button id="b-cam" onclick="cam()" class="flex-1 bg-white text-black font-brand text-[10px] font-bold py-2 rounded-lg uppercase">Cámara Real 📷</button><button id="b-snap" onclick="snap()" class="flex-1 bg-[#ff2a2a] text-white font-brand text-[10px] font-bold py-2 rounded-lg hidden uppercase">Tomar Foto 📸</button></div>
-            <button onclick="generarEstilo()" class="w-full bg-gradient-to-r from-[#ff2a2a] to-[#b31414] text-white font-brand text-xs font-bold py-2.5 rounded-xl uppercase tracking-wider">Generar Análisis Visual ✨</button>
-            <div id="anl" class="hidden text-left bg-black/60 p-2.5 rounded-xl border border-[#ff2a2a]/20 text-[11px] space-y-1">
+            <div class="flex gap-2"><button id="b-cam" onclick="cam()" class="flex-1 bg-white text-black font-brand text-[10px] font-bold py-2 rounded uppercase">Cámara Real 📷</button><button id="b-snap" onclick="snap()" class="flex-1 bg-[#ff2a2a] text-white font-brand text-[10px] font-bold py-2 rounded hidden uppercase">Tomar Foto 📸</button></div>
+            <button onclick="generarEstilo()" class="w-full bg-white text-black font-brand text-xs font-bold py-2.5 rounded uppercase tracking-wider">Generar Análisis Visual ✨</button>
+            <div id="anl" class="hidden text-left bg-black/50 p-2.5 rounded border border-white/5 text-[11px] space-y-1">
                 <p class="text-[#ff2a2a] font-brand font-bold text-[10px] uppercase border-b border-white/5 pb-1">🔥 RECOMENDACIÓN ANTONY BLACK:</p>
                 <p id="ai-res-perfil" class="text-gray-200"></p>
                 <p class="text-gray-400 text-[10px]">📐 <strong>Corte:</strong> Oversize premium de alto gramaje para un porte imponente.</p>
@@ -139,8 +138,8 @@
         async function cam() { try { stm=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}); const v=document.getElementById('v-stream'); v.srcObject=stm; v.classList.remove('hidden'); document.getElementById('v-fall').classList.add('hidden'); document.getElementById('b-cam').classList.add('hidden'); document.getElementById('b-snap').classList.remove('hidden'); document.getElementById('v-photo').classList.add('hidden'); } catch(e){} }
         function snap() { const v=document.getElementById('v-stream'), c=document.getElementById('v-canvas'), p=document.getElementById('v-photo'); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0,c.width,c.height); p.src=c.toDataURL('image/png'); p.classList.remove('hidden'); v.classList.add('hidden'); document.getElementById('b-snap').classList.add('hidden'); document.getElementById('b-cam').classList.remove('hidden'); if(stm){stm.getTracks().forEach(t=>t.stop());} }
         function clsCam() { if(stm){stm.getTracks().forEach(t=>t.stop()); stm=null;} document.getElementById('v-stream').classList.add('hidden'); document.getElementById('v-photo').classList.add('hidden'); document.getElementById('v-fall').classList.remove('hidden'); document.getElementById('b-cam').classList.remove('hidden'); document.getElementById('b-snap').classList.add('hidden'); document.getElementById('anl').classList.add('hidden'); }
-        function generarEstilo() { const s=document.getElementById('ai-sex').value, sk=document.getElementById('ai-skin').value, ey=document.getElementById('ai-eyes').value; document.getElementById('ai-res-perfil').innerHTML=`Armonía urbana analizada para sexo ${s}. Tu piel ${sk} con ojos ${ey} combina al 100% con los tonos Negro Profundo y Crimson de la marca para potenciar tus facciones en las calles.`; document.getElementById('anl').classList.remove('hidden'); }
-        function bot(e) { e.preventDefault(); const i=document.getElementById('c-in'), m=document.getElementById('c-msg'), t=i.value.trim().toLowerCase(); if(!t)return; m.innerHTML+=`<div class="text-right text-[#ff2a2a] font-bold">${i.value}</div>`; i.value=''; setTimeout(()=>{ let r="Atención: WhatsApp 7122111135. 🕷️"; if(t.includes('pago')||t.includes('cuenta')) r="Aceptamos SPEI
+        function generarEstilo() { const s=document.getElementById('ai-sex').value, sk=document.getElementById('ai-skin').value, ey=document.getElementById('ai-eyes').value; document.getElementById('ai-res-perfil').innerHTML=`Armonía de contraste urbano analizada para un perfil de sexo ${s}. Tu tono de piel ${sk} con ojos color ${ey} combina al 100% con los acabados en Negro Profundo de nuestras prendas, haciendo resaltar el estilo urbano de forma única.`; document.getElementById('anl').classList.remove('hidden'); }
+        function bot(e) { e.preventDefault(); const i=document.getElementById('c-in'), m=document.getElementById('c-msg'), t=i.value.trim().toLowerCase(); if(!t)return; m.innerHTML+=`<div class="text-right text-[#ff2a2a] font-bold">${i.value}</div>`; i.value=''; setTimeout(()=>{ let r="Atención: WhatsApp 7122111135. 🕷️"; if(t.includes('pago')||t.includes('cuenta')) r="Aceptamos SPEI (CLABE 722969010522000447, Mercado Pago Wallet), pago contra entrega y cobros con tarjeta en el botón de Mercado Pago en tu bolsa."; else if(t.includes('envio')||t.includes('entrega')) r="Entregamos gratis en: Desviación Jocotitlán, San Pedro de los Baños y Jocotitlán Centro (frente a palacio municipal). Coordinamos la hora por WhatsApp."; else if(t.includes('talla')||t.includes('medida')) r="Nuestras prendas son de corte Oversize Premium (holgadas). Si prefier
             rnd(db);
     </script>
 </body>

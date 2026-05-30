@@ -3,164 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antony Black | Streetwear</title>
+    <title>ANTONY BLACK | Alta Costura Urbana</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="estilos.css">
-    <style>
-        .entrega-card {
-            background: linear-gradient(145deg, rgba(20, 20, 25, 0.9), rgba(10, 10, 12, 0.9));
-            border: 1px solid rgba(255, 26, 26, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .entrega-card:hover {
-            border-color: rgba(255, 26, 26, 0.6);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(255, 26, 26, 0.1);
-        }
-    </style>
 </head>
-<body class="antialiased">
+<body class="bg-[#09090b] text-[#fafafa] antialiased">
 
-    <nav class="fixed w-full top-0 z-50 glass py-4 px-4 md:px-8 flex justify-between items-center">
-        <a href="#" class="font-brand text-xl md:text-2xl tracking-tighter uppercase text-white flex items-center gap-1.5">ANTONY <span class="text-[#ff1a1a]">BLACK</span> <i class="fas fa-spider text-xs text-[#ff1a1a]"></i></a>
-        <button onclick="togA(1)" class="relative text-white p-2 focus:outline-none"><i class="fas fa-shopping-bag text-lg md:text-xl"></i><span id="c-count" class="absolute top-0 right-0 bg-[#ff1a1a] text-[9px] font-brand font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span></button>
+    <nav class="glass fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="font-brand text-2xl tracking-tighter text-white hover:text-[#e11d48] transition-colors">
+                ANTONY BLACK<span class="text-[#e11d48]">.</span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <button onclick="togM('ai', 1)" class="text-xs uppercase tracking-widest bg-white/5 border border-white/10 hover:border-[#e11d48] hover:bg-[#e11d48] text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-[#e11d48] id-icon"></i> Probador IA
+                </button>
+                
+                <button onclick="togA(1)" class="relative p-2 text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="c-count" class="absolute -top-1 -right-1 bg-[#e11d48] text-white text-[10px] font-bold w-5 h-5 rounded-full flex justify-center items-center">0</span>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <header class="h-screen flex items-center justify-center text-center px-4 relative">
-        <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image:url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200')"></div>
-        <div class="relative z-10 space-y-6 w-full max-w-4xl mx-auto">
-            <span class="text-[#ff1a1a] font-brand text-[10px] md:text-xs tracking-widest block">Streetwear Premium</span>
-            <h1 class="font-brand font-black text-5xl sm:text-7xl md:text-8xl text-white leading-none tracking-tighter">ANTONY<br><span class="text-[#ff1a1a]">BLACK</span></h1>
-            <p class="text-gray-400 text-xs md:text-sm max-w-md mx-auto px-4 leading-relaxed">Prendas oversize exclusivas de alto gramaje diseñadas para imponer tu propio estilo urbano.</p>
-            <div class="flex flex-row gap-3 max-w-xs mx-auto pt-2"><button onclick="flt('hombres')" class="flex-1 bg-white text-black font-brand py-2.5 text-xs tracking-wider transition-all hover:bg-[#ff1a1a] hover:text-white">Hombres</button><button onclick="flt('mujeres')" class="flex-1 bg-[#ff1a1a] text-white font-brand py-2.5 text-xs tracking-wider transition-all hover:bg-red-700">Mujeres</button></div>
-            <button onclick="togM('ai',1)" class="bg-[#131317] border border-white/10 text-white font-brand text-[10px] md:text-xs py-2.5 px-6 mx-auto flex items-center gap-2 mt-3 hover:border-[#ff1a1a] transition-all">✨ PROBADOR VIRTUAL IA</button>
+    <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-black">
+        <div class="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1200')] bg-cover bg-center mix-blend-luminosity"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-black/50"></div>
+        
+        <div class="relative z-10 text-center space-y-6 px-4 max-w-3xl">
+            <span class="text-xs uppercase tracking-[0.4em] text-[#e11d48] font-bold block">Nueva Colección Táctica</span>
+            <h1 class="font-brand text-5xl md:text-7xl text-white leading-none">CORTES OVERSIZE<br>HEAVY COTTON</h1>
+            <p class="text-sm md:text-base text-gray-400 max-w-xl mx-auto font-light leading-relaxed">
+                Diseño disruptivo con estructura rígida que redefine la silueta urbana callejera. Confección premium con envíos y entregas locales en Jocotitlán.
+            </p>
+            <div class="pt-4">
+                <a href="#catalogo" class="inline-block bg-white text-black font-semibold text-xs uppercase tracking-widest px-8 py-4 rounded-full hover:bg-[#e11d48] hover:text-white transition-all transform hover:-translate-y-0.5 shadow-lg">
+                    Explorar Catálogo
+                </a>
+            </div>
         </div>
     </header>
 
-    <section id="catalogo" class="py-20 px-4 md:px-8 max-w-7xl mx-auto space-y-10 scroll-mt-20">
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-white/5 pb-6">
-            <h2 class="font-brand text-2xl md:text-3xl uppercase tracking-tight">Catálogo Oficial</h2>
-            <div class="flex gap-1 border border-white/10 p-1 bg-[#0c0c0f] font-brand text-[10px]">
-                <button onclick="flt('todos')" class="px-4 py-1.5 bg-[#ff1a1a] text-white" id="b-all">Todos</button>
-                <button onclick="flt('hombres')" class="px-4 py-1.5 text-gray-400" id="b-men">Hombres</button>
-                <button onclick="flt('mujeres')" class="px-4 py-1.5 text-gray-400" id="b-women">Mujeres</button>
-            </div>
-        </div>
-        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
-    </section>
-
-    <section class="py-20 bg-black px-4 md:px-8 border-t border-b border-white/5 relative overflow-hidden">
-        <div class="absolute inset-0 bg-radial from-red-950/10 via-transparent to-transparent pointer-events-none"></div>
-        <div class="max-w-6xl mx-auto space-y-12 relative z-10">
-            <div class="text-center space-y-2">
-                <span class="text-[#ff1a1a] font-brand text-[10px] uppercase tracking-widest block"><i class="fas fa-truck-fast"></i> Logística Local</span>
-                <h2 class="font-brand text-3xl md:text-5xl uppercase tracking-tight text-white font-black">Zonas de Entrega <span class="text-[#ff1a1a]">Gratis</span></h2>
-                <p class="text-gray-400 text-xs md:text-sm max-w-md mx-auto">Selecciona tu punto de encuentro más cercano al hacer tu pedido. Entregas coordinadas de forma segura.</p>
+    <section id="catalogo" class="max-w-7xl mx-auto px-6 py-24 space-y-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/5 pb-8">
+            <div>
+                <h2 class="font-brand text-2xl text-white">Prendas Disponibles</h2>
+                <p class="text-xs text-gray-500 mt-1">Ediciones limitadas de alto gramaje</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="entrega-card p-6 rounded-2xl flex flex-col justify-between space-y-6 text-center">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 bg-[#ff1a1a]/10 text-[#ff1a1a] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#ff1a1a]/20 shadow-lg">
-                            <i class="fas fa-location-dot"></i>
+            <div class="flex flex-wrap gap-2">
+                <button id="b-all" onclick="flt('todos')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white transition-all">Todos</button>
+                <button id="b-men" onclick="flt('hombres')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 hover:text-white border border-white/5 transition-all">Hombres</button>
+                <button id="b-women" onclick="flt('mujeres')" class="px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 hover:text-white border border-white/5 transition-all">Mujeres</button>
+            </div>
+        </div>
+
+        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            </div>
+    </section>
+
+    <div id="m-ai" class="modal">
+        <div class="ia-panel w-full max-w-4xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="togM('ai', 0)" class="absolute top-6 right-6 text-gray-500 hover:text-white text-xl transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center md:text-left mb-8">
+                <h2 class="font-brand text-xl md:text-2xl text-white flex items-center justify-center md:justify-start gap-2">
+                    <i class="fa-solid fa-fingerprint text-[#e11d48]"></i> Escáner de Estilo Biométrico
+                </h2>
+                <p class="text-xs text-gray-500 mt-1">Sube tu foto para adaptar la colorimetría urbana a tus rasgos físicos reales.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:grid lg:col-span-5 space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <label class="block text-xs uppercase tracking-widest text-gray-400 font-bold">1. Datos Fisionómicos</label>
+                        <div class="space-y-3">
+                            <div>
+                                <span class="text-[11px] text-gray-500 block mb-1">Perfil Corporativo</span>
+                                <div class="flex gap-2">
+                                    <button id="ch-S-Hombre" onclick="selC('S','Hombre')" class="selector-chip flex-1 text-center active">Hombre</button>
+                                    <button id="ch-S-Mujer" onclick="selC('S','Mujer')" class="selector-chip flex-1 text-center">Mujer</button>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-gray-500 block mb-1">Tono de Piel</span>
+                                <div class="flex gap-1.5 flex-wrap">
+                                    <button id="ch-P-Claro" onclick="selC('P','Claro')" class="selector-chip active">Claro</button>
+                                    <button id="ch-P-Medio" onclick="selC('P','Medio')" class="selector-chip">Medio</button>
+                                    <button id="ch-P-Moreno" onclick="selC('P','Moreno')" class="selector-chip">Moreno</button>
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="font-brand text-lg text-white uppercase tracking-wide">Desviación Jocotitlán</h3>
-                        <p class="text-gray-400 text-[11px] leading-relaxed px-2">Punto de entrega estratégico ideal para accesos rápidos en carretera y zonas aledañas.</p>
                     </div>
-                    <a href="https://maps.google.com" target="_blank" class="w-full bg-[#ff1a1a] hover:bg-red-700 text-white font-brand text-xs font-bold py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-red-950/20">
-                        <i class="fas fa-map-location-dot text-sm"></i> Abrir Ubicación
-                    </a>
+
+                    <div class="space-y-3">
+                        <label class="block text-xs uppercase tracking-widest text-gray-400 font-bold">2. Cargar Registro Físico</label>
+                        <div class="relative group">
+                            <input type="file" accept="image/*" onchange="ldImg(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <div class="border-2 border-dashed border-white/10 group-hover:border-[#e11d48] bg-[#1c1c21]/50 rounded-xl p-4 text-center transition-all">
+                                <i class="fa-solid fa-cloud-arrow-up text-xl text-gray-500 group-hover:text-[#e11d48] mb-1 block"></i>
+                                <span class="text-[11px] font-medium text-gray-400 block">Seleccionar Foto o Selfie</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="snap()" class="w-full bg-[#e11d48] hover:bg-[#f43f5e] text-white text-xs uppercase tracking-widest font-bold py-4 rounded-xl transition-all shadow-lg shadow-shadow-rose-600/20">
+                        GENERAR ESTILO INTELIGENTE
+                    </button>
                 </div>
 
-                <div class="entrega-card p-6 rounded-2xl flex flex-col justify-between space-y-6 text-center">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 bg-[#ff1a1a]/10 text-[#ff1a1a] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#ff1a1a]/20 shadow-lg">
-                            <i class="fas fa-store"></i>
-                        </div>
-                        <h3 class="font-brand text-lg text-white uppercase tracking-wide">Jocotitlán Centro</h3>
-                        <p class="text-gray-400 text-[11px] leading-relaxed px-2">Frente al Palacio Municipal. Zona céntrica, totalmente concurrida y segura para revisar tus prendas.</p>
+                <div class="lg:grid lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-black/40 p-4 rounded-2xl border border-white/5">
+                    <div class="relative aspect-[3/4] bg-[#121214] rounded-xl overflow-hidden border border-white/5 flex items-center justify-center">
+                        <div class="scan-laser"></div>
+                        <img id="v-photo" src="https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400" class="w-full h-full object-cover transition-all duration-300">
                     </div>
-                    <a href="https://maps.google.com" target="_blank" class="w-full bg-[#ff1a1a] hover:bg-red-700 text-white font-brand text-xs font-bold py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-red-950/20">
-                        <i class="fas fa-map-location-dot text-sm"></i> Abrir Ubicación
-                    </a>
-                </div>
-
-                <div class="entrega-card p-6 rounded-2xl flex flex-col justify-between space-y-6 text-center">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 bg-[#ff1a1a]/10 text-[#ff1a1a] text-xl rounded-xl flex items-center justify-center mx-auto border border-[#ff1a1a]/20 shadow-lg">
-                            <i class="fas fa-house-chimney-user"></i>
+                    
+                    <div id="anl" class="flex flex-col justify-between hidden">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-mono bg-[#e11d48]/10 text-[#e11d48] border border-[#e11d48]/20 px-2 py-1 rounded inline-block">ENGINE_V2.5 ACTIVO</span>
+                            <div id="ai-res" class="text-xs text-gray-300 leading-relaxed space-y-2 font-light">
+                                </div>
                         </div>
-                        <h3 class="font-brand text-lg text-white uppercase tracking-wide">San Pedro de los Baños</h3>
-                        <p class="text-gray-400 text-[11px] leading-relaxed px-2">Entregas programadas en puntos clave de la comunidad para tu completa comodidad.</p>
                     </div>
-                    <a href="https://maps.google.com" target="_blank" class="w-full bg-[#ff1a1a] hover:bg-red-700 text-white font-brand text-xs font-bold py-3 px-4 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-red-950/20">
-                        <i class="fas fa-map-location-dot text-sm"></i> Abrir Ubicación
-                    </a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer class="bg-black py-8 text-center text-gray-400 text-xs tracking-widest space-y-2">
-        <div class="flex justify-center gap-6 text-xl">
-            <a href="https://www.instagram.com/jose_antonio_contreras17" target="_blank" class="text-white"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/share/1BNK4Dr2Wv/" target="_blank" class="text-white"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/527122111135" target="_blank" class="text-white"><i class="fab fa-whatsapp"></i></a>
+    <div id="cart" class="drawer flex flex-col justify-between p-6">
+        <div class="space-y-6 overflow-y-auto flex-1 pr-1">
+            <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                <h3 class="font-brand text-lg text-white">Tu Bolsa</h3>
+                <button onclick="togA(0)" class="text-gray-500 hover:text-white transition-colors text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="c-items" class="space-y-3">
+                </div>
         </div>
-        <p class="uppercase tracking-wide">Contacto Oficial: <span class="text-white font-bold">+52 712 211 1135</span></p>
-    </footer>
 
-    <div id="cart" class="drawer flex flex-col shadow-2xl w-full max-w-[400px]">
-        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black"><h2 class="font-brand text-sm">Tu Bolsa</h2><button onclick="togA(0)" class="text-2xl text-gray-400 focus:outline-none">×</button></div>
-        <div id="c-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-        <div class="p-4 bg-[#07070a] border-t border-white/5 space-y-3"><div class="flex justify-between text-xs font-bold"><span>TOTAL:</span><span id="c-total" class="text-[#ff1a1a] font-brand">$0.00</span></div><button onclick="togM('pay',1)" class="w-full bg-[#ff1a1a] text-white font-brand py-2.5 text-xs uppercase tracking-wider">Proceder al Pago</button></div>
+        <div class="border-t border-white/5 pt-4 mt-4 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-400">Total Estimado:</span>
+                <span id="c-total" class="font-brand text-xl text-[#e11d48]">$0.00</span>
+            </div>
+            <button onclick="togM('pay', 1)" class="w-full bg-white text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all">
+                Proceder al Pago
+            </button>
+        </div>
     </div>
 
     <div id="m-pay" class="modal">
-        <div class="bg-[#131317] p-5 w-full max-w-sm relative text-center border border-white/10 space-y-3 rounded-xl mx-2">
-            <button onclick="togM('pay',0)" class="absolute top-2 right-4 text-gray-400 text-2xl hover:text-white">×</button>
-            <h3 class="font-brand text-sm uppercase text-white tracking-wider">💳 Opciones de Pago</h3>
-            <button onclick="window.location.href='https://link.mercadopago.com.mx'" class="w-full bg-[#009EE3] text-white font-brand py-2.5 block text-center uppercase text-xs">Pagar con Mercado Pago</button>
-            <div class="bg-black/50 p-3 text-[11px] text-gray-400 text-left border border-white/5 space-y-0.5 rounded-lg">
-                <p class="text-[#ff1a1a] font-brand text-[10px] uppercase">Transferencia SPEI Directa:</p>
-                <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
-                <p><strong>Banco:</strong> Mercado Pago | <strong>CLABE:</strong> 722969010522000447</p>
+        <div class="bg-[#121214] border border-white/10 rounded-2xl w-full max-w-md p-6 relative text-center space-y-6">
+            <button onclick="togM('pay', 0)" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <i class="fa-solid fa-building-columns text-4xl text-[#e11d48]"></i>
+            <div>
+                <h3 class="font-brand text-lg text-white">Pago Directo SPEI</h3>
+                <p class="text-xs text-gray-500 mt-1">Transfiere desde tu app bancaria de forma segura.</p>
             </div>
-            <button onclick="wsp(true)" class="w-full bg-[#25D366] text-white font-brand py-2.5 flex items-center justify-center gap-2 uppercase text-xs"><i class="fab fa-whatsapp"></i> Enviar Comprobante</button>
+            <div class="bg-black/40 border border-white/5 p-4 rounded-xl text-left space-y-2 text-xs font-mono">
+                <p class="flex justify-between"><span class="text-gray-500">Banco:</span> <span class="text-white">Mercado Pago Wallet</span></p>
+                <p class="flex justify-between"><span class="text-gray-500">CLABE:</span> <span class="text-white text-[#e11d48] select-all">722969010522000447</span></p>
+                <p class="flex justify-between"><span class="text-gray-500">Titular:</span> <span class="text-white">Jose Antonio Mejia Hernandez</span></p>
+            </div>
+            <p class="text-[11px] text-gray-400 leading-normal">
+                Una vez hecha tu transferencia, envíanos captura por WhatsApp al <strong class="text-white">7122111135</strong> junto a tu folio para liberar tu mercancía y coordinar la entrega.
+            </p>
         </div>
     </div>
 
-    <div id="m-ai" class="modal">
-        <div class="ia-panel p-5 w-full max-w-md relative text-center space-y-3 max-h-[90vh] overflow-y-auto border-gray-600 rounded-xl mx-2">
-            <button onclick="togM('ai',0)" class="absolute top-2 right-4 text-gray-400 text-2xl hover:text-[#ff1a1a]">×</button>
-            <h3 class="font-brand text-base text-white border-b border-white/10 pb-1 text-center">PROBADOR VIRTUAL IA</h3>
-            <div class="text-left space-y-2.5 bg-black/50 p-3 border border-white/10 text-xs rounded-lg">
-                <div><span class="block text-[10px] font-brand text-gray-400 uppercase mb-1">Sexo:</span><div class="flex gap-2"><div class="selector-chip active flex-1 text-center" id="ch-S-Hombre" onclick="selC('S','Hombre')">Hombre</div><div class="selector-chip flex-1 text-center" id="ch-S-Mujer" onclick="selC('S','Mujer')">Mujer</div></div></div>
-                <div><span class="block text-[10px] font-brand text-gray-400 uppercase mb-1">Tono de Piel:</span><div class="flex gap-1.5"><div class="selector-chip active flex-1 text-center" id="ch-P-Claro" onclick="selC('P','Claro')">Claro</div><div class="selector-chip flex-1 text-center" id="ch-P-Medio" onclick="selC('P','Medio')">Medio</div><div class="selector-chip flex-1 text-center" id="ch-P-Oscuro" onclick="selC('P','Oscuro')">Oscuro</div></div></div>
-                <div><span class="block text-[10px] font-brand text-gray-400 uppercase mb-1">Color de Ojos:</span><div class="flex gap-1.5"><div class="selector-chip active flex-1 text-center" id="ch-O-Cafes" onclick="selC('O','Cafes')">Cafés</div><div class="selector-chip flex-1 text-center" id="ch-O-Claros" onclick="selC('Oros')">Claros</div><div class="selector-chip flex-1 text-center" id="ch-O-Miel" onclick="selC('O','Miel')">Miel</div></div></div>
-                <div class="pt-2 border-t border-white/5 flex flex-col sm:flex-row gap-2 items-center justify-between"><span class="text-[10px] text-gray-400 font-brand">¿Subir foto de tu galería?:</span><label class="bg-white/5 border border-white/20 text-white text-[9px] font-bold py-1.5 px-3 rounded cursor-pointer uppercase hover:bg-[#ff1a1a] text-center w-full sm:w-auto">Seleccionar Archivo<input type="file" onchange="ldImg(event)" accept="image/*" class="hidden"/></label></div>
+    <div id="t-cht" class="btn-f"><i class="fa-solid fa-comment-dots text-lg"></i></div>
+    
+    <div id="c-box" class="chat-container">
+        <div class="bg-[#1c1c21] px-4 py-3 flex justify-between items-center border-b border-white/5">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-xs font-bold text-white tracking-wider uppercase">Soporte Antony Black</span>
             </div>
-            <div class="relative w-full h-48 bg-black/80 flex items-center justify-center p-1 border border-white/10 overflow-hidden shadow-inner rounded-lg"><div class="scan-laser"></div><img id="v-photo" class="max-w-full max-h-full object-contain rounded"></div>
-            <button onclick="snap()" class="w-full bg-white text-black font-brand py-2.5 text-xs hover:bg-[#ff1a1a] hover:text-white transition-colors">GENERAR ESTILO ✨</button>
-            <div id="anl" class="hidden text-left bg-black/60 p-3 border border-white/10 text-[11px] space-y-2 backdrop-blur-sm rounded-lg">
-                <p class="text-[#ff1a1a] font-brand text-[10px] border-b border-white/5 pb-1"><i class="fas fa-spider"></i> Sugerencia de Perfil Antony Black:</p>
-                <p id="ai-res" class="text-gray-300 leading-relaxed"></p>
-                <div class="pt-2 border-t border-white/10 text-[10px] text-gray-500 space-y-1">
-                    <p class="text-white font-bold uppercase text-[9px]">💡 ¿Sabes qué es la Colorimetría?</p>
-                    <p class="leading-relaxed text-gray-400 text-[10px]">Es el estudio que analiza cómo interactúa la luz de la ropa con tu rostro. El contraste correcto resalta tus facciones de manera imponente.</p>
-                </div>
-            </div>
+            <button onclick="togCh()" class="text-gray-400 hover:text-white text-sm"><i class="fa-solid fa-xmark"></i></button>
         </div>
-    </div>
+        
+        <div id="c-msg" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs bg-black/20">
+            <div class="flex justify-start"><div class="bg-[#1c1c21] text-gray-300 p-3 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 leading-relaxed">¿Qué onda hermano? Soy el asistente de la marca. Selecciona un tema rápido o pregunta lo que quieras aquí abajo. 🕷️</div></div>
+        </div>
 
-    <div id="t-cht" class="btn-f" onclick="togCh()"><i class="fas fa-comment-dots text-lg"></i></div>
-    <div id="c-box" class="chat-container w-[290px] sm:w-[320px]">
-        <div class="bg-[#ff1a1a] p-3 flex justify-between items-center font-brand text-xs text-white uppercase"><span>Soporte Didáctico</span><button onclick="togCh()" class="text-white text-lg font-bold px-1 focus:outline-none">×</button></div>
-        <div id="c-msg" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] bg-[#09090c] leading-relaxed"><div>¡Qué onda! Pregúntame por: <strong>precios</strong>, <strong>tallas</strong> o <strong>envíos</strong> y te enseño de forma didáctica. 🕷️</div></div>
-        <form class="p-2 border-t border-white/5 flex gap-1.5 bg-[#0b0b0f]" onsubmit="bot(event)"><input type="text" id="c-in" placeholder="Escribe algo..." class="flex-1 bg-transparent text-xs outline-none text-white px-2"><button type="submit" class="text-[#ff1a1a] p-1.5 focus:outline-none"><i class="fas fa-paper-plane"></i></button></form>
+        <form onclick="event.stopPropagation()" onsubmit="bot(event)" class="p-3 border-t border-white/5 bg-[#121214] flex gap-2">
+            <input id="c-in" type="text" placeholder="Pregunta por precios, telas..." class="flex-1 bg-[#1c1c21] text-white placeholder-gray-600 text-xs px-3 py-2.5 rounded-lg outline-none border border-white/5 focus:border-[#e11d48] transition-colors">
+            <button type="submit" class="bg-[#e11d48] text-white px-3 rounded-lg hover:bg-[#f43f5e] transition-colors"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
     </div>
 
     <script src="script.js"></script>
 </body>
-                         </html>
+    </html>

@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antony Black | Streetwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { black: '#08080a', 'black-light': '#121216', accent: '#ff2a2a' }, fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], display: ['Oswald', 'sans-serif'] } } } }
+    </script>
+    <style>
+        body { background-color: #08080a; color: #ffffff; overflow-x: hidden; }
+        .glass-header { background: rgba(8, 8, 10, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-card { background: rgba(18, 18, 22, 0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.03); transition: all 0.3s ease; }
+        .glass-card:hover { border-color: #ff2a2a; transform: translateY(-4px); }
+        .marquee-wrapper { overflow: hidden; white-space: nowrap; background: #ff2a2a; }
+        .marquee-content { display: inline-block; animation: marquee-scroll 20s linear infinite; }
+        @keyframes marquee-scroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+        .cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background: #0c0c10; z-index: 1000; transition: right 0.3s ease; border-left: 1px solid rgba(255, 255, 255, 0.05); }
+        .cart-drawer.open { right: 0; }
+        .chat-container { position: fixed; bottom: 90px; right: 20px; width: 320px; height: 400px; background: #111116; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; z-index: 998; transform: scale(0); transform-origin: bottom right; transition: transform 0.3s ease; }
+        .chat-container.open { transform: scale(1); }
+        .custom-modal { position: fixed; inset: 0; background: rgba(4, 4, 6, 0.85); backdrop-filter: blur(8px); z-index: 1001; display: none; justify-content: center; align-items: center; }
+        .custom-modal.active { display: flex; }
+        .floating-btn { position: fixed; bottom: 20px; width: 50px; height: 50px; rounded: 50%; background: #121216; border: 1px solid rgba(255,255,255,0.1); color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; border-radius: 50%; }
+        .music-btn { left: 20px; } .chat-btn { right: 20px; background: #ff2a2a; }
+    </style>
+</head>
+<body class="antialiased">
 
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://archive.org/download/lofi-chill-hip-hop/Lofi%20Chill%20Hip%20Hop.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav class="fixed w-full top-0 z-50 glass-header py-4 px-6 flex justify-between items-center">
+        <a href="#" class="font-display text-xl font-bold tracking-widest uppercase">Antony<span class="text-accent">Black</span></a>
+        <div class="flex items-center gap-4">
+            <button onclick="abrirCarrito()" class="relative text-white p-2" aria-label="Carrito">
+                <i class="fas fa-shopping-bag text-lg"></i>
+                <span id="cart-count" class="absolute top-0 right-0 bg-accent text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200')] bg-cover bg-center opacity-20"></div>
+        <div class="relative z-10 text-center px-4 max-w-xl mx-auto mt-12">
+            <span class="text-accent font-display font-bold tracking-[0.3em] text-xs block mb-2 uppercase">Streetwear Exclusivo</span>
+            <h1 class="text-white font-display uppercase font-black text-5xl tracking-wide mb-4">Antony Black</h1>
+            <p class="text-gray-400 text-xs max-w-md mx-auto mb-8">Prendas oversize premium diseñadas para quienes imponen tendencias en las calles.</p>
+            <div class="flex gap-3 max-w-xs mx-auto mb-6">
+                <button onclick="filterProducts('hombres'); window.location.href='#catalogo'" class="flex-1 bg-white text-black font-display font-bold uppercase tracking-wider py-2.5 rounded text-xs">Hombres</button>
+                <button onclick="filterProducts('mujeres'); window.location.href='#catalogo'" class="flex-1 bg-accent text-white font-display font-bold uppercase tracking-wider py-2.5 rounded text-xs">Mujeres</button>
+            </div>
+            <button onclick="openAIModal()" class="bg-[#111116]/90 border border-white/10 text-white font-sans text-[11px] font-semibold uppercase tracking-wider py-2 px-6 rounded-full mx-auto flex items-center gap-2">✨ Probador IA</button>
+        </div>
+    </header>
+
+    <div class="marquee-wrapper py-2">
+        <div class="marquee-content font-display text-white text-xs font-bold uppercase tracking-wider">
+            🔥 ENVIOS GRATIS A PUNTOS DE ENTREGA | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA |     
+            🔥 ENVIOS GRATIS A PUNTOS DE ENTREGA | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA |     
+        </div>
+    </div>
+
+    <section id="catalogo" class="py-16 px-6 max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="font-display text-2xl uppercase font-black">La <span class="text-accent">Colección</span></h2>
+            <div class="flex gap-2 border border-white/10 p-1 rounded-full bg-black-light text-[10px] font-bold uppercase">
+                <button onclick="filterProducts('todos')" class="px-4 py-1.5 rounded-full bg-accent text-white" id="b-all">Todos</button>
+                <button onclick="filterProducts('hombres')" class="px-4 py-1.5 rounded-full text-gray-400" id="b-men">Hombres</button>
+                <button onclick="filterProducts('mujeres')" class="px-4 py-1.5 rounded-full text-gray-400" id="b-women">Mujeres</button>
+            </div>
+        </div>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
+    </section>
+
+    <section class="py-12 bg-black-light px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <h3 class="font-display text-lg uppercase font-bold">📍 Puntos de Entrega Gratuitos</h3>
+            <p class="text-xs text-gray-400">Desviación Jocotitlán | San Pedro de los Baños | Jocotitlán Centro</p>
+            <p class="text-xs text-gray-500">Contacto WhatsApp: <strong>52 712 211 1135</strong></p>
+        </div>
+    </section>
+
+    <footer class="bg-black py-8 border-t border-white/5 text-center text-gray-500 text-[11px] tracking-wider uppercase">
+        © 2026 <strong>José Antonio Mejía Hernández</strong>. Todos los derechos reservados al mismo.
+    </footer>
+
+    <div id="cart-drawer" class="cart-drawer flex flex-col">
+        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black">
+            <h2 class="font-display text-base uppercase">Tu Bolsa</h2>
+            <button onclick="cerrarCarrito()" class="text-xl text-gray-500 hover:text-white">×</button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3"></div>
+        <div class="p-4 bg-[#0a0a0d] border-t border-white/5">
+            <div class="flex justify-between mb-4 font-display text-sm uppercase">
+                <span>Total:</span><span id="cart-total" class="text-accent">$0.00 MXN</span>
+            </div>
+            <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-display font-bold uppercase text-xs py-3 rounded">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="custom-modal">
+        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-xs relative text-center border border-white/10">
+            <button onclick="closePaymentModal()" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
+            <h3 class="font-display text-sm uppercase font-bold mb-4">💳 Opciones de Pago</h3>
+            <button onclick="window.open('https://link.mercadopago.com.mx', '_blank')" class="w-full bg-[#009EE3] text-white font-display font-bold text-[11px] py-2.5 rounded mb-3">Pagar con Mercado Pago</button>
+            <div class="bg-black/40 p-3 rounded text-[10px] text-gray-400 text-left space-y-1 mb-3">
+                <p class="text-white font-bold">SPEI Directo:</p>
+                <p>Beneficiario: Jose Antonio Mejia Hernandez</p>
+                <p>Banco: Mercado Pago W | CLABE: <span class="text-white font-bold">722969010522000447</span></p>
+            </div>
+            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-display font-bold text-[11px] py-2.5 rounded">Pedir por WhatsApp</button>
+        </div>
+    </div>
+
+    <div id="ai-modal" class="custom-modal">
+        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-xs relative text-center border border-white/10 space-y-3">
+            <button onclick="closeAIModal()" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
+            <h3 class="font-display text-sm uppercase font-bold">Probador Virtual</h3>
+            <div class="w-full h-44 bg-black/60 rounded-lg flex items-center justify-center p-3">
+                <video id="camera-stream" autoplay playsinline class="w-full h-full object-cover hidden rounded-lg"></video>
+                <canvas id="camera-canvas" class="hidden"></canvas>
+                <img id="captured-photo" class="w-full h-full object-cover hidden rounded-lg" alt="Prenda">
+                <p id="camera-fallback" class="text-gray-500 text-[10px]">Activa tu cámara o sube una foto de tu galería para probar el estilo oversize.</p>
+            </div>
+            <button id="btn-cam" onclick="toggleCamara()" class="w-full bg-white text-black text-[11px] font-bold uppercase py-2 rounded">Activar Cámara 📷</button>
+            <button id="btn-snap" onclick="tomarFoto()" class="w-full bg-accent text-white text-[11px] font-bold uppercase py-2 rounded hidden">Capturar Foto 📸</button>
+            <input type="file" onchange="cargarFoto(event)" accept="image/*" class="text-[9px] text-gray-400 block mx-auto"/>
+        </div>
+    </div>
+
+    <button id="toggle-music" class="floating-btn music-btn"><i class="fas fa-volume-up" id="music-icon"></i></button>
+    <div id="toggle-chat" class="floating-btn chat-btn"><i class="fas fa-comment-dots"></i></div>
+
+    <div id="chatbot-box" class="chat-container flex flex-col">
+        <div class="bg-accent p-3 flex justify-between items-center rounded-t-2xl text-xs font-bold uppercase">
+            <span>Soporte Antony Black</span>
+            <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-base">×</button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] bg-[#0e0e11]">
+            <div class="bg-black-light p-2 rounded-lg">¡Qué onda! Soy el bot de Antony Black 🕷️. Pregúntame sobre tus depósitos o los puntos de entrega física.</div>
+        </div>
+        <form class="p-2 border-t border-white/5 flex gap-1" onsubmit="chatBot(event)">
+            <input type="text" id="chat-in" placeholder="Pregunta algo..." class="flex-1 bg-transparent text-xs outline-none text-white px-1">
+            <button type="submit" class="text-accent p-1"><i class="fas fa-paper-plane"></i></button>
+        </form>
+    </div>
+
+    <script>
+        let mu=false, cart=[], stream=null;
+        const db=[
+            {id:1, name:"Oversized Hoodie 'No Rules'", price:899, cat:"hombres", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400"},
+            {id:2, name:"Cargo Pants Tactical Black", price:1150, cat:"hombres", img:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400"},
+            {id:3, name:"Crop Hoodie 'Rebel' Red", price:750, cat:"mujeres", img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400"},
+            {id:4, name:"Wide Leg Jeans Vintage Gray", price:990, cat:"mujeres", img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400"}
+        ];
+        function playM() { if(!mu){ const m=document.getElementById('bg-music'); m.volume=0.25; m.play().then(()=>{ mu=true; document.getElementById('music-icon').className="fas fa-volume-up"; }).catch(()=>{});}}
+        document.body.addEventListener('click', playM, {once:true});
+        document.getElementById('toggle-music').addEventListener('click', (e)=>{ e.stopPropagation(); const m=document.getElementById('bg-music'); if(mu){ m.pause(); document.getElementById('music-icon').className="fas fa-volume-mute text-gray-500"; }else{ m.play(); document.getElementById('music-icon').className="fas fa-volume-up"; } mu=!mu; });
+        function render(items) { const g=document.getElementById('products-grid'); if(!g)return; g.innerHTML=''; items.forEach(p=>{ g.innerHTML+=`<div class="glass-card rounded-xl overflow-hidden"><div class="h-64 bg-gray-900"><img src="${p.img}" class="w-full h-full object-cover"></div><div class="p-4 space-y-2"><h3 class="text-xs font-bold font-sans truncate">${p.name}</h3><p class="text-accent font-display font-bold text-sm">$${p.price}.00 MXN</p><button onclick="addC(${p.id})" class="w-full bg-black border border-white/10 hover:bg-accent hover:border-accent text-[10px] uppercase font-bold py-2 rounded transition-all">Añadir</button></div></div>`;});}
+        function filterProducts(cat) { ['all','men','women'].forEach(id=>{const b=document.getElementById('b-'+id); if(b) b.className="px-4 py-1.5 rounded-full text-gray-400";}); render(cat==='todos'?db:db.filter(p=>p.cat===cat));}
+        function addC(id) { const p=db.find(x=>x.id===id), item=cart.find(x=>x.id===id); if(item) item.q++; else cart.push({...p,q:1}); upUI(); abrirCarrito(); }
+        function upUI() { const c=document.getElementById('cart-items-container'); if(!c)return; c.innerHTML=''; let t=0; cart.forEach(i=>{ t+=i.price*i.q; c.innerHTML+=`<div class="flex gap-3 bg-white/5 p-2 rounded-lg items-center text-xs"><img src="${i.img}" class="w-10 h-10 object-cover rounded"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px]">${i.name}</h4><p class="text-accent text-[10px]">$${i.price} x${i.q}</p></div><button onclick="remC(${i.id})" class="text-gray-500 hover:text-accent"><i class="fas fa-trash"></i></button></div>`;}); document.getElementById('cart-total').textContent='$'+t.toFixed(2)+' MXN'; document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.q,0); }
+        function remC(id) { cart=cart.filter(x=>x.id!==id); upUI(); }
+        function abrirCarrito() { document.getElementById('cart-drawer').classList.add('open'); }
+        function cerrarCarrito() { document.getElementById('cart-drawer').classList.remove('open'); }
+        function openPaymentModal() { if(cart.length===0)return; cerrarCarrito(); document.getElementById('modal-total-amount').textContent=document.getElementById('cart-total').textContent; document.getElementById('payment-modal').classList.add('active'); }
+        function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
+        function confirmWhatsAppCheckout() { let m="¡Qué onda Antony Black! 🕷️ Quiero:\n"; cart.forEach(i=>m+=`• ${i.q}x ${i.name}\n`); window.open(`https://wa.me/527122111135?text=${encodeURIComponent(m)}`, '_blank'); }
+        function openAIModal() { document.getElementById('ai-modal').classList.add('active'); }
+        function closeAIModal() { document.getElementById('ai-modal').classList.remove('active'); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} document.getElementById('camera-stream').classList.add('hidden'); document.getElementById('captured-photo').classList.add('hidden'); document.getElementById('camera-fallback').classList.remove('hidden'); document.getElementById('btn-cam').classList.remove('hidden'); document.getElementById('btn-snap').classList.add('hidden'); }
+        async function toggleCamara() { try { stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}); const v=document.getElementById('camera-stream'); v.srcObject=stream; v.classList.remove('hidden'); document.getElementById('camera-fallback').classList.add('hidden'); document.getElementById('btn-cam').classList.add('hidden'); document.getElementById('btn-snap').classList.remove('hidden'); } catch(e){} }
+        function tomarFoto() { const v=document.getElementById('camera-stream'), c=document.getElementById('camera-canvas'), p=document.getElementById('captured-photo'); c.getContext('2d').drawImage(v,0,0,c.width,c.height); p.src=c.toDataURL('image/png'); p.classList.remove('hidden'); v.classList.add('hidden'); document.getElementById('btn-snap').classList.add('hidden'); }
+        function cargarFoto(e) { const f=e.target.files[0]; if(f){ const r=new FileReader(); r.onload=(el)=>{ const p=document.getElementById('captured-photo'); p.src=el.target.result; p.classList.remove('hidden'); document.getElementById('camera-fallback').classList.add('hidden'); }; r.readAsDataURL(f); } }
+        document.getElementById('toggle-chat').addEventListener('click', ()=>{ document.getElementById('chatbot-box').classList.toggle('open'); });
+        function chatBot(e) { e.preventDefault(); const i=document.getElementById('chat-in'), m=document.getElementById('chat-messages'), txt=i.value.trim(); if(!txt)return; m.innerHTML+=`<div class="text-right text-accent font-bold">${txt}</div>`; i.value=''; setTimeout(()=>{ let r="Escríbenos a nuestro WhatsApp oficial: 7122111135 🕷️"; if(txt.toLowerCase().includes('pago')||txt.toLowerCase().includes('cuenta')) r="Aceptamos SPEI (CLABE 722969010522000447), pago al recibir y Mercado Pago."; m.innerHTML+=`<div class="bg-black-light p-2 rounded-lg mt-1">${r}</div>`; m.scrollTop=m.scrollHeight; },400); }
+        render(db);
+    </script>
+</body>
+              </html>

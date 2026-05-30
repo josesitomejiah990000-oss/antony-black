@@ -1,18 +1,175 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@700;800&display=swap');
-body { background: #0c0c0e; color: #f3f4f6; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; }
-.font-brand { font-family: 'Syne', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; }
-.glass { background: rgba(12, 12, 14, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 2px solid #ff1a1a; }
-.card { background: #131317; border: 1px solid rgba(255, 255, 255, 0.02); border-radius: 0px; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-.card:hover { border-color: #ff1a1a; transform: scale(1.02); box-shadow: 0 10px 25px rgba(255, 26, 26, 0.15); }
-.drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 420px; height: 100vh; background: #0c0c0e; z-index: 1000; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); border-left: 2px solid #ff1a1a; }
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap');
+
+/* Configuración Base de Lujo */
+body { 
+    background-color: #09090b; 
+    color: #fafafa; 
+    overflow-x: hidden; 
+    font-family: 'Space Grotesk', sans-serif; 
+    letter-spacing: -0.01em;
+}
+
+.font-brand { 
+    font-family: 'Syne', sans-serif; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    letter-spacing: -0.04em; 
+}
+
+/* Navbar de Cristal Esmerilado Fino */
+.glass { 
+    background: rgba(9, 9, 11, 0.8); 
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04); 
+}
+
+/* Tarjetas Estilo Bloque Sólido (Cero amontonamiento, máxima elegancia) */
+.card { 
+    background-color: #121214; 
+    border: 1px solid rgba(255, 255, 255, 0.03); 
+    border-radius: 12px;
+    overflow: hidden; 
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+.card:hover { 
+    border-color: #e11d48; 
+    transform: translateY(-4px); 
+    box-shadow: 0 12px 30px rgba(225, 29, 72, 0.08); 
+}
+
+.card img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover img {
+    transform: scale(1.04);
+}
+
+/* Menús Desplegables Estilizados */
+select {
+    background-color: #1c1c21;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Drawers y Contenedores Laterales */
+.drawer { 
+    position: fixed; 
+    top: 0; 
+    right: -100%; 
+    width: 100%; 
+    max-width: 420px; 
+    height: 100vh; 
+    background-color: #09090b; 
+    z-index: 1000; 
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+    border-left: 1px solid rgba(255, 255, 255, 0.05); 
+    box-shadow: -20px 0 40px rgba(0,0,0,0.7);
+}
+
 .drawer.open { right: 0; }
-.modal { position: fixed; inset: 0; background: rgba(6, 6, 8, 0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 1001; display: none; justify-content: center; align-items: center; padding: 16px; }
+
+/* Modales e Interfaces IA */
+.modal { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(9, 9, 11, 0.94); 
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px); 
+    z-index: 1001; 
+    display: none; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 16px; 
+}
+
 .modal.active { display: flex; }
-.btn-f { position: fixed; bottom: 25px; right: 25px; width: 56px; height: 56px; background: #ff1a1a; color: #fff; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; border-radius: 0px; box-shadow: 0 0 20px rgba(255, 26, 26, 0.4); }
-.chat-container { position: fixed; bottom: 95px; right: 25px; width: 320px; height: 420px; background: #131317; border: 2px solid #ff1a1a; z-index: 1000; display: none; flex-direction: column; overflow: hidden; }
+
+.ia-panel { 
+    background: #121214; 
+    border: 1px solid rgba(255, 255, 255, 0.06); 
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+}
+
+.selector-chip { 
+    cursor: pointer; 
+    background: #1c1c21; 
+    border: 1px solid rgba(255, 255, 255, 0.04); 
+    padding: 8px 14px; 
+    border-radius: 8px; 
+    font-size: 11px;
+    font-weight: 600;
+    color: #a1a1aa; 
+    transition: all 0.2s ease;
+}
+
+.selector-chip.active { 
+    background-color: #e11d48; 
+    border-color: #e11d48; 
+    color: #fff; 
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+
+/* Efecto Láser HUD */
+.scan-laser { 
+    position: absolute; 
+    left: 0; 
+    width: 100%; 
+    height: 2px; 
+    background: linear-gradient(90deg, transparent, #e11d48, transparent); 
+    box-shadow: 0 0 12px #e11d48; 
+    animation: laser 2.4s infinite ease-in-out; 
+}
+
+@keyframes laser { 0% { top: 0%; opacity: 0.3; } 50% { top: 100%; opacity: 1; } 100% { top: 0%; opacity: 0.3; } }
+
+/* Botones Flotantes y Chat */
+.btn-f { 
+    position: fixed; 
+    bottom: 25px; 
+    right: 25px; 
+    width: 56px; 
+    height: 56px; 
+    background-color: #e11d48; 
+    color: #fff; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    cursor: pointer; 
+    z-index: 999; 
+    border-radius: 50%; 
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.3); 
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-f:hover { transform: scale(1.06); }
+
+.chat-container { 
+    position: fixed; 
+    bottom: 95px; 
+    right: 25px; 
+    width: 325px; 
+    height: 440px; 
+    background-color: #121214; 
+    border: 1px solid rgba(255, 255, 255, 0.06); 
+    border-radius: 16px; 
+    z-index: 1000; 
+    display: none; 
+    flex-direction: column; 
+    overflow: hidden; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
 .chat-container.open { display: flex; }
-.ia-panel { background: #131317; border: 2px solid #ff1a1a; box-shadow: 0 0 40px rgba(255, 26, 26, 0.2); position: relative; }
-.selector-chip { cursor: pointer; background: #1c1c24; border: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 16px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; font-size: 10px; }
-.selector-chip.active { background: #ff1a1a; border-color: #ff1a1a; color: #fff; }
-.scan-laser { position: absolute; left: 0; width: 100%; height: 3px; background: #ff1a1a; box-shadow: 0 0 15px #ff1a1a; animation: laser 2s infinite linear; }
-@keyframes laser { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+
+/* Scrollbars Premium Rediseñadas */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #09090b; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #e11d48; }

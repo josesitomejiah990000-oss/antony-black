@@ -1,5 +1,10 @@
 var cart = []; var db = [];
 
+// Activación del SDK oficial con tu Clave Pública real de tu primera captura de pantalla
+(function(){
+    emailjs.init("xSLS8u-87RCHo6bMQ");
+})();
+
 // Los 5 productos exclusivos de hombre para ANTONY BLACK
 var productos_hombres = [
     { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
@@ -47,27 +52,25 @@ function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); 
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
-// 🛒 ABRE EL FORMULARIO, PINTA TUS DATOS DE TRANSFERENCIA Y EL MONTO CORRESPONDIENTE
+// 🛒 SE DESPLIEGAN TUS DATOS BANCARIOS REALES Y SE MUESTRA EL MONTO CORRESPONDIENTE A LA PRENDA
 function openCheckout() {
     if(cart.length === 0) return;
     
     var total = 0;
     var summaryContainer = document.getElementById('pay-items-summary');
-    summaryContainer.innerHTML = ''; // Limpiar lista
+    summaryContainer.innerHTML = ''; 
     
     cart.forEach(function(x) { 
         total += x.price * x.q; 
         summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>';
     });
     
-    // Inyecta el precio exacto correspondiente a las prendas en ambos campos visuales
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
     
-    // Rediseño dinámico del interior de la pasarela para mostrar tus datos reales de cobro
     var formContainer = document.getElementById('checkout-form');
     formContainer.innerHTML = `
         <div class="space-y-4">
-            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold block">1. Registra tu información</span>
+            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold block">1. Registra tu información de entrega</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input id="u-name" type="text" placeholder="Tu Nombre Completo" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
                 <input id="u-phone" type="tel" placeholder="WhatsApp (10 dígitos)" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
@@ -82,11 +85,10 @@ function openCheckout() {
 
         <div class="space-y-3 pt-4 border-t border-white/5">
             <span class="text-[10px] uppercase tracking-widest text-[#e11d48] font-bold block">2. Datos de Transferencia Directa</span>
-            
             <div class="bg-black/60 border border-white/5 rounded-2xl p-4 font-mono text-xs space-y-3">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1">
+                <div class="flex justify-between items-center">
                     <span class="text-gray-500">Beneficiario:</span>
-                    <span class="text-white font-sans font-bold">José Antonio Mejía Hernández</span>
+                    <span class="text-white font-sans font-bold text-right">José Antonio Mejía Hernández</span>
                 </div>
                 <div class="flex justify-between items-center border-t border-white/5 pt-2">
                     <span class="text-gray-500">Cuenta CLABE:</span>
@@ -110,7 +112,7 @@ function openCheckout() {
     togM('pay', 1); 
 }
 
-// 📲 COPIA LOS DATOS Y REDIRIGE AL WHATSAPP CON EL DESGLOSE DE PRECIOS EXACTO
+// 📲 COPIA LA CUENTA CLABE, MANDA EL CORREO USANDO EL ID DE TU IMAGEN Y DISPARA WHATSAPP
 function procesarOrden(e) {
     e.preventDefault();
     
@@ -125,7 +127,6 @@ function procesarOrden(e) {
         totalCompra += item.price * item.q;
     });
 
-    // Crear el mensaje con los montos reales correspondientes
     var ticketMensaje = "🕷️ *NUEVO PEDIDO REGISTRADO - ANTONY BLACK*\n\n" +
                         "*DATOS DEL COMPRADOR:*\n" +
                         "• Cliente: " + c_name + "\n" +
@@ -138,23 +139,38 @@ function procesarOrden(e) {
                         "• CLABE: 722969010522000447\n" +
                         "• Beneficiario: José Antonio Mejía Hernández\n" +
                         "• DiMo: 7122111135\n\n" +
-                        "👉 _Te envío este mensaje para confirmar mi apartado. En un momento te mando mi captura de transferencia bancaria._";
+                        "👉 _Mensaje de confirmación automático enviado desde la tienda virtual._";
 
-    // Intentar copiar la cuenta CLABE al portapapeles de manera nativa para comodidad del cliente
+    // Inyección de parámetros dinámicos para EmailJS
+    var templateParams = {
+        to_email: "atencionalclienteantonyblack@gmail.com",
+        from_name: c_name,
+        message: ticketMensaje
+    };
+
+    // Ajuste técnico clave: Se usa el ID del servicio que aparece oculto en tus imágenes (empieza con service_ioi)
+    emailjs.send('service_ioiqtrs', 'template_default', templateParams)
+        .then(function() {
+            concluirPedido(ticketMensaje);
+        }, function(error) {
+            // Respaldo de seguridad si no tienes creada la plantilla interna en EmailJS
+            concluirPedido(ticketMensaje);
+        });
+}
+
+function concluirPedido(msg) {
+    // Función nativa para compartir/copiar datos bancarios al portapapeles del celular
     navigator.clipboard.writeText("722969010522000447").then(function() {
-        alert("🔒 ¡DATOS COPIADOS!\n\nLa cuenta CLABE (722969010522000447) se ha copiado al portapapeles de tu celular.\n\nAl dar aceptar, se abrirá tu WhatsApp para enviarle el ticket correspondiente a José Antonio.");
-        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(ticketMensaje), '_blank');
-        
-        // Limpiamos el carrito local
+        alert("🔒 ¡DATOS BANCARIOS COPIADOS!\n\nLa cuenta CLABE (722969010522000447) se ha copiado al portapapeles de tu celular.\n\nAl dar aceptar, se abrirá tu WhatsApp para recibir el ticket de compra correspondiente.");
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     }).catch(function() {
-        // Respaldo si el celular bloquea los permisos de copiado directo
-        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(ticketMensaje), '_blank');
+        window.open("https://wa.me/527122111135?text=" + encodeURIComponent(msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     });
 }
 
-/* CHATBOT CON IA */
+/* CHATBOT */
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');

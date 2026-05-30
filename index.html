@@ -19,8 +19,6 @@
         .btn-f { position:fixed; bottom:20px; width:50px; height:50px; background:#ff2a2a; color:#fff; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:999; border-radius:50%; right:20px; }
         .chat-container { position:fixed; bottom:90px; right:20px; width:300px; height:380px; background:#111116; border:1px solid rgba(255,255,255,0.1); border-radius:15px; z-index:1000; display:none; flex-direction:column; overflow:hidden; }
         .chat-container.open { display:flex; }
-        .ia-image-box { width:100%; height:180px; bg-black/60 rounded-lg flex items-center justify-center p-2 relative; overflow:hidden; border:1px solid rgba(255,255,255,0.1); }
-        .ia-image-box img { max-width:100%; max-height:100%; object-fit:contain; border-radius:8px; }
     </style>
 </head>
 <body class="antialiased">
@@ -51,9 +49,9 @@
     <section class="py-16 bg-[#121216] px-6 border-t border-white/5 space-y-6">
         <h2 class="font-display text-2xl text-center uppercase font-black">Puntos de <span class="text-[#ff2a2a]">Entrega</span></h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto text-xs">
-            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-bold text-sm uppercase">Desviación Jocotitlán</p><p class="text-gray-400">Punto de encuentro estratégico y seguro.</p><a href="https://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-bold">VER MAPA</a></div>
-            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-bold text-sm uppercase">San Pedro de los Baños</p><p class="text-gray-400">Entregas programadas directo en la explanada de la delegación.</p><a href="https://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-bold">VER MAPA</a></div>
-            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-bold text-sm uppercase">Jocotitlán Centro</p><p class="text-gray-400">Entregas frente al palacio municipal.</p><a href="https://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-bold">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-bold text-sm uppercase">Desviación Jocotitlán</p><p class="text-gray-400">Punto de encuentro estratégico y seguro.</p><a href="http://maps.google.com/?q=Desviacion+Jocotitlan" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-bold">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-bold text-sm uppercase">San Pedro de los Baños</p><p class="text-gray-400">Entregas programadas directo en la explanada de la delegación.</p><a href="http://maps.google.com/?q=San+Pedro+de+los+Banos" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-bold">VER MAPA</a></div>
+            <div class="card p-5 rounded-xl space-y-2 flex flex-col justify-between"><p class="font-bold text-sm uppercase">Jocotitlán Centro</p><p class="text-gray-400">Entregas frente al palacio municipal.</p><a href="http://maps.google.com/?q=Jocotitlan+Centro" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded block text-center font-bold">VER MAPA</a></div>
         </div>
     </section>
 
@@ -77,7 +75,7 @@
         <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3">
             <button onclick="togM('pay',0)" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
             <h3 class="font-display text-sm font-bold uppercase">💳 Opciones de Pago</h3>
-            <button onclick="irAMercadoPago()" class="w-full bg-[#009EE3] text-white font-bold text-xs py-2.5 rounded text-center uppercase">Pagar con Mercado Pago</button>
+            <button onclick="irAMercadoPago()" class="w-full bg-[#009EE3] text-white font-display font-bold text-[11px] py-2.5 rounded text-center uppercase">Pagar con Mercado Pago</button>
             <div class="bg-black/40 p-3 rounded text-[11px] text-gray-400 text-left border border-white/5 space-y-0.5">
                 <p class="text-[#ff2a2a] font-bold mb-1">Transferencia SPEI Directa:</p>
                 <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
@@ -90,15 +88,24 @@
     <div id="m-ai" class="modal">
         <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3 max-h-[90vh] overflow-y-auto">
             <button onclick="togM('ai',0)" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
-            <h3 class="font-display text-sm font-bold uppercase">Probador IA</h3>
+            <h3 class="font-display text-sm font-bold uppercase">Probador & Análisis IA</h3>
             <div class="text-left space-y-2 bg-black/30 p-3 rounded-lg border border-white/5 text-xs">
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Sexo:</label><select id="ai-sex" class="w-full bg-[#16161a] rounded p-1 text-white outline-none"><option value="Hombre">Hombre</option><option value="Mujer">Mujer</option></select></div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tono de Piel:</label><select id="ai-skin" class="w-full bg-[#16161a] rounded p-1 text-white outline-none"><option value="Claro">Clara</option><option value="Medio">Media</option><option value="Oscuro">Oscura</option></select></div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Color de Ojos:</label><select id="ai-eyes" class="w-full bg-[#16161a] rounded p-1 text-white outline-none"><option value="Cafes">Cafés</option><option value="Claros">Claros</option></select></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Sexo:</label><select id="ai-sex" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Hombre">Hombre</option><option value="Mujer">Mujer</option></select></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tono de Piel:</label><select id="ai-skin" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Claro">Tez Clara</option><option value="Medio">Tez Media</option><option value="Oscuro">Tez Morena</option></select></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Color de Ojos:</label><select id="ai-eyes" class="w-full bg-[#16161a] border border-white/10 rounded p-1.5 text-white outline-none"><option value="Cafés">Cafés</option><option value="Claros">Claros</option><option value="Miel">Miel</option></select></div>
             </div>
-            <div class="ia-image-box"><p id="v-fall" class="text-gray-500 text-[10px]">Describe tus rasgos arriba para generar tu referencia visual.</p><img id="v-photo" class="hidden"></div>
-            <button onclick="snap()" class="w-full bg-[#ff2a2a] text-white text-xs font-bold py-2 rounded uppercase tracking-wider">Generar Estilo ✨</button>
-            <div id="anl" class="hidden text-left bg-black/50 p-2 text-[11px] space-y-1"><p id="ai-res"></p><p>📐 <strong>Corte:</strong> Oversize premium recomendado.</p></div>
+            <div class="w-full h-40 bg-black/60 rounded-lg flex flex-col justify-center items-center p-2 relative border border-white/5 overflow-hidden">
+                <video id="v-stream" autoplay playsinline class="w-full h-full object-cover hidden rounded-lg"></video>
+                <canvas id="v-canvas" class="hidden"></canvas><img id="v-photo" class="w-full h-full object-contain hidden rounded-lg">
+                <p id="v-fall" class="text-gray-500 text-[10px] px-4">Usa la cámara real para simular tu rostro con el corte oversize.</p>
+            </div>
+            <div class="flex gap-2"><button id="b-cam" onclick="cam()" class="flex-1 bg-white text-black text-[10px] font-bold py-2 rounded uppercase">Cámara Real 📷</button><button id="b-snap" onclick="snap()" class="flex-1 bg-[#ff2a2a] text-white text-[10px] font-bold py-2 rounded hidden uppercase">Tomar Foto 📸</button></div>
+            <button onclick="generarEstilo()" class="w-full bg-white text-black text-xs font-bold py-2.5 rounded uppercase tracking-wider">Generar Análisis Visual ✨</button>
+            <div id="anl" class="hidden text-left bg-black/50 p-2.5 rounded border border-white/5 text-[11px] space-y-1">
+                <p class="text-[#ff2a2a] font-bold text-[10px] uppercase border-b border-white/5 pb-1">✨ Recomendación Antony Black:</p>
+                <p id="ai-res-perfil"></p>
+                <p>📐 <strong>Estructura Física:</strong> Caída Oversize premium recomendada para un porte imponente.</p>
+            </div>
         </div>
     </div>
 
@@ -110,15 +117,15 @@
     </div>
 
     <script>
-        let crt=[];
+        let cart=[], stm=null;
         const db=[
             {id:1, name:"Oversized Hoodie 'No Rules'", price:899, cat:"hombres", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400"},
             {id:2, name:"Cargo Pants Tactical Black", price:1150, cat:"hombres", img:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400"},
             {id:3, name:"Crop Hoodie 'Rebel' Red", price:750, cat:"mujeres", img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400"},
             {id:4, name:"Wide Leg Jeans Vintage Gray", price:990, cat:"mujeres", img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400"}
         ];
-        function rnd(arr) { const g=document.getElementById('grid'); if(!g)return; g.innerHTML=''; arr.forEach(p=>{ g.innerHTML+=`<div class="card rounded-xl overflow-hidden"><div class="h-56 bg-gray-900"><img src="${p.img}" class="w-full h-full object-cover"></div><div class="p-4 space-y-1.5"><h3 class="text-xs font-bold truncate">${p.name}</h3><p class="text-[#ff2a2a] font-bold text-sm">$${p.price}.00 MXN</p><button onclick="add(${p.id})" class="w-full bg-black border border-white/10 hover:bg-[#ff2a2a] hover:border-[#ff2a2a] text-[10px] uppercase font-bold py-2 rounded transition-all">Añadir</button></div></div>`;});}
-        function flt(c) { ['all','men','women'].forEach(id=>{const b=document.getElementById('b-'+id); if(b) b.className="px-4 py-1 rounded-full text-gray-400";}); rnd(c==='todos'?db:db.filter(p=>p.cat===c));}
+        function rnd(arr) { const g=document.getElementById('grid'); if(!g)return; g.innerHTML=''; arr.forEach(p=>{ g.innerHTML+=`<div class="card rounded-xl overflow-hidden"><div class="h-56 bg-gray-900"><img src="${p.img}" class="w-full h-full object-cover"></div><div class="p-4 space-y-1.5"><h3 class="text-xs font-bold truncate">${p.name}</h3><p class="text-[#ff2a2a] font-bold text-sm">$${p.price}.00 MXN</p><button onclick="add(${p.id})" class="w-full bg-black border border-white/10 hover:bg-[#ff2a2a] hover:border-[#ff2a2a] text-[10px] uppercase font-bold py-2 rounded transition-all">Añadir al Carrito</button></div></div>`;});}
+        function flt(c) { ['all','men','women'].forEach(id=>{const b=document.getElementById('b-'+id); if(b) b.className="px-4 py-1 rounded-full text-gray-400";}); const act=c==='todos'?'all':(c==='hombres'?'men':'women'); document.getElementById('b-'+act).className="px-4 py-1 rounded-full bg-[#ff2a2a] text-white"; rnd(c==='todos'?db:db.filter(p=>p.cat===c)); window.location.href='#catalogo';}
         function add(id) { const p=db.find(x=>x.id===id), i=cart.find(x=>x.id===id); if(i) i.q++; else cart.push({...p,q:1}); upUI(); togA(1); }
         function upUI() { const c=document.getElementById('c-items'); if(!c)return; c.innerHTML=''; let t=0; cart.forEach(i=>{ t+=i.price*i.q; c.innerHTML+=`<div class="flex gap-3 bg-white/5 p-2 rounded-lg items-center text-xs"><img src="${i.img}" class="w-8 h-8 object-cover rounded"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px]">${i.name}</h4><p class="text-[#ff2a2a] text-[10px]">$${i.price} x${i.q}</p></div><button onclick="rem(${i.id})" class="text-gray-500 hover:text-[#ff2a2a]"><i class="fas fa-trash"></i></button></div>`;}); document.getElementById('c-total').textContent='$'+t.toFixed(2); document.getElementById('c-count').textContent=cart.reduce((s,i)=>s+i.q,0); }
         function rem(id) { cart=cart.filter(x=>x.id!==id); upUI(); }
@@ -126,10 +133,12 @@
         function togM(id,o) { if(id==='pay'&&cart.length===0)return; if(id==='pay'&&o) togA(0); document.getElementById('m-'+id).classList[o?'add':'remove']('active'); if(!o&&id==='ai') clsCam(); }
         function irAMercadoPago() { window.location.href = "https://link.mercadopago.com.mx"; }
         function toggleChatbot() { document.getElementById('c-box').classList.toggle('open'); }
-        function wsp(isC) { let m=isC?"🕷️ Comprobante:\n":"🕷️ Pedido:\n"; cart.forEach(i=>m+=`• ${i.q}x ${i.name}\n`); window.open(`https://wa.me/527122111135?text=${encodeURIComponent(m)}`,'_blank'); }
-        function snap() { const s=document.getElementById('ai-sex').value, sk=document.getElementById('ai-skin').value, e=document.getElementById('ai-eyes').value, p=document.getElementById('v-photo'), f=document.getElementById('v-fall'), imgUrl=s==='Hombre'?'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400':'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400'; p.src=imgUrl; p.classList.remove('hidden'); f.classList.add('hidden'); document.getElementById('ai-res').innerHTML=`🎨 <strong>Estilo:</strong> Armonía para tez ${sk} y ojos ${e}. Te favorece el Negro/Rojo de Antony Black.`; document.getElementById('anl').classList.remove('hidden'); }
-        function clsCam() { document.getElementById('v-photo').classList.add('hidden'); document.getElementById('v-fall').classList.remove('hidden'); document.getElementById('anl').classList.add('hidden'); }
-        function bot(e) { e.preventDefault(); const i=document.getElementById('c-in'), m=document.getElementById('c-msg'), t=i.value.trim().toLowerCase(); if(!t)return; m.innerHTML+=`<div class="text-right text-[#ff2a2a] font-bold">${i.value}</div>`; i.value=''; setTimeout(()=>{ let r="Contacto inmediato: WhatsApp 7122111135. 🕷️"; if(t.includes('pago')) r="Aceptamos SPEI (CLABE 722969010522000447), contra entrega y Mercado Pago."; else if(t.includes('envio')) r="Entregas gratis en: Desviación Jocotitlán, San Pedro de los Baños y Jocotitlán Centro."; else if(t.includes('talla')) r="Corte Oversize Premium (holgadas). Si buscas caída justa, pide una talla menos."; m.innerHTML+=`<div class="bg-[#121216] p-2 rounded-lg mt-1">${r}</div>`; m.scrollTop=m.scrollHeight; },400); }
+        function wsp(isC) { let m=isC?"🕷️ Comprobante de pago:\n":"🕷️ Mi pedido:\n"; cart.forEach(i=>m+=`• ${i.q}x ${i.name}\n`); window.open(`https://wa.me/527122111135?text=${encodeURIComponent(m)}`,'_blank'); }
+        async function cam() { try { stm=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}); const v=document.getElementById('v-stream'); v.srcObject=stm; v.classList.remove('hidden'); document.getElementById('v-fall').classList.add('hidden'); document.getElementById('b-cam').classList.add('hidden'); document.getElementById('b-snap').classList.remove('hidden'); document.getElementById('v-photo').classList.add('hidden'); } catch(e){} }
+        function snap() { const v=document.getElementById('v-stream'), c=document.getElementById('v-canvas'), p=document.getElementById('v-photo'); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0,c.width,c.height); p.src=c.toDataURL('image/png'); p.classList.remove('hidden'); v.classList.add('hidden'); document.getElementById('b-snap').classList.add('hidden'); document.getElementById('b-cam').classList.remove('hidden'); if(stm){stm.getTracks().forEach(t=>t.stop());} }
+        function clsCam() { if(stm){stm.getTracks().forEach(t=>t.stop()); stm=null;} document.getElementById('v-stream').classList.add('hidden'); document.getElementById('v-photo').classList.add('hidden'); document.getElementById('v-fall').classList.remove('hidden'); document.getElementById('b-cam').classList.remove('hidden'); document.getElementById('b-snap').classList.add('hidden'); document.getElementById('anl').classList.add('hidden'); }
+        function generarEstilo() { const s=document.getElementById('ai-sex').value, sk=document.getElementById('ai-skin').value, ey=document.getElementById('ai-eyes').value; document.getElementById('ai-res-perfil').innerHTML=`🎨 <strong>Colorimetría (${s}):</strong> Rostro con tez ${sk} y ojos ${ey}. Te favorece al 100% el contraste del Negro Extremo y detalles en Rojo Crimson de la marca para potenciar las sombras de tu rostro de forma única.`; document.getElementById('anl').classList.remove('hidden'); }
+        function bot(e) { e.preventDefault(); const i=document.getElementById('c-in'), m=document.getElementById('c-msg'), t=i.value.trim().toLowerCase(); if(!t)return; m.innerHTML+=`<div class="text-right text-[#ff2a2a] font-bold">${i.value}</div>`; i.value=''; setTimeout(()=>{ let r="Para atención inmediata o dudas de tu envío, mándanos un WhatsApp directo al 7122111135. 🕷️"; if(t.includes('pago')||t.includes('cuenta')||t.includes('spei')||t.includes('deposito')) r="Aceptamos SPEI (CLABE 722969010522000447, Mercado Pago Wallet), pago contra entrega y cobros con tarjeta en el botón azul de Mercado Pago de tu bolsa."; else if(t.includes('envio')||t.includes('entrega')||t.includes('lugar')) r="Entregamos gratis en: Desviación Jocotitlán, San Pedro de los Baños y Jocotitlán Centro. Coordinamos por WhatsApp."; else if(t.includes('talla')||t.includes('medida')||t.includes('oversize')) r="Nuestras prendas son de corte Oversize Premium. Si prefieres una caída justa, aconsejamos pedir una talla menos de la habitual."; else if(t.includes('material')||t.includes('tela')||t.includes('algodon')) r="Fabricamos con algodón pesado de alto gramaje (Heavy Cotton) de calidad premium, garantizando una caída urbana perfecta y suavidad extrema."; else if(t.includes('cambio')||t.includes('devolucion')) r="Cuentas con 7 días naturales para solicitar cambios por talla. Queremos asegurar que luzcas el estilo oversize de forma cómoda."; else if(t.includes('hola')||t.includes('onda')||t.includes('buenas')) r="¡Qué onda! Bienvenido a Antony Black. Pregúntame sobre materiales, tallas, formas de pago o ubicaciones de entrega física y te asesoro. 🕷️"; m.innerHTML+=`<div class="bg-[#121216] p-2 rounded-lg mt-1">${r}</div>`; m.scrollTop=m.scrollHeight; },400); }
         rnd(db);
     </script>
 </body>

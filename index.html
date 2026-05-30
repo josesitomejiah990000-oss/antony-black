@@ -22,9 +22,9 @@
         .cart-drawer.open { right: 0; }
         .chat-container { position: fixed; bottom: 90px; right: 20px; width: 320px; height: 400px; background: #111116; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; z-index: 998; transform: scale(0); transform-origin: bottom right; transition: transform 0.3s ease; }
         .chat-container.open { transform: scale(1); }
-        .custom-modal { position: fixed; inset: 0; background: rgba(4, 4, 6, 0.85); backdrop-filter: blur(8px); z-index: 1001; display: none; justify-content: center; align-items: center; }
+        .custom-modal { position: fixed; inset: 0; background: rgba(4, 4, 6, 0.85); backdrop-filter: blur(8px); z-index: 1001; display: none; justify-content: center; align-items: center; p: 4px; }
         .custom-modal.active { display: flex; }
-        .floating-btn { position: fixed; bottom: 20px; width: 50px; height: 50px; rounded: 50%; background: #121216; border: 1px solid rgba(255,255,255,0.1); color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; border-radius: 50%; }
+        .floating-btn { position: fixed; bottom: 20px; width: 50px; height: 50px; background: #121216; border: 1px solid rgba(255,255,255,0.1); color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; border-radius: 50%; }
         .music-btn { left: 20px; } .chat-btn { right: 20px; background: #ff2a2a; }
     </style>
 </head>
@@ -36,12 +36,10 @@
 
     <nav class="fixed w-full top-0 z-50 glass-header py-4 px-6 flex justify-between items-center">
         <a href="#" class="font-display text-xl font-bold tracking-widest uppercase">Antony<span class="text-accent">Black</span></a>
-        <div class="flex items-center gap-4">
-            <button onclick="abrirCarrito()" class="relative text-white p-2" aria-label="Carrito">
-                <i class="fas fa-shopping-bag text-lg"></i>
-                <span id="cart-count" class="absolute top-0 right-0 bg-accent text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
-            </button>
-        </div>
+        <button onclick="abrirCarrito()" class="relative text-white p-2">
+            <i class="fas fa-shopping-bag text-lg"></i>
+            <span id="cart-count" class="absolute top-0 right-0 bg-accent text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+        </button>
     </nav>
 
     <header class="relative h-screen flex items-center justify-center overflow-hidden">
@@ -49,19 +47,19 @@
         <div class="relative z-10 text-center px-4 max-w-xl mx-auto mt-12">
             <span class="text-accent font-display font-bold tracking-[0.3em] text-xs block mb-2 uppercase">Streetwear Exclusivo</span>
             <h1 class="text-white font-display uppercase font-black text-5xl tracking-wide mb-4">Antony Black</h1>
-            <p class="text-gray-400 text-xs max-w-md mx-auto mb-8">Prendas oversize premium diseñadas para quienes imponen tendencias en las calles.</p>
-            <div class="flex gap-3 max-w-xs mx-auto mb-6">
+            <p class="text-gray-400 text-xs max-w-md mx-auto mb-6">Prendas oversize premium diseñadas para quienes imponen tendencias en las calles.</p>
+            <div class="flex gap-3 max-w-xs mx-auto mb-4">
                 <button onclick="filterProducts('hombres'); window.location.href='#catalogo'" class="flex-1 bg-white text-black font-display font-bold uppercase tracking-wider py-2.5 rounded text-xs">Hombres</button>
                 <button onclick="filterProducts('mujeres'); window.location.href='#catalogo'" class="flex-1 bg-accent text-white font-display font-bold uppercase tracking-wider py-2.5 rounded text-xs">Mujeres</button>
             </div>
-            <button onclick="openAIModal()" class="bg-[#111116]/90 border border-white/10 text-white font-sans text-[11px] font-semibold uppercase tracking-wider py-2 px-6 rounded-full mx-auto flex items-center gap-2">✨ Probador IA</button>
+            <button onclick="openAIModal()" class="bg-[#111116]/90 border border-white/10 text-white font-sans text-[11px] font-semibold uppercase tracking-wider py-2 px-6 rounded-full mx-auto flex items-center gap-2">✨ Probador Virtual IA</button>
         </div>
     </header>
 
     <div class="marquee-wrapper py-2">
         <div class="marquee-content font-display text-white text-xs font-bold uppercase tracking-wider">
-            🔥 ENVIOS GRATIS A PUNTOS DE ENTREGA | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA |     
-            🔥 ENVIOS GRATIS A PUNTOS DE ENTREGA | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA |     
+            🔥 ENVÍOS A TODO MÉXICO | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA |     
+            🔥 ENVÍOS A TODO MÉXICO | 💳 TRANSFERENCIAS Y MERCADO PAGO | 📦 PAGO CONTRA ENTREGA |     
         </div>
     </div>
 
@@ -77,11 +75,23 @@
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
     </section>
 
-    <section class="py-12 bg-black-light px-6">
-        <div class="max-w-4xl mx-auto text-center space-y-4">
-            <h3 class="font-display text-lg uppercase font-bold">📍 Puntos de Entrega Gratuitos</h3>
-            <p class="text-xs text-gray-400">Desviación Jocotitlán | San Pedro de los Baños | Jocotitlán Centro</p>
-            <p class="text-xs text-gray-500">Contacto WhatsApp: <strong>52 712 211 1135</strong></p>
+    <section id="ubicaciones" class="py-16 bg-black-light px-6 border-t border-white/5">
+        <div class="max-w-6xl mx-auto space-y-8">
+            <div class="text-center"><h2 class="font-display text-2xl uppercase font-black">Puntos de <span class="text-accent">Entrega</span></h2></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-5 rounded-xl flex flex-col justify-between h-44">
+                    <div><h3 class="font-display text-base uppercase mb-1">Desviación Jocotitlán</h3><p class="text-gray-400 text-xs">Punto de encuentro seguro y de fácil acceso físico.</p></div>
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded text-center text-xs font-bold uppercase hover:bg-accent hover:border-accent transition-all">Ver Ubicación en Mapa</a>
+                </div>
+                <div class="glass-card p-5 rounded-xl flex flex-col justify-between h-44">
+                    <div><h3 class="font-display text-base uppercase mb-1">San Pedro de los Baños</h3><p class="text-gray-400 text-xs">Entregas programadas en la explanada de la delegación.</p></div>
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded text-center text-xs font-bold uppercase hover:bg-accent hover:border-accent transition-all">Ver Ubicación en Mapa</a>
+                </div>
+                <div class="glass-card p-5 rounded-xl flex flex-col justify-between h-44">
+                    <div><h3 class="font-display text-base uppercase mb-1">Jocotitlán Centro</h3><p class="text-gray-400 text-xs">Frente al palacio municipal a convenir horario.</p></div>
+                    <a href="https://maps.google.com" target="_blank" class="w-full bg-white/5 border border-white/10 py-2 rounded text-center text-xs font-bold uppercase hover:bg-accent hover:border-accent transition-all">Ver Ubicación en Mapa</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -90,46 +100,52 @@
     </footer>
 
     <div id="cart-drawer" class="cart-drawer flex flex-col">
-        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black">
-            <h2 class="font-display text-base uppercase">Tu Bolsa</h2>
-            <button onclick="cerrarCarrito()" class="text-xl text-gray-500 hover:text-white">×</button>
-        </div>
+        <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black"><h2 class="font-display text-base uppercase">Tu Bolsa</h2><button onclick="cerrarCarrito()" class="text-xl text-gray-500 hover:text-white">×</button></div>
         <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3"></div>
         <div class="p-4 bg-[#0a0a0d] border-t border-white/5">
-            <div class="flex justify-between mb-4 font-display text-sm uppercase">
-                <span>Total:</span><span id="cart-total" class="text-accent">$0.00 MXN</span>
-            </div>
+            <div class="flex justify-between mb-4 font-display text-sm uppercase"><span>Total:</span><span id="cart-total" class="text-accent">$0.00 MXN</span></div>
             <button onclick="openPaymentModal()" class="w-full bg-accent text-white font-display font-bold uppercase text-xs py-3 rounded">Proceder al Pago</button>
         </div>
     </div>
 
     <div id="payment-modal" class="custom-modal">
-        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-xs relative text-center border border-white/10">
+        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 max-h-[90vh] overflow-y-auto">
             <button onclick="closePaymentModal()" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
-            <h3 class="font-display text-sm uppercase font-bold mb-4">💳 Opciones de Pago</h3>
+            <h3 class="font-display text-sm uppercase font-bold mb-3">💳 Opciones de Pago</h3>
             <button onclick="window.open('https://link.mercadopago.com.mx', '_blank')" class="w-full bg-[#009EE3] text-white font-display font-bold text-[11px] py-2.5 rounded mb-3">Pagar con Mercado Pago</button>
-            <div class="bg-black/40 p-3 rounded text-[10px] text-gray-400 text-left space-y-1 mb-3">
-                <p class="text-white font-bold">SPEI Directo:</p>
-                <p>Beneficiario: Jose Antonio Mejia Hernandez</p>
-                <p>Banco: Mercado Pago W | CLABE: <span class="text-white font-bold">722969010522000447</span></p>
+            <div class="bg-black/40 p-3 rounded text-[11px] text-gray-400 text-left space-y-1 mb-3 border border-white/5">
+                <p class="text-white font-bold">SPEI Directo / Transferencia:</p>
+                <p><strong>Beneficiario:</strong> Jose Antonio Mejia Hernandez</p>
+                <p><strong>Banco:</strong> Mercado Pago Wallet</p>
+                <p><strong>CLABE:</strong> <span class="text-white font-bold select-all bg-black px-1 rounded">722969010522000447</span></p>
             </div>
-            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-display font-bold text-[11px] py-2.5 rounded">Pedir por WhatsApp</button>
+            <div class="border-t border-white/5 pt-3">
+                <p class="text-[10px] text-gray-400 mb-2">Una vez realizada tu transferencia, envía tu comprobante aquí:</p>
+                <button onclick="confirmWhatsAppCheckout(true)" class="w-full bg-[#25D366] text-white font-display font-bold text-[11px] py-2.5 rounded flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> Enviar Comprobante de Pago</button>
+            </div>
         </div>
     </div>
 
     <div id="ai-modal" class="custom-modal">
-        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-xs relative text-center border border-white/10 space-y-3">
+        <div class="bg-[#101014] p-5 rounded-xl w-full max-w-sm relative text-center border border-white/10 space-y-3 max-h-[90vh] overflow-y-auto">
             <button onclick="closeAIModal()" class="absolute top-2 right-3 text-gray-400 text-xl">×</button>
-            <h3 class="font-display text-sm uppercase font-bold">Probador Virtual</h3>
-            <div class="w-full h-44 bg-black/60 rounded-lg flex items-center justify-center p-3">
+            <h3 class="font-display text-sm uppercase font-bold">Probador Virtual & Análisis IA</h3>
+            <div class="w-full h-40 bg-black/60 rounded-lg flex items-center justify-center relative overflow-hidden">
                 <video id="camera-stream" autoplay playsinline class="w-full h-full object-cover hidden rounded-lg"></video>
                 <canvas id="camera-canvas" class="hidden"></canvas>
                 <img id="captured-photo" class="w-full h-full object-cover hidden rounded-lg" alt="Prenda">
-                <p id="camera-fallback" class="text-gray-500 text-[10px]">Activa tu cámara o sube una foto de tu galería para probar el estilo oversize.</p>
+                <p id="camera-fallback" class="text-gray-500 text-[10px] p-4">Activa tu cámara o sube una foto de tu rostro para analizar tu estilo.</p>
             </div>
-            <button id="btn-cam" onclick="toggleCamara()" class="w-full bg-white text-black text-[11px] font-bold uppercase py-2 rounded">Activar Cámara 📷</button>
-            <button id="btn-snap" onclick="tomarFoto()" class="w-full bg-accent text-white text-[11px] font-bold uppercase py-2 rounded hidden">Capturar Foto 📸</button>
-            <input type="file" onchange="cargarFoto(event)" accept="image/*" class="text-[9px] text-gray-400 block mx-auto"/>
+            <div class="flex gap-2">
+                <button id="btn-cam" onclick="toggleCamara()" class="flex-1 bg-white text-black text-[10px] font-bold uppercase py-2 rounded">Cámara 📷</button>
+                <button id="btn-snap" onclick="tomarFoto()" class="flex-1 bg-accent text-white text-[10px] font-bold uppercase py-2 rounded hidden">Capturar 📸</button>
+                <label class="flex-1 bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase py-2 rounded cursor-pointer block text-center">Galería<input type="file" onchange="cargarFoto(event)" accept="image/*" class="hidden"/></label>
+            </div>
+            <div id="ai-analysis" class="hidden text-left bg-black/50 p-3 rounded-lg border border-white/5 space-y-2 text-[11px]">
+                <p class="text-accent font-bold uppercase text-[10px] tracking-wider border-b border-white/5 pb-1">✨ Resultados del Análisis Facial:</p>
+                <p>🎨 <strong>Colorimetría:</strong> Estación Fría/Invierno (Te favorecen los tonos negro puro y rojo acentuado de la marca).</p>
+                <p>📐 <strong>Rasgos Faciales:</strong> Estructura simétrica definida. Recomendación de cortes Oversize con hombros caídos.</p>
+            </div>
         </div>
     </div>
 
@@ -137,17 +153,9 @@
     <div id="toggle-chat" class="floating-btn chat-btn"><i class="fas fa-comment-dots"></i></div>
 
     <div id="chatbot-box" class="chat-container flex flex-col">
-        <div class="bg-accent p-3 flex justify-between items-center rounded-t-2xl text-xs font-bold uppercase">
-            <span>Soporte Antony Black</span>
-            <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-base">×</button>
-        </div>
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] bg-[#0e0e11]">
-            <div class="bg-black-light p-2 rounded-lg">¡Qué onda! Soy el bot de Antony Black 🕷️. Pregúntame sobre tus depósitos o los puntos de entrega física.</div>
-        </div>
-        <form class="p-2 border-t border-white/5 flex gap-1" onsubmit="chatBot(event)">
-            <input type="text" id="chat-in" placeholder="Pregunta algo..." class="flex-1 bg-transparent text-xs outline-none text-white px-1">
-            <button type="submit" class="text-accent p-1"><i class="fas fa-paper-plane"></i></button>
-        </form>
+        <div class="bg-accent p-3 flex justify-between items-center rounded-t-2xl text-xs font-bold uppercase"><span>Soporte Antony Black</span><button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-base">×</button></div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] bg-[#0e0e11]"><div class="bg-black-light p-2 rounded-lg">¡Qué onda! Soy el bot de Antony Black 🕷️. Pregúntame sobre tus depósitos o los puntos de entrega física.</div></div>
+        <form class="p-2 border-t border-white/5 flex gap-1" onsubmit="chatBot(event)"><input type="text" id="chat-in" placeholder="Pregunta algo..." class="flex-1 bg-transparent text-xs outline-none text-white px-1"><button type="submit" class="text-accent p-1"><i class="fas fa-paper-plane"></i></button></form>
     </div>
 
     <script>
@@ -167,18 +175,11 @@
         function upUI() { const c=document.getElementById('cart-items-container'); if(!c)return; c.innerHTML=''; let t=0; cart.forEach(i=>{ t+=i.price*i.q; c.innerHTML+=`<div class="flex gap-3 bg-white/5 p-2 rounded-lg items-center text-xs"><img src="${i.img}" class="w-10 h-10 object-cover rounded"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px]">${i.name}</h4><p class="text-accent text-[10px]">$${i.price} x${i.q}</p></div><button onclick="remC(${i.id})" class="text-gray-500 hover:text-accent"><i class="fas fa-trash"></i></button></div>`;}); document.getElementById('cart-total').textContent='$'+t.toFixed(2)+' MXN'; document.getElementById('cart-count').textContent=cart.reduce((s,i)=>s+i.q,0); }
         function remC(id) { cart=cart.filter(x=>x.id!==id); upUI(); }
         function abrirCarrito() { document.getElementById('cart-drawer').classList.add('open'); }
-        function cerrarCarrito() { document.getElementById('cart-drawer').classList.remove('open'); }
-        function openPaymentModal() { if(cart.length===0)return; cerrarCarrito(); document.getElementById('modal-total-amount').textContent=document.getElementById('cart-total').textContent; document.getElementById('payment-modal').classList.add('active'); }
+        function cerrarCarrito() { document.getElementById('cart-drawer').remove('open'); }
+        function openPaymentModal() { if(cart.length===0)return; document.getElementById('cart-drawer').classList.remove('open'); document.getElementById('payment-modal').classList.add('active'); }
         function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
-        function confirmWhatsAppCheckout() { let m="¡Qué onda Antony Black! 🕷️ Quiero:\n"; cart.forEach(i=>m+=`• ${i.q}x ${i.name}\n`); window.open(`https://wa.me/527122111135?text=${encodeURIComponent(m)}`, '_blank'); }
+        function confirmWhatsAppCheckout(isComprobante=false) { let m=isComprobante ? "¡Qué onda Antony Black! 🕷️ Aquí está mi comprobante de transferencia:\n" : "¡Qué onda Antony Black! 🕷️ Quiero pedir:\n"; cart.forEach(i=>m+=`• ${i.q}x ${i.name}\n`); m+=`Total: ${document.getElementById('cart-total').textContent}`; window.open(`https://wa.me/527122111135?text=${encodeURIComponent(m)}`, '_blank'); }
         function openAIModal() { document.getElementById('ai-modal').classList.add('active'); }
-        function closeAIModal() { document.getElementById('ai-modal').classList.remove('active'); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} document.getElementById('camera-stream').classList.add('hidden'); document.getElementById('captured-photo').classList.add('hidden'); document.getElementById('camera-fallback').classList.remove('hidden'); document.getElementById('btn-cam').classList.remove('hidden'); document.getElementById('btn-snap').classList.add('hidden'); }
+        function closeAIModal() { document.getElementById('ai-modal').classList.remove('active'); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} document.getElementById('camera-stream').classList.add('hidden'); document.getElementById('captured-photo').classList.add('hidden'); document.getElementById('camera-fallback').classList.remove('hidden'); document.getElementById('btn-cam').classList.remove('hidden'); document.getElementById('btn-snap').classList.add('hidden'); document.getElementById('ai-analysis').classList.add('hidden'); }
         async function toggleCamara() { try { stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}); const v=document.getElementById('camera-stream'); v.srcObject=stream; v.classList.remove('hidden'); document.getElementById('camera-fallback').classList.add('hidden'); document.getElementById('btn-cam').classList.add('hidden'); document.getElementById('btn-snap').classList.remove('hidden'); } catch(e){} }
-        function tomarFoto() { const v=document.getElementById('camera-stream'), c=document.getElementById('camera-canvas'), p=document.getElementById('captured-photo'); c.getContext('2d').drawImage(v,0,0,c.width,c.height); p.src=c.toDataURL('image/png'); p.classList.remove('hidden'); v.classList.add('hidden'); document.getElementById('btn-snap').classList.add('hidden'); }
-        function cargarFoto(e) { const f=e.target.files[0]; if(f){ const r=new FileReader(); r.onload=(el)=>{ const p=document.getElementById('captured-photo'); p.src=el.target.result; p.classList.remove('hidden'); document.getElementById('camera-fallback').classList.add('hidden'); }; r.readAsDataURL(f); } }
-        document.getElementById('toggle-chat').addEventListener('click', ()=>{ document.getElementById('chatbot-box').classList.toggle('open'); });
-        function chatBot(e) { e.preventDefault(); const i=document.getElementById('chat-in'), m=document.getElementById('chat-messages'), txt=i.value.trim(); if(!txt)return; m.innerHTML+=`<div class="text-right text-accent font-bold">${txt}</div>`; i.value=''; setTimeout(()=>{ let r="Escríbenos a nuestro WhatsApp oficial: 7122111135 🕷️"; if(txt.toLowerCase().includes('pago')||txt.toLowerCase().includes('cuenta')) r="Aceptamos SPEI (CLABE 722969010522000447), pago al recibir y Mercado Pago."; m.innerHTML+=`<div class="bg-black-light p-2 rounded-lg mt-1">${r}</div>`; m.scrollTop=m.scrollHeight; },400); }
-        render(db);
-    </script>
-</body>
-              </html>
+        function tomarFoto() { const v=document.getElementById('camera-stream'), c=document.getElementById('camera-canvas'), p=document.getElementById('captured-photo'); const ctx=c.getContext('2d'); c.width=v.videoWidth||300; c.hei

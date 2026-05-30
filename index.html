@@ -36,8 +36,10 @@
         .product-card { transition: all 0.4s ease; background: #151515; border: 1px solid #222; }
         .product-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255, 42, 42, 0.2); }
         .product-image-wrapper { position: relative; overflow: hidden; }
-        .add-to-cart-btn { position: absolute; bottom: -50px; left: 0; width: 100%; transition: bottom 0.3s ease; }
-        .product-card:hover .add-to-cart-btn { bottom: 0; }
+        
+        /* Botón de añadir al carrito siempre visible y accesible en móviles */
+        .add-to-cart-btn { background: #000; color: #fff; width: 100%; padding: 12px 0; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; border-top: 1px solid #222; transition: background 0.2s; }
+        .add-to-cart-btn:hover { background: var(--accent); }
 
         .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: var(--accent); color: white; padding: 10px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
         .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
@@ -48,28 +50,26 @@
 
         .chatbot-container { position: fixed; bottom: 90px; right: 30px; width: 350px; background: #1a1a1a; border: 1px solid #333; border-radius: 15px; z-index: 998; overflow: hidden; transform: scale(0); transform-origin: bottom right; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         .chatbot-container.open { transform: scale(1); }
-        .chat-messages { height: 300px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-messages { height: 250px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 10px 15px; border-radius: 10px; max-width: 80%; font-size: 0.9rem; }
         .msg.bot { background: #2a2a2a; align-self: flex-start; border-bottom-left-radius: 0;}
         .msg.user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 0;}
         .chat-input { display: flex; border-top: 1px solid #333; padding: 10px; background: #111; }
         
-        .floating-btn { position: fixed; bottom: 30px; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; color: white; cursor: pointer; z-index: 997; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
+        .floating-btn { position: fixed; bottom: 30px; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; items-center; font-size: 28px; color: white; cursor: pointer; z-index: 997; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .chat-btn { right: 30px; background: var(--accent); }
         .music-btn { left: 30px; background: #111; border: 2px solid #333; width: 50px; height: 50px; font-size: 20px;}
 
-        .location-card { background: #111; border: 1px solid #333; padding: 30px; border-radius: 10px; transition: all 0.3s; }
-        .location-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .location-card { background: #111; border: 1px solid #333; padding: 30px; border-radius: 10px; }
         
         #ai-modal, #payment-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 1001; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         #ai-modal.active, #payment-modal.active { display: flex; opacity: 1; }
-        .modal-content { background: #111; border: 1px solid var(--accent); padding: 30px; border-radius: 15px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 0 30px rgba(255, 42, 42, 0.2); }
+        .modal-content { background: #111; border: 1px solid var(--accent); padding: 30px; border-radius: 15px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
 
         @media (max-width: 768px) {
             .chat-btn { right: 20px; width: 50px; height: 50px; bottom: 20px;}
             .music-btn { left: 20px; bottom: 20px;}
             .chatbot-container { width: calc(100% - 40px); right: 20px; bottom: 80px; }
-            .add-to-cart-btn { bottom: 0; opacity: 0.9; }
         }
     </style>
 </head>
@@ -129,7 +129,7 @@
         <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div><h2 class="font-display text-4xl uppercase font-bold mb-2">Nuestra <span class="text-accent">Colección</span></h2></div>
             <div class="flex flex-wrap gap-2 border border-gray-800 p-1 rounded-full bg-black-light w-full md:w-auto">
-                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn active bg-accent text-white px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Todos</button>
+                <button onclick="filterProducts('todos')" id="btn-todos" class="filter-btn bg-accent text-white px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Todos</button>
                 <button onclick="filterProducts('hombres')" id="btn-hombres" class="filter-btn text-gray-400 px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Hombres</button>
                 <button onclick="filterProducts('mujeres')" id="btn-mujeres" class="filter-btn text-gray-400 px-4 py-2 rounded-full text-xs font-bold uppercase flex-1">Mujeres</button>
             </div>
@@ -200,7 +200,7 @@
     <div id="payment-modal">
         <div class="modal-content">
             <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-gray-400 text-3xl">×</button>
-            <h3 class="font-display text-2xl uppercase font-bold text-white mb-4 text-center">💳 Selecciona tu Método de Pago</h3>
+            <h3 class="font-display text-2xl uppercase font-bold text-white mb-4 text-center">💳 Método de Pago</h3>
             <p class="text-gray-400 mb-6 text-center text-sm">Monto total a pagar: <strong id="modal-total-amount" class="text-white text-lg"></strong></p>
             
             <div class="space-y-3 mb-6">
@@ -213,36 +213,26 @@
                     <p><strong>CLABE:</strong> 722969010522000447</p>
                 </div>
             </div>
-            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-bold uppercase py-3 rounded flex items-center justify-center gap-2 hover:bg-green-600"><i class="fab fa-whatsapp text-xl"></i> Notificar pedido por WhatsApp</button>
+            <button onclick="confirmWhatsAppCheckout()" class="w-full bg-[#25D366] text-white font-bold uppercase py-3 rounded flex items-center justify-center gap-2 hover:bg-green-600"><i class="fab fa-whatsapp text-xl"></i> Notificar por WhatsApp</button>
         </div>
     </div>
 
     <div id="ai-modal">
         <div class="modal-content text-center">
             <button onclick="closeAIModal()" class="absolute top-4 right-4 text-gray-400 text-3xl">×</button>
-            <h3 class="font-display text-2xl uppercase font-bold text-white mb-2">Probador Virtual Real</h3>
-            <p class="text-accent text-sm font-bold tracking-widest mb-6">ANTONY BLACK IA</p>
+            <h3 class="font-display text-2xl uppercase font-bold text-white mb-2">Probador Virtual</h3>
+            <p class="text-accent text-sm font-bold tracking-widest mb-6">ANTONY BLACK STYLE</p>
             
-            <div class="w-full h-72 bg-gray-900 border border-gray-700 rounded-lg flex flex-col justify-center items-center mb-6 relative overflow-hidden">
-                <video id="camera-stream" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
-                <canvas id="camera-canvas" class="hidden"></canvas>
-                <img id="captured-photo" class="absolute inset-0 w-full h-full object-cover hidden" alt="Tu foto">
-                
-                <div id="camera-placeholder" class="text-center z-10 px-4">
-                    <i class="fas fa-camera text-4xl text-gray-600 mb-2"></i>
-                    <p class="text-gray-500 text-sm">Haz clic en "Activar Cámara" para otorgar permisos al navegador.</p>
-                </div>
+            <div class="w-full h-48 bg-gray-900 border border-gray-700 rounded-lg flex flex-col justify-center items-center mb-6 p-4">
+                <i class="fab fa-instagram text-4xl text-pink-500 mb-2"></i>
+                <p class="text-gray-400 text-sm mb-4">Pruébate nuestras prendas usando nuestro filtro oficial exclusivo.</p>
+                <a href="https://www.instagram.com" target="_blank" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-xs py-2 px-6 rounded-full uppercase">Abrir Cámara de Instagram</a>
             </div>
-            
-            <button id="btn-activar-camara" onclick="encenderCamara()" class="w-full bg-white text-black font-bold uppercase py-3 rounded hover:bg-gray-200 transition-colors mb-2">
-                Activar Cámara 📷
-            </button>
-            <button id="btn-tomar-foto" onclick="tomarFoto()" class="w-full bg-accent text-white font-bold uppercase py-3 rounded hover:bg-accent-hover transition-colors mb-2 hidden">
-                💥 ¡Tomar Foto!
-            </button>
-            <button id="btn-reiniciar-camara" onclick="repetirFoto()" class="w-full bg-gray-800 text-white font-bold uppercase py-3 rounded hover:bg-gray-700 transition-colors mb-2 hidden">
-                🔄 Volver a tomar foto
-            </button>
+
+            <div class="border-t border-gray-800 my-4 pt-4">
+                <p class="text-gray-500 text-xs uppercase tracking-wider mb-2">O sube tu foto desde tu galería:</p>
+                <input type="file" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-gray-800 file:text-white hover:file:bg-gray-700"/>
+            </div>
         </div>
     </div>
 
@@ -255,7 +245,7 @@
             <button onclick="document.getElementById('chatbot-box').classList.remove('open')" class="text-white text-xl">×</button>
         </div>
         <div id="chat-messages" class="chat-messages bg-black">
-            <div class="msg bot">¡Qué onda! Soy el Asistente de Antony Black 🕷️. Pregúntame sobre envíos o métodos de pago.</div>
+            <div class="msg bot">¡Qué onda! Pregúntame lo que quieras o mándanos un WhatsApp al 7122111135 🕷️</div>
         </div>
         <form class="chat-input" onsubmit="handleUserChat(event)">
             <input type="text" id="chat-input-field" placeholder="Escribe..." class="flex-1 bg-transparent text-white outline-none text-sm px-2">
@@ -264,11 +254,26 @@
     </div>
 
     <script>
-        // Intenta reproducir música al primer clic general en la tienda
+        // Sistema de Música Aislado
         let isMusicPlaying = false;
         document.body.addEventListener('click', () => {
             if(!isMusicPlaying){
                 try {
                     const bgMusic = document.getElementById('bg-music');
                     bgMusic.volume = 0.2;
-                    bgMusic.play().then(() => { isMusicPlaying = true; 
+                    bgMusic.play().then(() => { isMusicPlaying = true; }).catch(e => {});
+                } catch(e){}
+            }
+        }, {once: true});
+
+        document.getElementById('toggle-music').addEventListener('click', () => {
+            const bgMusic = document.getElementById('bg-music');
+            const musicIcon = document.getElementById('music-icon');
+            if(isMusicPlaying) { bgMusic.pause(); musicIcon.className = "fas fa-volume-mute text-gray-500"; } 
+            else { bgMusic.play(); musicIcon.className = "fas fa-volume-up text-white"; }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Base de Datos Oficial
+        const productDatabase = [
+            { id: 1, name: "Oversized Hoodie 'N

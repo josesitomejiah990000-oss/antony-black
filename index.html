@@ -17,20 +17,25 @@
 
     <header class="h-screen flex items-center justify-center text-center px-4 relative">
         <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image:url('https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200')"></div>
-        <div class="relative z-10 space-y-5 w-full max-w-4xl mx-auto">
+        <div class="relative z-10 space-y-6 w-full max-w-4xl mx-auto">
             <span class="text-[#ff1a1a] font-brand text-[10px] md:text-xs tracking-widest block">Streetwear Premium</span>
             <h1 class="font-brand font-black text-5xl sm:text-7xl md:text-8xl text-white leading-none tracking-tighter">ANTONY<br><span class="text-[#ff1a1a]">BLACK</span></h1>
-            <p class="text-gray-400 text-xs md:text-sm max-w-md mx-auto px-2">Prendas oversize exclusivas de alto gramaje diseñadas para imponer tu propio estilo urbano.</p>
+            <p class="text-gray-400 text-xs md:text-sm max-w-md mx-auto px-4 leading-relaxed">Prendas oversize exclusivas de alto gramaje diseñadas para imponer tu propio estilo urbano.</p>
             <div class="flex flex-row gap-3 max-w-xs mx-auto pt-2"><button onclick="flt('hombres')" class="flex-1 bg-white text-black font-brand py-2.5 text-xs tracking-wider transition-all hover:bg-[#ff1a1a] hover:text-white">Hombres</button><button onclick="flt('mujeres')" class="flex-1 bg-[#ff1a1a] text-white font-brand py-2.5 text-xs tracking-wider transition-all hover:bg-red-700">Mujeres</button></div>
             <button onclick="togM('ai',1)" class="bg-[#131317] border border-white/10 text-white font-brand text-[10px] md:text-xs py-2.5 px-6 mx-auto flex items-center gap-2 mt-3 hover:border-[#ff1a1a] transition-all">✨ PROBADOR VIRTUAL IA</button>
         </div>
     </header>
 
-    <section id="catalogo" class="py-16 px-4 md:px-8 max-w-7xl mx-auto space-y-8 scroll-mt-20">
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-white/5 pb-4"><h2 class="font-brand text-2xl md:text-3xl uppercase tracking-tight">Catálogo</h2>
-            <div class="flex gap-1 border border-white/10 p-1 bg-[#0c0c0f] font-brand text-[10px]"><button onclick="flt('todos')" class="px-4 py-1.5 bg-[#ff1a1a] text-white" id="b-all">Todos</button><button onclick="flt('hombres')" class="px-4 py-1.5 text-gray-400" id="b-men">Hombres</button><button onclick="flt('mujeres')" class="px-4 py-1.5 text-gray-400" id="b-women">Mujeres</button></div>
+    <section id="catalogo" class="py-20 px-4 md:px-8 max-w-7xl mx-auto space-y-10 scroll-mt-20">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-white/5 pb-6">
+            <h2 class="font-brand text-2xl md:text-3xl uppercase tracking-tight">Catálogo Oficial</h2>
+            <div class="flex gap-1 border border-white/10 p-1 bg-[#0c0c0f] font-brand text-[10px]">
+                <button onclick="flt('todos')" class="px-4 py-1.5 bg-[#ff1a1a] text-white" id="b-all">Todos</button>
+                <button onclick="flt('hombres')" class="px-4 py-1.5 text-gray-400" id="b-men">Hombres</button>
+                <button onclick="flt('mujeres')" class="px-4 py-1.5 text-gray-400" id="b-women">Mujeres</button>
+            </div>
         </div>
-        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8"></div>
+        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
     </section>
 
     <section class="py-16 bg-[#131317] px-4 md:px-8 border-t border-white/5 space-y-6 max-w-7xl mx-auto text-xs rounded-2xl my-6">
@@ -103,4 +108,4 @@
 
     <script src="script.js"></script>
 </body>
-                                                                                                                                           </html>
+                </html>

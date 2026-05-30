@@ -13,13 +13,11 @@ var raw_m = [
 ];
 var db = []; var baseId = 1;
 for (var i = 1; i <= 50; i++) {
-    var h_item = raw_h[(i - 1) % raw_h.length];
-    var stkH = (i % 7 === 0) ? 0 : Math.floor(Math.random() * 8) + 2;
+    var h_item = raw_h[(i - 1) % raw_h.length]; var stkH = (i % 7 === 0) ? 0 : Math.floor(Math.random() * 8) + 2;
     db.push({ id: baseId++, name: h_item.name + " #" + (100 + i), price: h_item.price, cat: "hombres", img: h_item.img, stock: stkH });
 }
 for (var j = 1; j <= 50; j++) {
-    var m_item = raw_m[(j - 1) % raw_m.length];
-    var stkM = (j % 9 === 0) ? 0 : Math.floor(Math.random() * 8) + 2;
+    var m_item = raw_m[(j - 1) % raw_m.length]; var stkM = (j % 9 === 0) ? 0 : Math.floor(Math.random() * 8) + 2;
     db.push({ id: baseId++, name: m_item.name + " #" + (200 + j), price: m_item.price, cat: "mujeres", img: m_item.img, stock: stkM });
 }
 function rnd(arr) {
@@ -42,8 +40,6 @@ function upUI() { var c = document.getElementById('c-items'); if (!c) return; c.
 function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { if (id === 'pay' && cart.length === 0) return; if (id === 'pay' && o) togA(0); document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
-function togCh() { document.getElementById('c-box').classList.toggle('open'); }
-function wsp(isC) { var m = isC ? "🕷️ Comprobante Antony Black:\n" : "🕷️ Pedido Antony Black:\n"; cart.forEach(function(i) { m += "• " + i.q + "x " + i.name + " [Talla: " + i.size + "]\n"; }); window.open("https://wa.me/527122111135?text=" + encodeURIComponent(m), '_blank'); }
 var initChat = false;
 function openSuggestedChips() {
     if (initChat) return; var m = document.getElementById('c-msg');
@@ -55,20 +51,24 @@ document.getElementById('t-cht').onclick = toggleChat;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function selC(t, v) { ai_t[t] = v; var chips = document.querySelectorAll('[id^="ch-' + t + '-"]'); for (var i = 0; i < chips.length; i++) { chips[i].classList.remove('active'); } var target = document.getElementById('ch-' + t + '-' + v); if (target) target.classList.add('active'); snap(); }
 function ldImg(e) { var f = e.target.files[0]; if (f) { var r = new FileReader(); r.onload = function(el) { userImg = el.target.result; snap(); }; r.readAsDataURL(f); } }
-function snap() { var p = document.getElementById('v-photo'); if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; } p.classList.remove('hidden'); document.getElementById('ai-res').innerHTML = 'Colorimetría: Armonía para tez ' + ai_t.P + ' y ojos ' + ai_t.O + '. Para tu perfil de tipo <strong>' + ai_t.S + '</strong>, te recomendamos rotundamente combinar una <strong>Camisa Blanca formal con un Pantalón de Mezclilla azul denim</strong> como la imagen mostrada. Este contraste puro de luz equilibra tus facciones faciales dándote un porte imponente antes de complementar tu outfit con las capas oversize oscuras de nuestra marca.'; document.getElementById('anl').classList.remove('hidden'); }
+function snap() {
+    var p = document.getElementById('v-photo'); var res = document.getElementById('ai-res');
+    if (userImg) { p.src = userImg; } else { p.src = (ai_t.S === 'Hombre') ? 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400' : 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?q=80&w=400'; }
+    p.classList.remove('hidden');
+    res.innerHTML = '<strong>[SCANNING: FACIAL MATRIX & BODY METRICS]</strong><br>• Rostro: DETECTADO Y FUSIONADO [98% CONFIRMACIÓN]<br>• Tipo de Perfil Técnico: ANTONY BLACK TACTICAL<br>• Armonía de color: Filtro ideal para tez ' + ai_t.P + ' y ojos ' + ai_t.O + '.<br><br><strong>RECOMENDACIÓN TÁCTICA CIENTÍFICA:</strong><br>Bajo las reglas de la colorimetría de contraste puro, tu perfil requiere una iluminación facial controlada. La IA te asigna un <strong>Saco de Gabardina Premium en juego con un Suéter Negro de Cuello Alto [Ajuste Técnico]</strong>. El fondo oscuro de la prenda genera una línea de hombros imponente, mientras que el visor HUD calibra el reflejo para maximizar tus facciones urbanas antes de complementar tu outfit con las capas oversize de nuestro catálogo.';
+    document.getElementById('anl').classList.remove('hidden');
+}
 function bot(e) { e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return; answerBot(t.toLowerCase(), t); i.value = ''; }
 function answerBot(cleanText, rawText) {
-    var m = document.getElementById('c-msg');
-    m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#ff1a1a] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
+    var m = document.getElementById('c-msg'); m.innerHTML += '<div class="flex justify-end mb-2"><div class="bg-[#ff1a1a] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right">' + rawText + '</div></div>';
     setTimeout(function() {
         var r = "Qué onda hermano, escríbenos directo por WhatsApp al 7122111135 para armar tu outfit de volada. 🕷️";
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "<strong>🔥 LISTA DE PRECIOS DIDÁCTICA:</strong><br>• Sudadera Oversize: $899<br>• Pants Táctico: $1150<br>• Crop Hoodie: $750<br>• Wide Leg Jeans: $990<br><br>⚡ <i>Promoción: Si juntas más de $2000 en tu bolsa, el sistema te añade una playera sorpresa totalmente GRATIS.</i>"; }
-        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "<strong>📏 GUÍA DE ESTILO OVERSIZE:</strong><br>Nuestras prendas están diseñadas con un patrón amplio y hombros caídos de nivel premium. <br><br>• Si te gusta el porte holgado original de la marca, pide tu <strong>talla de siempre</strong>.<br>• Si prefieres que te quede a la medida justa del cuerpo, te sugerimos pedir <strong>una talla menos</strong>."; }
+        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "<strong>📏 GUÍA DE ESTELO OVERSIZE:</strong><br>Nuestras prendas están diseñadas con un patrón amplio y hombros caídos de nivel premium. <br><br>• Si te gusta el porte holgado original de la marca, pide tu <strong>talla de siempre</strong>.<br>• Si prefieres que te quede a la medida justa del cuerpo, te sugerimos pedir <strong>una talla menos</strong>."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "<strong>🕷️ CALIDAD TEXTIL PREMIUM:</strong><br>Confeccionamos exclusivamente con <strong>Heavy Cotton (Algodón pesado de alto gramaje)</strong>. Esta tela le da una estructura rígida e imponente a las sudaderas y playeras, asegurando que no se deformen con las lavadas y mantengan esa caída urbana perfecta."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "<strong>📍 LOGÍSTICA DE ENTREGA GRATUITA:</strong><br>Hacemos entregas personales sin costo en Jocotitlán:<br>• Desviación Jocotitlán (Cruce rápido)<br>• Jocotitlán Centro (Frente a Presidencia - Seguro)<br>• San Pedro de los Baños (Puntos clave)<br><br>Al confirmar tu pago coordinamos la hora exacta por WhatsApp."; }
         else if (cleanText.indexOf('pago') !== -1 || cleanText.indexOf('cuenta') !== -1) { r = "<strong>💳 MÉTODOS DE PAGO:</strong><br>• Tarjeta de Crédito/Débito vía Mercado Pago.<br>• Transferencia Directa SPEI:<br><strong>Banco:</strong> Mercado Pago Wallet<br><strong>CLABE:</strong> 722969010522000447<br><strong>A nombre de:</strong> Jose Antonio Mejia Hernandez"; }
-        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c24] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>';
-        m.scrollTop = m.scrollHeight;
+        m.innerHTML += '<div class="flex justify-start mb-2"><div class="bg-[#1c1c24] text-gray-200 p-2.5 rounded-xl rounded-tl-none max-w-[85%] border border-white/5 shadow-md leading-relaxed">' + r + '</div></div>'; m.scrollTop = m.scrollHeight;
     }, 450);
 }
 rnd(db); snap();

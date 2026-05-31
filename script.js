@@ -1,5 +1,6 @@
 var cart = []; var db = [];
 
+// SDK EmailJS
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
@@ -35,7 +36,7 @@ function rnd(arr) {
             `<button onclick="add(${p.id})" class="w-full bg-[#050507] border border-white/10 hover:bg-[#b91c1c] text-white font-medium text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all duration-300">Agregar a la Bolsa</button>`;
         
         g.innerHTML += `
-            <div id="card-${p.id}" class="card p-4 space-y-4 flex flex-col justify-between">
+            <div class="card p-4 space-y-4 flex flex-col justify-between">
                 <div class="aspect-square bg-black overflow-hidden rounded-xl">
                     <img src="${p.img}" class="w-full h-full object-cover">
                 </div>
@@ -48,7 +49,7 @@ function rnd(arr) {
                     <div class="grid grid-cols-2 gap-2 pt-1.5">
                         <div class="flex flex-col gap-0.5">
                             <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-mono">Talla:</span>
-                            <select id="sz-${p.id}" onchange="clearAlert(${p.id}, 'sz')" class="bg-[#16161a] text-white text-center outline-none px-2 py-2 text-[11px] rounded-lg border border-white/5 focus:border-white/20 transition-all font-medium">
+                            <select id="sz-${p.id}" class="bg-[#16161a] text-white text-center outline-none px-2 py-2 text-[11px] rounded-lg border border-white/5 focus:border-white/20 transition-all font-medium">
                                 <option value="" disabled selected>Elegir...</option>
                                 <option value="CH">CH</option>
                                 <option value="M">M</option>
@@ -58,7 +59,7 @@ function rnd(arr) {
                         </div>
                         <div class="flex flex-col gap-0.5">
                             <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-mono">Color:</span>
-                            <select id="col-${p.id}" onchange="clearAlert(${p.id}, 'col')" class="bg-[#16161a] text-white text-center outline-none px-2 py-2 text-[11px] rounded-lg border border-white/5 focus:border-white/20 transition-all font-medium">
+                            <select id="col-${p.id}" class="bg-[#16161a] text-white text-center outline-none px-2 py-2 text-[11px] rounded-lg border border-white/5 focus:border-white/20 transition-all font-medium">
                                 <option value="" disabled selected>Elegir...</option>
                                 <option value="Negro">Negro</option>
                                 <option value="Gris">Gris</option>
@@ -73,22 +74,7 @@ function rnd(arr) {
     }
 }
 
-function clearAlert(id, type) {
-    document.getElementById(type + '-' + id).style.borderColor = 'rgba(255,255,255,0.05)';
-}
-
-function flt(c) { 
-    var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } 
-    var ids = ['all', 'men', 'women']; 
-    for (var i = 0; i < ids.length; i++) { 
-        var b = document.getElementById('b-' + ids[i]); 
-        if (b) b.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#0b0b0d] text-gray-400 border border-white/5"; 
-    } 
-    var btn = document.getElementById('b-' + cat); 
-    if (btn) btn.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-white text-black font-bold"; 
-    if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } 
-    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
-}
+function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#0b0b0d] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-white text-black font-bold"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
 
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
@@ -96,11 +82,7 @@ function add(id) {
     var col = document.getElementById('col-' + id).value;
     
     if (!sz || !col) {
-        var card = document.getElementById('card-' + id);
-        card.classList.add('shake-alert');
-        if(!sz) document.getElementById('sz-' + id).style.borderColor = '#e11d48';
-        if(!col) document.getElementById('col-' + id).style.borderColor = '#e11d48';
-        setTimeout(function() { card.classList.remove('shake-alert'); }, 400);
+        alert("⚠️ SELECCIÓN REQUERIDA:\n\nPor favor, elige una TALLA y un COLOR antes de añadir esta pieza a tu Bolsa.");
         return;
     }
     
@@ -130,8 +112,6 @@ function upUI() {
 
 function rem(id, sz, col, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz && x.color === col); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
-function togCh() { document.getElementById('c-box').classList.toggle('open'); if(document.getElementById('c-box').classList.contains('open')) { setTimeout(openSuggestedChips, 300); } }
-document.getElementById('t-cht').onclick = togCh;
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
 function generarFolioReal() {
@@ -207,6 +187,8 @@ function concluirPedido(msg, folio) {
 var initChat = false;
 function renderChips() { return `<div id="quick-chips" class="flex flex-wrap gap-2 pt-2 animate-pulse"><button onclick="triggerQuickBot('precios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">💰 Precios</button><button onclick="triggerQuickBot('tallas')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">📏 Tallas</button><button onclick="triggerQuickBot('materiales')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">🕷️ Tela</button><button onclick="triggerQuickBot('envios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">📍 Entregas</button></div>`; }
 function openSuggestedChips() { if (initChat) return; var m = document.getElementById('c-msg'); m.innerHTML += `<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">👋¡Hola! Soporte oficial de <strong>ANTONY BLACK</strong>. ¿En qué podemos asesorarte hoy? 👇${renderChips()}</div></div>`; m.scrollTop = m.scrollHeight; initChat = true; }
+function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); if(box.classList.contains('open')) { setTimeout(openSuggestedChips, 300); } } }
+document.getElementById('t-cht').onclick = togCh;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 
@@ -222,4 +204,7 @@ function answerBot(cleanText, rawText) {
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "📏 <strong>Tallas:</strong><br><br>Corte Oversize Amplio. Pide tu talla de siempre para look holgado urbano. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "🕷️ <strong>Tela:</strong><br><br>Heavy Cotton (Algodón Premium Pesado). Mantiene su estructura rígida e imponente."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/527122111135','_blank')" class="mt-2 w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg">💬 WhatsApp Vivo</button>`; }
-        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl r
+        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
+    }, 1200);
+}
+rnd(db);

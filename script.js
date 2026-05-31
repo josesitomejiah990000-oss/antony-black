@@ -28,25 +28,28 @@ function rnd(arr) {
     var g = document.getElementById('grid'); if (!g) return; g.innerHTML = '';
     for (var i = 0; i < arr.length; i++) {
         var p = arr[i]; var isOut = p.stock <= 0;
-        var stkTxt = isOut ? '<span class="text-red-500 font-bold block text-[11px] mt-1">AGOTADO</span>' : '<span class="text-gray-400 block text-[11px] mt-1">Stock: ' + p.stock + ' pzs</span>';
-        var btnHtml = isOut ? '<button class="w-full bg-gray-800 text-gray-500 font-brand text-[11px] uppercase py-2 cursor-not-allowed" disabled>Agotado</button>' : '<button onclick="add(' + p.id + ')" class="w-full bg-[#0d0d12] border border-white/5 hover:bg-[#e11d48] text-white font-brand text-[11px] uppercase py-2 transition-all font-bold">Agregar a la Bolsa</button>';
+        var stkTxt = isOut ? '<span class="text-red-500 font-bold block text-[10px] uppercase tracking-wider mt-1">Agotado</span>' : '<span class="text-gray-500 block text-[10px] font-mono mt-1">STOCK: ' + p.stock + ' UDS</span>';
+        
+        var btnHtml = isOut ? 
+            `<button class="w-full bg-[#121216] text-gray-600 font-bold text-[10px] uppercase tracking-widest py-3 rounded-xl border border-white/5 cursor-not-allowed" disabled>Pieza Agotada</button>` : 
+            `<button onclick="add(${p.id})" class="w-full bg-[#0d0d12] border-b-2 border-[#e11d48] hover:bg-[#e11d48] text-white font-bold text-[10px] uppercase tracking-widest py-3 rounded-xl transition-all duration-300 active:scale-[0.98]">Agregar a la Bolsa</button>`;
         
         g.innerHTML += `
-            <div class="card p-4 space-y-3 flex flex-col justify-between">
-                <div class="aspect-square bg-black overflow-hidden">
-                    <img src="${p.img}" class="w-full h-full object-cover">
+            <div class="card p-4 space-y-4 flex flex-col justify-between">
+                <div class="aspect-square bg-[#050507] overflow-hidden rounded-2xl border border-white/[0.02]">
+                    <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
                 </div>
-                <div class="space-y-2">
-                    <h3 class="text-xs font-bold text-gray-200 truncate">${p.name}</h3>
+                <div class="space-y-2.5">
+                    <h3 class="text-xs font-medium text-gray-300 truncate tracking-wide">${p.name}</h3>
                     <div class="flex justify-between items-center">
-                        <span class="text-[#e11d48] font-brand font-bold text-base">$${p.price}</span>
+                        <span class="text-white font-bold text-base font-mono">$${p.price}.00</span>
                         ${stkTxt}
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-2 pt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] uppercase font-bold text-gray-500">Talla:</span>
-                            <select id="sz-${p.id}" class="bg-[#1c1c24] text-white outline-none px-1.5 py-1 text-[11px] rounded border border-white/5 focus:border-[#e11d48]">
+                    <div class="grid grid-cols-2 gap-2.5 pt-1">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-mono">Talla:</span>
+                            <select id="sz-${p.id}" class="select-premium bg-[#111116] text-white outline-none px-3 py-2 text-[11px] rounded-xl border border-white/5 focus:border-[#e11d48]/50 transition-all font-medium text-center">
                                 <option value="" disabled selected>Elegir...</option>
                                 <option value="CH">CH</option>
                                 <option value="M">M</option>
@@ -54,9 +57,9 @@ function rnd(arr) {
                                 <option value="XG">XG</option>
                             </select>
                         </div>
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] uppercase font-bold text-gray-500">Color:</span>
-                            <select id="col-${p.id}" class="bg-[#1c1c24] text-white outline-none px-1.5 py-1 text-[11px] rounded border border-white/5 focus:border-[#e11d48]">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-mono">Color:</span>
+                            <select id="col-${p.id}" class="select-premium bg-[#111116] text-white outline-none px-3 py-2 text-[11px] rounded-xl border border-white/5 focus:border-[#e11d48]/50 transition-all font-medium text-center">
                                 <option value="" disabled selected>Elegir...</option>
                                 <option value="Negro">Negro</option>
                                 <option value="Gris">Gris</option>
@@ -66,27 +69,24 @@ function rnd(arr) {
                         </div>
                     </div>
                 </div>
-                ${btnHtml}
+                <div class="pt-1">${btnHtml}</div>
             </div>`;
     }
 }
 
-function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#121214] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-full text-xs uppercase tracking-wider font-medium bg-[#e11d48] text-white"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
+function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-[#0d0d12] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-[#e11d48] text-white shadow-lg shadow-[#e11d48]/20"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
 
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
     
-    // Captura los valores seleccionados por el cliente
     var sz = document.getElementById('sz-' + id).value;
     var col = document.getElementById('col-' + id).value;
     
-    // VALIDACIÓN ESTRICTA: Si no seleccionó Talla o Color, detiene el proceso y avisa visualmente
     if (!sz || !col) {
-        alert("⚠️ ATENCIÓN:\n\nPor favor, selecciona la TALLA y el COLOR de la prenda antes de agregarla a tu Bolsa de Compra.");
+        alert("⚠️ ATENCIÓN ANTONY BLACK:\n\nPor favor, selecciona la TALLA y el COLOR de la prenda antes de guardarla en tu Bolsa de Compra.");
         return;
     }
     
-    // Busca si ya existe exactamente el mismo modelo con la misma talla y mismo color
     var i = cart.find(function(x) { return x.id === id && x.size === sz && x.color === col; });
     if (i) { 
         if(i.q < p.stock) i.q++; else return; 
@@ -103,15 +103,15 @@ function upUI() {
     for (var i = 0; i < cart.length; i++) { 
         var item = cart[i]; t += item.price * item.q; 
         c.innerHTML += `
-            <div class="flex gap-3 bg-white/5 p-2 rounded items-center text-xs">
-                <img src="${item.img}" class="w-10 h-10 object-cover rounded">
+            <div class="flex gap-3 bg-white/[0.02] border border-white/[0.04] p-3 rounded-2xl items-center text-xs">
+                <img src="${item.img}" class="w-11 h-11 object-cover rounded-xl border border-white/5">
                 <div class="flex-1 min-w-0">
-                    <h4 class="truncate font-bold text-[11px] text-gray-200">${item.name}</h4>
-                    <p class="text-gray-400 text-[10px]">Talla: ${item.size} | Color: ${item.color}</p>
-                    <p class="text-[#e11d48] font-brand text-[11px] font-bold">$${item.price} x${item.q}</p>
+                    <h4 class="truncate font-medium text-[11px] text-gray-200 tracking-wide">${item.name}</h4>
+                    <p class="text-gray-500 text-[10px] pt-0.5">Talla: ${item.size} • Color: ${item.color}</p>
+                    <p class="text-[#e11d48] font-mono text-[11px] font-bold pt-0.5">$${item.price} x${item.q}</p>
                 </div>
-                <button onclick="rem(${item.id},'${item.size}','${item.color}',${item.q})" class="text-gray-500 hover:text-[#e11d48] px-2">
-                    <i class="fas fa-trash"></i>
+                <button onclick="rem(${item.id},'${item.size}','${item.color}',${item.q})" class="text-gray-600 hover:text-[#e11d48] px-2 transition-all">
+                    <i class="fas fa-trash text-xs"></i>
                 </button>
             </div>`; 
     } 
@@ -136,38 +136,38 @@ function generarFolioReal() {
 function openCheckout() {
     if(cart.length === 0) return;
     var total = 0; var summaryContainer = document.getElementById('pay-items-summary'); summaryContainer.innerHTML = ''; 
-    cart.forEach(function(x) { total += x.price * x.q; summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ' / ' + x.color + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>'; });
+    cart.forEach(function(x) { total += x.price * x.q; summaryContainer.innerHTML += '<div class="flex justify-between text-[11px]"><span>' + x.name + ' (' + x.size + ' / ' + x.color + ') x' + x.q + '</span><span class="text-white font-mono">$' + (x.price * x.q).toFixed(2) + '</span></div>'; });
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
     var folioActual = generarFolioReal();
     var formContainer = document.getElementById('checkout-form');
     formContainer.innerHTML = `
         <div class="space-y-4">
-            <div class="bg-[#1e1e24] border border-[#e11d48]/30 rounded-xl p-3 text-center flex justify-between items-center">
-                <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Folio de Orden:</span>
+            <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-3 flex justify-between items-center">
+                <span class="text-[9px] uppercase tracking-widest text-gray-500 font-bold font-mono">Folio de Orden:</span>
                 <span id="p-folio-txt" class="text-xs font-mono font-bold text-[#e11d48] tracking-wider">${folioActual}</span>
             </div>
-            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold block">1. Registra tu información de entrega</span>
+            <span class="text-[9px] uppercase tracking-widest text-gray-500 font-bold font-mono block">1. Datos de Entrega</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input id="u-name" type="text" placeholder="Tu Nombre Completo" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
-                <input id="u-phone" type="tel" placeholder="WhatsApp (10 dígitos)" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
+                <input id="u-name" type="text" placeholder="Tu Nombre Completo" required class="bg-[#111116] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all placeholder-gray-600">
+                <input id="u-phone" type="tel" placeholder="WhatsApp (10 dígitos)" required class="bg-[#111116] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all placeholder-gray-600">
             </div>
-            <input id="u-email" type="email" placeholder="Correo Electrónico" required class="w-full bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
-            <select id="u-delivery" class="w-full bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all">
+            <input id="u-email" type="email" placeholder="Correo Electrónico" required class="w-full bg-[#111116] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all placeholder-gray-600">
+            <select class="w-full bg-[#111116] select-premium text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all" id="u-delivery">
                 <option value="Desviación de Jocotitlán">Entrega: Desviación de Jocotitlán</option>
                 <option value="Jocotitlán Centro">Entrega: Jocotitlán Centro (Presidencia)</option>
                 <option value="San Pedro de los Baños">Entrega: San Pedro de los Baños</option>
             </select>
         </div>
-        <div class="space-y-3 pt-4 border-t border-white/5">
-            <span class="text-[10px] uppercase tracking-widest text-[#e11d48] font-bold block">2. Datos de Transferencia Directa</span>
-            <div class="bg-black/60 border border-white/5 rounded-2xl p-4 font-mono text-xs space-y-3">
-                <div class="flex justify-between items-center"><span class="text-gray-500">Beneficiario:</span><span class="text-white font-sans font-bold text-right">José Antonio Mejia Hernández</span></div>
+        <div class="space-y-3 pt-3 border-t border-white/5">
+            <span class="text-[9px] uppercase tracking-widest text-[#e11d48] font-bold font-mono block">2. Datos de Transferencia Directa</span>
+            <div class="bg-black/40 border border-white/5 rounded-2xl p-4 font-mono text-[11px] space-y-2.5">
+                <div class="flex justify-between items-center"><span class="text-gray-500 font-sans">Beneficiario:</span><span class="text-white font-sans font-bold text-right">José Antonio Mejia Hernández</span></div>
                 <div class="flex justify-between items-center border-t border-white/5 pt-2"><span class="text-gray-500">Cuenta CLABE:</span><span class="text-[#e11d48] font-bold tracking-wider select-all">722969010522000447</span></div>
                 <div class="flex justify-between items-center border-t border-white/5 pt-2"><span class="text-gray-500">Plataforma DiMo:</span><span class="text-emerald-400 font-bold tracking-wider select-all">7122111135</span></div>
             </div>
         </div>
-        <div class="pt-4 border-t border-white/5 flex flex-col gap-3">
-            <button type="submit" class="w-full bg-white text-black font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all shadow-xl flex items-center justify-center gap-2"><i class="fa-solid fa-share-nodes"></i> Compartir Datos y Enviar Pedido</button>
+        <div class="pt-3 border-t border-white/5">
+            <button type="submit" class="w-full bg-white text-black hover:bg-[#e11d48] hover:text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all shadow-xl flex items-center justify-center gap-2"><i class="fa-solid fa-share-nodes"></i> Compartir Datos y Enviar Pedido</button>
         </div>
     `;
     togA(0); togM('pay', 1); 
@@ -182,14 +182,14 @@ function procesarOrden(e) {
     var c_folio = document.getElementById('p-folio-txt').textContent;
     var resumenRopa = ""; var totalCompra = 0;
     cart.forEach(function(item) { resumenRopa += "• " + item.name + " (Talla: " + item.size + " / Color: " + item.color + ") x" + item.q + " - $" + (item.price * item.q) + "\n"; totalCompra += item.price * item.q; });
-    var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n🎫 FOLIO DE COMPRA: " + c_folio + "\n\nDATOS DEL CLIENTE:\n• Nombre: " + c_name + "\n• WhatsApp: " + c_phone + "\n• Correo: " + c_email + "\n• Punto de Entrega: " + c_spot + "\n\nPRENDAS SOLICITADAS:\n" + resumenRopa + "\nTOTAL NETO A PAGAR: $" + totalCompra.toFixed(2) + "\n\n⚠️ FAVOR DE ADJUNTAR SU RECIBO DE PAGO PARA CONFIRMAR LA COMPRA.\n\n📌 DATOS DE PAGO DEL PROPIETARIO:\n• CLABE: 722969010522000447\n• Beneficiario: José Antonio Mejia Hernández\n• DiMo: 7122111135\n";
+    var ticketMensaje = "🕷 *NUEVO PEDIDO REGISTRADO - ANTONY BLACK*\n\n🎫 *FOLIO DE COMPRA:* " + c_folio + "\n\n*DATOS DEL CLIENTE:*\n• Nombre: " + c_name + "\n• WhatsApp: " + c_phone + "\n• Correo: " + c_email + "\n• Punto de Entrega: " + c_spot + "\n\n*PRENDAS SOLICITADAS:*\n" + resumenRopa + "\n*TOTAL NETO A PAGAR:* $" + totalCompra.toFixed(2) + "\n\n⚠️ *FAVOR DE ADJUNTAR SU RECIBO DE PAGO PARA CONFIRMAR LA COMPRA.*\n\n📌 *DATOS DE PAGO DEL PROPIETARIO:*\n• CLABE: 722969010522000447\n• Beneficiario: José Antonio Mejia Hernández\n• DiMo: 7122111135\n";
     var templateParams = { to_email: "atencionalclienteantonyblack@gmail.com", from_name: c_name + " (Folio: " + c_folio + ")", message: ticketMensaje };
     emailjs.send('service_ioiqtrs', 'my_first_template', templateParams).then(function() { concluirPedido(ticketMensaje, c_folio); }, function(error) { console.log("Error:", error); concluirPedido(ticketMensaje, c_folio); });
 }
 
 function concluirPedido(msg, folio) {
     navigator.clipboard.writeText("722969010522000447").then(function() {
-        alert("🔒 ¡DATOS COPIADOS!\n\nFolio: " + folio + "\n\nLa CLABE se copió. Envía el mensaje por WhatsApp junto con tu recibo de pago.");
+        alert("🔒 ¡DATOS COPIADOS!\n\nFolio: " + folio + "\n\nLa CLABE se copió automáticamente. Envía el mensaje por WhatsApp junto con tu recibo de pago.");
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     }).catch(function() {
@@ -218,7 +218,4 @@ function answerBot(cleanText, rawText) {
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "📏 <strong>Tallas:</strong><br><br>Corte Oversize Amplio. Pide tu talla de siempre para look holgado urbano. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "🕷️ <strong>Tela:</strong><br><br>Heavy Cotton (Algodón Premium Pesado). Mantiene su estructura rígida e imponente."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/527122111135','_blank')" class="mt-2 w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-xl">💬 WhatsApp Vivo</button>`; }
-        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
-    }, 1200);
-}
-rnd(db);
+        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/

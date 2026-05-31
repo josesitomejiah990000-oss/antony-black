@@ -32,12 +32,12 @@ function rnd(arr) {
         
         var btnHtml = isOut ? 
             `<button class="w-full bg-[#121216] text-gray-600 font-bold text-[10px] uppercase tracking-widest py-3 rounded-xl border border-white/5 cursor-not-allowed" disabled>Pieza Agotada</button>` : 
-            `<button onclick="add(${p.id})" class="w-full bg-[#0d0d12] border-b-2 border-[#e11d48] hover:bg-[#e11d48] text-white font-bold text-[10px] uppercase tracking-widest py-3 rounded-xl transition-all duration-300 active:scale-[0.98]">Agregar a la Bolsa</button>`;
+            `<button onclick="add(${p.id})" class="w-full bg-[#0d0d12] border-b-2 border-[#e11d48] hover:bg-[#e11d48] text-white font-bold text-[10px] uppercase tracking-widest py-3 rounded-xl transition-all duration-300">Agregar a la Bolsa</button>`;
         
         g.innerHTML += `
             <div class="card p-4 space-y-4 flex flex-col justify-between">
                 <div class="aspect-square bg-[#050507] overflow-hidden rounded-2xl border border-white/[0.02]">
-                    <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                    <img src="${p.img}" class="w-full h-full object-cover">
                 </div>
                 <div class="space-y-2.5">
                     <h3 class="text-xs font-medium text-gray-300 truncate tracking-wide">${p.name}</h3>
@@ -45,11 +45,10 @@ function rnd(arr) {
                         <span class="text-white font-bold text-base font-mono">$${p.price}.00</span>
                         ${stkTxt}
                     </div>
-                    
-                    <div class="grid grid-cols-2 gap-2.5 pt-1">
+                    <div class="grid grid-cols-2 gap-2 pt-1">
                         <div class="flex flex-col gap-1">
                             <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-mono">Talla:</span>
-                            <select id="sz-${p.id}" class="select-premium bg-[#111116] text-white outline-none px-3 py-2 text-[11px] rounded-xl border border-white/5 focus:border-[#e11d48]/50 transition-all font-medium text-center">
+                            <select id="sz-${p.id}" class="bg-[#111116] text-white outline-none px-2 py-1.5 text-[11px] rounded-xl border border-white/5 focus:border-[#e11d48] text-center">
                                 <option value="" disabled selected>Elegir...</option>
                                 <option value="CH">CH</option>
                                 <option value="M">M</option>
@@ -59,7 +58,7 @@ function rnd(arr) {
                         </div>
                         <div class="flex flex-col gap-1">
                             <span class="text-[9px] uppercase tracking-widest font-bold text-gray-500 font-mono">Color:</span>
-                            <select id="col-${p.id}" class="select-premium bg-[#111116] text-white outline-none px-3 py-2 text-[11px] rounded-xl border border-white/5 focus:border-[#e11d48]/50 transition-all font-medium text-center">
+                            <select id="col-${p.id}" class="bg-[#111116] text-white outline-none px-2 py-1.5 text-[11px] rounded-xl border border-white/5 focus:border-[#e11d48] text-center">
                                 <option value="" disabled selected>Elegir...</option>
                                 <option value="Negro">Negro</option>
                                 <option value="Gris">Gris</option>
@@ -78,28 +77,21 @@ function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c =
 
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
-    
     var sz = document.getElementById('sz-' + id).value;
     var col = document.getElementById('col-' + id).value;
     
     if (!sz || !col) {
-        alert("⚠️ ATENCIÓN ANTONY BLACK:\n\nPor favor, selecciona la TALLA y el COLOR de la prenda antes de guardarla en tu Bolsa de Compra.");
+        alert("⚠️ ATENCIÓN:\n\nPor favor, selecciona la TALLA y el COLOR de la prenda antes de guardarla en tu Bolsa de Compra.");
         return;
     }
     
     var i = cart.find(function(x) { return x.id === id && x.size === sz && x.color === col; });
-    if (i) { 
-        if(i.q < p.stock) i.q++; else return; 
-    } else { 
-        cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, color: col, q: 1 }); 
-    }
-    
+    if (i) { if(i.q < p.stock) i.q++; else return; } else { cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, color: col, q: 1 }); }
     p.stock--; upUI(); rnd(db); togA(1);
 }
 
 function upUI() { 
-    var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; 
-    var t = 0; 
+    var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; var t = 0; 
     for (var i = 0; i < cart.length; i++) { 
         var item = cart[i]; t += item.price * item.q; 
         c.innerHTML += `
@@ -110,21 +102,14 @@ function upUI() {
                     <p class="text-gray-500 text-[10px] pt-0.5">Talla: ${item.size} • Color: ${item.color}</p>
                     <p class="text-[#e11d48] font-mono text-[11px] font-bold pt-0.5">$${item.price} x${item.q}</p>
                 </div>
-                <button onclick="rem(${item.id},'${item.size}','${item.color}',${item.q})" class="text-gray-600 hover:text-[#e11d48] px-2 transition-all">
-                    <i class="fas fa-trash text-xs"></i>
-                </button>
+                <button onclick="rem(${item.id},'${item.size}','${item.color}',${item.q})" class="text-gray-600 hover:text-[#e11d48] px-2 transition-all"><i class="fas fa-trash text-xs"></i></button>
             </div>`; 
     } 
     document.getElementById('c-total').textContent = '$' + t.toFixed(2); 
     document.getElementById('c-count').textContent = cart.reduce(function(s, k) { return s + k.q; }, 0); 
 }
 
-function rem(id, sz, col, q) { 
-    var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; 
-    cart = cart.filter(function(x) { return !(x.id === id && x.size === sz && x.color === col); }); 
-    upUI(); rnd(db); 
-}
-
+function rem(id, sz, col, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz && x.color === col); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
@@ -152,7 +137,7 @@ function openCheckout() {
                 <input id="u-phone" type="tel" placeholder="WhatsApp (10 dígitos)" required class="bg-[#111116] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all placeholder-gray-600">
             </div>
             <input id="u-email" type="email" placeholder="Correo Electrónico" required class="w-full bg-[#111116] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all placeholder-gray-600">
-            <select class="w-full bg-[#111116] select-premium text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all" id="u-delivery">
+            <select class="w-full bg-[#111116] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48]/40 transition-all" id="u-delivery">
                 <option value="Desviación de Jocotitlán">Entrega: Desviación de Jocotitlán</option>
                 <option value="Jocotitlán Centro">Entrega: Jocotitlán Centro (Presidencia)</option>
                 <option value="San Pedro de los Baños">Entrega: San Pedro de los Baños</option>
@@ -218,4 +203,7 @@ function answerBot(cleanText, rawText) {
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "📏 <strong>Tallas:</strong><br><br>Corte Oversize Amplio. Pide tu talla de siempre para look holgado urbano. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "🕷️ <strong>Tela:</strong><br><br>Heavy Cotton (Algodón Premium Pesado). Mantiene su estructura rígida e imponente."; }
         else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/527122111135','_blank')" class="mt-2 w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-xl">💬 WhatsApp Vivo</button>`; }
-        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/
+        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
+    }, 1200);
+}
+rnd(db);

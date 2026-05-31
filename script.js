@@ -188,7 +188,6 @@ function concluirPedido(msg, folio) {
 /* 🤖 CHATBOT CON IA ULTRA INTERACTIVO Y PREMIUM */
 var initChat = false;
 
-// Carga las opciones sugeridas limpias y modernas en formato de botones interactivos
 function renderChips() {
     return `<div id="quick-chips" class="flex flex-wrap gap-2 pt-2 animate-pulse">
         <button onclick="triggerQuickBot('precios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] hover:border-[#e11d48] transition-all flex items-center gap-1">💰 Precios</button>
@@ -198,12 +197,10 @@ function renderChips() {
     </div>`;
 }
 
-// Inicia el saludo automático del bot con un excelente sabor de boca en el soporte
 function openSuggestedChips() {
     if (initChat) return; 
     var m = document.getElementById('c-msg');
     
-    // Mensaje de bienvenida premium de la marca
     m.innerHTML += `<div class="flex justify-start mb-2 animate-fade-in">
         <div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 shadow-xl leading-relaxed text-xs">
             👋¡Hola! Te damos la bienvenida al soporte oficial de <strong>ANTONY BLACK</strong>.<br><br>
@@ -229,19 +226,14 @@ document.getElementById('t-cht').onclick = togCh;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 
-// Simula la escritura humana con animación interactiva
 function answerBot(cleanText, rawText) {
     var m = document.getElementById('c-msg'); 
-    
-    // Pintamos el mensaje del usuario en pantalla
     m.innerHTML += `<div class="flex justify-end mb-3"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right text-xs shadow-md">${rawText}</div></div>`;
     m.scrollTop = m.scrollHeight;
 
-    // Quitar chips viejos para limpiar el flujo visual
     var oldChips = document.getElementById('quick-chips');
     if(oldChips) oldChips.remove();
 
-    // Inyectar el indicador interactivo de "Escribiendo..." (Efecto Typing)
     var typingId = "typing-" + Date.now();
     m.innerHTML += `<div id="${typingId}" class="flex justify-start mb-3">
         <div class="bg-[#1c1c21] text-gray-500 px-4 py-2.5 rounded-xl rounded-tl-none border border-white/5 flex items-center gap-1 text-xs font-medium">
@@ -252,7 +244,6 @@ function answerBot(cleanText, rawText) {
     m.scrollTop = m.scrollHeight;
 
     setTimeout(function() {
-        // Removemos el indicador de escribiendo
         var typingElement = document.getElementById(typingId);
         if(typingElement) typingElement.remove();
 
@@ -264,8 +255,11 @@ function answerBot(cleanText, rawText) {
             btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-1">🛍️ Explorar Modelos y Comprar</button>`;
         }
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { 
-            r = "📏 <strong>Información sobre Tallas:</strong><br><br>Nuestros patrones son de <strong>Corte Oversize Amplio</strong> con hombros caídos de estilo americano. Te sugerimos ordenar tu talla de siempre si te gusta la holgura urbana, o una talla menos si prefieres que se ajuste más al cuerpo. Disponible en CH, M, G y XG.";
+            r = "📏 <strong>Información sobre Tallas:</strong><br><br>Nuestros patrones son de <strong>Corte Oversize Amplio</strong> con hombros caídos de estilo americano. Te sugerimos ordenar tu talla de siempre si buscas el look holgado urbano original, o una talla menos si prefieres que se ajuste más al cuerpo. Disponible en CH, M, G y XG.";
             btnAction = `<button onclick="triggerQuickBot('materiales')" class="mt-2 w-full bg-[#121214] border border-white/5 hover:bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl transition-all uppercase tracking-wider">🕷️ Conocer Tipo de Tela</button>`;
         }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { 
-            r = "🕷️ <strong>Calidad de Confección:</strong><br><br>Trabajamos exclusivamente con <strong>Heavy Cotton (Algodón Premium Pesado)</strong> de alto gramaje. 
+            r = "🕷️ <strong>Calidad de Confección:</strong><br><br>Trabajamos exclusivamente con <strong>Heavy Cotton (Algodón Premium Pesado)</strong> de alto gramaje. Esto garantiza que la prenda mantenga su estructura imponente y firme en el cuerpo, soportando perfectamente el uso diario y las lavadas sin deformarse.";
+        }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { 
+            r = "📍 <strong>Puntos de Entrega en Jocotitlán:</strong><br><br>Realizamos entregas presenciales totalmente gratis en:<br>• Centro de Jocotitlán (Frente a 

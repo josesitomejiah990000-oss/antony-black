@@ -1,11 +1,9 @@
 var cart = []; var db = [];
 
-// Activación del SDK oficial con tu Clave Pública real de EmailJS
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
 
-// Los 5 productos exclusivos de hombre para ANTONY BLACK
 var productos_hombres = [
     { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
     { name: "Cargo Pants Tactical Black #102", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400", stock: 5 },
@@ -14,7 +12,6 @@ var productos_hombres = [
     { name: "Heavy Cotton Sweatshirt #105", price: 950, img: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=400", stock: 7 }
 ];
 
-// Los 5 productos exclusivos de mujer para ANTONY BLACK
 var productos_mujeres = [
     { name: "Crop Hoodie 'Rebel' Red #201", price: 750, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400", stock: 6 },
     { name: "Wide Leg Jeans Vintage Gray #202", price: 990, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400", stock: 9 },
@@ -32,8 +29,45 @@ function rnd(arr) {
     for (var i = 0; i < arr.length; i++) {
         var p = arr[i]; var isOut = p.stock <= 0;
         var stkTxt = isOut ? '<span class="text-red-500 font-bold block text-[11px] mt-1">AGOTADO</span>' : '<span class="text-gray-400 block text-[11px] mt-1">Stock: ' + p.stock + ' pzs</span>';
-        var btnHtml = isOut ? '<button class="w-full bg-gray-800 text-gray-500 font-brand text-[11px] uppercase py-2 cursor-not-allowed" disabled>Agotado</button>' : '<button onclick="add(' + p.id + ')" class="w-full bg-[#0d0d12] border border-white/5 hover:bg-[#e11d48] text-white font-brand text-[11px] uppercase py-2 transition-all">Agregar</button>';
-        g.innerHTML += '<div class="card p-4 space-y-3 flex flex-col justify-between"><div class="aspect-square bg-black overflow-hidden"><img src="' + p.img + '" class="w-full h-full object-cover"></div><div class="space-y-1"><h3 class="text-xs font-bold text-gray-200 truncate">' + p.name + '</h3><div class="flex justify-between items-center"><span class="text-[#e11d48] font-brand font-bold text-base">$' + p.price + '</span>' + stkTxt + '</div><div class="flex items-center gap-1 text-[11px] pt-1"><span class="text-gray-500">Talla:</span><select id="sz-' + p.id + '" class="bg-[#1c1c24] text-white outline-none px-1 rounded border border-white/5"><option value="CH">CH</option><option value="M" selected>M</option><option value="G">G</option><option value="XG">XG</option></select></div></div>' + btnHtml + '</div>';
+        var btnHtml = isOut ? '<button class="w-full bg-gray-800 text-gray-500 font-brand text-[11px] uppercase py-2 cursor-not-allowed" disabled>Agotado</button>' : '<button onclick="add(' + p.id + ')" class="w-full bg-[#0d0d12] border border-white/5 hover:bg-[#e11d48] text-white font-brand text-[11px] uppercase py-2 transition-all font-bold">Agregar a la Bolsa</button>';
+        
+        g.innerHTML += `
+            <div class="card p-4 space-y-3 flex flex-col justify-between">
+                <div class="aspect-square bg-black overflow-hidden">
+                    <img src="${p.img}" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-xs font-bold text-gray-200 truncate">${p.name}</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#e11d48] font-brand font-bold text-base">$${p.price}</span>
+                        ${stkTxt}
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] uppercase font-bold text-gray-500">Talla:</span>
+                            <select id="sz-${p.id}" class="bg-[#1c1c24] text-white outline-none px-1.5 py-1 text-[11px] rounded border border-white/5 focus:border-[#e11d48]">
+                                <option value="" disabled selected>Elegir...</option>
+                                <option value="CH">CH</option>
+                                <option value="M">M</option>
+                                <option value="G">G</option>
+                                <option value="XG">XG</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] uppercase font-bold text-gray-500">Color:</span>
+                            <select id="col-${p.id}" class="bg-[#1c1c24] text-white outline-none px-1.5 py-1 text-[11px] rounded border border-white/5 focus:border-[#e11d48]">
+                                <option value="" disabled selected>Elegir...</option>
+                                <option value="Negro">Negro</option>
+                                <option value="Gris">Gris</option>
+                                <option value="Rojo">Rojo</option>
+                                <option value="Blanco">Blanco</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                ${btnHtml}
+            </div>`;
     }
 }
 
@@ -41,32 +75,68 @@ function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c =
 
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
-    var sz = document.getElementById('sz-' + id) ? document.getElementById('sz-' + id).value : 'M';
-    var i = cart.find(function(x) { return x.id === id && x.size === sz; });
-    if (i) { if(i.q < p.stock) i.q++; else return; } else { cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, q: 1 }); }
+    
+    // Captura los valores seleccionados por el cliente
+    var sz = document.getElementById('sz-' + id).value;
+    var col = document.getElementById('col-' + id).value;
+    
+    // VALIDACIÓN ESTRICTA: Si no seleccionó Talla o Color, detiene el proceso y avisa visualmente
+    if (!sz || !col) {
+        alert("⚠️ ATENCIÓN:\n\nPor favor, selecciona la TALLA y el COLOR de la prenda antes de agregarla a tu Bolsa de Compra.");
+        return;
+    }
+    
+    // Busca si ya existe exactamente el mismo modelo con la misma talla y mismo color
+    var i = cart.find(function(x) { return x.id === id && x.size === sz && x.color === col; });
+    if (i) { 
+        if(i.q < p.stock) i.q++; else return; 
+    } else { 
+        cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, size: sz, color: col, q: 1 }); 
+    }
+    
     p.stock--; upUI(); rnd(db); togA(1);
 }
 
-function upUI() { var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; var t = 0; for (var i = 0; i < cart.length; i++) { var item = cart[i]; t += item.price * item.q; c.innerHTML += '<div class="flex gap-3 bg-white/5 p-2 rounded items-center text-xs"><img src="' + item.img + '" class="w-10 h-10 object-cover rounded"><div class="flex-1 min-w-0"><h4 class="truncate font-bold text-[11px] text-gray-200">' + item.name + ' (' + item.size + ')</h4><p class="text-[#e11d48] font-brand text-[11px]">' + item.price + ' x' + item.q + '</p></div><button onclick="rem(' + item.id + ',\'' + item.size + '\',' + item.q + ')" class="text-gray-500 hover:text-[#e11d48] px-2"><i class="fas fa-trash"></i></button></div>'; } document.getElementById('c-total').textContent = '$' + t.toFixed(2); document.getElementById('c-count').textContent = cart.reduce(function(s, k) { return s + k.q; }, 0); }
-function rem(id, sz, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz); }); upUI(); rnd(db); }
+function upUI() { 
+    var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; 
+    var t = 0; 
+    for (var i = 0; i < cart.length; i++) { 
+        var item = cart[i]; t += item.price * item.q; 
+        c.innerHTML += `
+            <div class="flex gap-3 bg-white/5 p-2 rounded items-center text-xs">
+                <img src="${item.img}" class="w-10 h-10 object-cover rounded">
+                <div class="flex-1 min-w-0">
+                    <h4 class="truncate font-bold text-[11px] text-gray-200">${item.name}</h4>
+                    <p class="text-gray-400 text-[10px]">Talla: ${item.size} | Color: ${item.color}</p>
+                    <p class="text-[#e11d48] font-brand text-[11px] font-bold">$${item.price} x${item.q}</p>
+                </div>
+                <button onclick="rem(${item.id},'${item.size}','${item.color}',${item.q})" class="text-gray-500 hover:text-[#e11d48] px-2">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>`; 
+    } 
+    document.getElementById('c-total').textContent = '$' + t.toFixed(2); 
+    document.getElementById('c-count').textContent = cart.reduce(function(s, k) { return s + k.q; }, 0); 
+}
+
+function rem(id, sz, col, q) { 
+    var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; 
+    cart = cart.filter(function(x) { return !(x.id === id && x.size === sz && x.color === col); }); 
+    upUI(); rnd(db); 
+}
+
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
 function generarFolioReal() {
     var d = new Date();
-    var anio = d.getFullYear();
-    var mes = String(d.getMonth() + 1).padStart(2, '0');
-    var dia = String(d.getDate()).padStart(2, '0');
-    var hora = String(d.getHours()).padStart(2, '0');
-    var min = String(d.getMinutes()).padStart(2, '0');
-    var aleatorio = Math.floor(10 + Math.random() * 90);
-    return "AB-" + anio + mes + dia + "-" + hora + min + "-" + aleatorio;
+    return "AB-" + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + "-" + String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0') + "-" + Math.floor(10 + Math.random() * 90);
 }
 
 function openCheckout() {
     if(cart.length === 0) return;
     var total = 0; var summaryContainer = document.getElementById('pay-items-summary'); summaryContainer.innerHTML = ''; 
-    cart.forEach(function(x) { total += x.price * x.q; summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>'; });
+    cart.forEach(function(x) { total += x.price * x.q; summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ' / ' + x.color + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>'; });
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
     var folioActual = generarFolioReal();
     var formContainer = document.getElementById('checkout-form');
@@ -111,7 +181,7 @@ function procesarOrden(e) {
     var c_spot = document.getElementById('u-delivery').value;
     var c_folio = document.getElementById('p-folio-txt').textContent;
     var resumenRopa = ""; var totalCompra = 0;
-    cart.forEach(function(item) { resumenRopa += "• " + item.name + " (" + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n"; totalCompra += item.price * item.q; });
+    cart.forEach(function(item) { resumenRopa += "• " + item.name + " (Talla: " + item.size + " / Color: " + item.color + ") x" + item.q + " - $" + (item.price * item.q) + "\n"; totalCompra += item.price * item.q; });
     var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n🎫 FOLIO DE COMPRA: " + c_folio + "\n\nDATOS DEL CLIENTE:\n• Nombre: " + c_name + "\n• WhatsApp: " + c_phone + "\n• Correo: " + c_email + "\n• Punto de Entrega: " + c_spot + "\n\nPRENDAS SOLICITADAS:\n" + resumenRopa + "\nTOTAL NETO A PAGAR: $" + totalCompra.toFixed(2) + "\n\n⚠️ FAVOR DE ADJUNTAR SU RECIBO DE PAGO PARA CONFIRMAR LA COMPRA.\n\n📌 DATOS DE PAGO DEL PROPIETARIO:\n• CLABE: 722969010522000447\n• Beneficiario: José Antonio Mejia Hernández\n• DiMo: 7122111135\n";
     var templateParams = { to_email: "atencionalclienteantonyblack@gmail.com", from_name: c_name + " (Folio: " + c_folio + ")", message: ticketMensaje };
     emailjs.send('service_ioiqtrs', 'my_first_template', templateParams).then(function() { concluirPedido(ticketMensaje, c_folio); }, function(error) { console.log("Error:", error); concluirPedido(ticketMensaje, c_folio); });
@@ -151,5 +221,4 @@ function answerBot(cleanText, rawText) {
         m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
     }, 1200);
 }
-// Inicializador de arranque obligatorio
 rnd(db);

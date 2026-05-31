@@ -4,82 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANTONY BLACK | Premium Streetwear</title>
-    <!-- Tailwind CSS para diseño responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SDK de EmailJS obligatorio -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #050507; color: #ffffff; scroll-behavior: smooth; }
-        .card { background-color: #0b0b0d; border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .card:hover { border-color: rgba(255,255,255,0.12); transform: scale(1.01); }
-        select { appearance: none; -webkit-appearance: none; }
-        
-        /* Control estricto de paneles deslizantes */
-        #cart { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
-        #cart.open { transform: translateX(0); }
-        
-        /* CORRECCIÓN DE ERROR: Posición fija absoluta para que el chatbot flote y cierre */
-        #c-box { 
-            position: fixed; 
-            bottom: 80px; 
-            right: 20px; 
-            z-index: 50; 
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-            transform: translateY(150%); 
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap');
+
+        /* Configuración Base de Lujo Unificada */
+        body { 
+            background-color: #09090b; 
+            color: #fafafa; 
+            overflow-x: hidden; 
+            font-family: 'Space Grotesk', sans-serif; 
+            letter-spacing: -0.01em;
+            scroll-behavior: smooth;
         }
-        #c-box.open { transform: translateY(0); }
 
-        .modal { opacity: 0; pointer-events: none; transition: all 0.3s ease; }
-        .modal.active { opacity: 1; pointer-events: auto; }
+        .font-brand { 
+            font-family: 'Syne', sans-serif; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: -0.04em; 
+        }
 
-        /* Clase de alerta intuitiva por si falta Talla o Color */
+        /* Navbar de Cristal Esmerilado Fino */
+        .glass { 
+            background: rgba(9, 9, 11, 0.8); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04); 
+        }
+
+        /* Tarjetas Estilo Bloque Sólido Premium */
+        .card { 
+            background-color: #121214; 
+            border: 1px solid rgba(255, 255, 255, 0.03); 
+            border-radius: 12px;
+            overflow: hidden; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        .card:hover { 
+            border-color: #e11d48; 
+            transform: translateY(-4px); 
+            box-shadow: 0 12px 30px rgba(225, 29, 72, 0.08); 
+        }
+
+        .card img { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card:hover img { transform: scale(1.04); }
+
+        /* Menús Desplegables Estilizados Compatibles */
+        select {
+            background-color: #1c1c21;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-align: center;
+        }
+
+        /* Bolsa de Compras Lateral (Drawer) */
+        .drawer { 
+            position: fixed; 
+            top: 0; 
+            right: -100%; 
+            width: 100%; 
+            max-width: 420px; 
+            height: 100vh; 
+            background-color: #09090b; 
+            z-index: 1000; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            border-left: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: -20px 0 40px rgba(0,0,0,0.7);
+        }
+        .drawer.open { right: 0; }
+
+        /* Pasarela Modal */
+        .modal { 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(9, 9, 11, 0.94); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            z-index: 1001; 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 16px; 
+        }
+        .modal.active { display: flex; }
+
+        .ia-panel { 
+            background: #121214; 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+        }
+
+        /* Botón Flotante Chatbot (Sincronizado) */
+        .btn-f { 
+            position: fixed; 
+            bottom: 25px; 
+            right: 25px; 
+            width: 56px; 
+            height: 56px; 
+            background-color: #e11d48; 
+            color: #fff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            cursor: pointer; 
+            z-index: 999; 
+            border-radius: 50%; 
+            box-shadow: 0 6px 20px rgba(225, 29, 72, 0.3); 
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-f:hover { transform: scale(1.06); }
+
+        /* Caja de Chatbot Flotante Garantizada */
+        .chat-container { 
+            position: fixed; 
+            bottom: 95px; 
+            right: 25px; 
+            width: 325px; 
+            height: 440px; 
+            background-color: #121214; 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 16px; 
+            z-index: 1000; 
+            display: none; 
+            flex-direction: column; 
+            overflow: hidden; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+        .chat-container.open { display: flex; }
+
+        /* Animación de alerta por omisión de talla/color */
         .shake-alert { animation: shake 0.4s ease-in-out; border-color: #e11d48 !important; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-4px); }
             75% { transform: translateX(4px); }
         }
+
+        /* Scrollbars Premium */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #e11d48; }
     </style>
 </head>
-<body class="overflow-x-hidden flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <header class="sticky top-0 z-40 bg-[#050507]/90 backdrop-blur-md border-b border-white/5 px-4 py-4 sm:px-8 flex justify-between items-center">
-        <a href="#" class="text-base font-bold tracking-[0.25em] text-white uppercase">ANTONY <span class="text-[#e11d48]">BLACK</span></a>
-        <button onclick="togA(1)" class="relative p-2 text-gray-400 hover:text-white transition-all bg-white/5 rounded-full w-9 h-9 flex items-center justify-center border border-white/5">
+    <header class="sticky top-0 z-40 glass px-5 py-4 sm:px-8 flex justify-between items-center">
+        <a href="#" class="text-base font-brand tracking-[0.2em] text-white">ANTONY <span class="text-[#e11d48]">BLACK</span></a>
+        <button onclick="togA(1)" class="relative p-2 text-gray-400 hover:text-white transition-all bg-white/5 rounded-full w-10 h-10 flex items-center justify-center border border-white/5">
             <i class="fa-solid fa-bag-shopping text-sm"></i>
             <span id="c-count" class="absolute -top-1 -right-1 bg-[#e11d48] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
     </header>
 
-    <!-- SECCIÓN DE BIENVENIDA -->
-    <section class="relative bg-black py-20 px-4 text-center border-b border-white/5 overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.01)_0%,transparent_60%)]"></div>
+    <section class="relative bg-black py-24 px-4 text-center border-b border-white/5 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(225,29,72,0.02)_0%,transparent_60%)]"></div>
         <div class="relative z-10 max-w-2xl mx-auto space-y-4">
-            <span class="text-gray-500 text-[10px] uppercase tracking-[0.3em] font-medium">Estética Streetwear</span>
-            <h1 class="text-3xl sm:text-5xl font-bold tracking-tight uppercase">Diseño Disruptivo e Imponente</h1>
+            <span class="text-gray-500 text-[10px] uppercase tracking-[0.3em] font-medium font-brand">Estética Streetwear</span>
+            <h1 class="text-3xl sm:text-5xl font-brand tracking-tight text-white">Diseño Disruptivo e Imponente</h1>
             <p class="text-gray-400 text-xs sm:text-sm max-w-sm mx-auto font-light leading-relaxed">Heavy cotton y cortes de alta costura urbana pensados para dominar las calles.</p>
             <div class="pt-2 flex justify-center gap-2">
                 <button onclick="flt('todos')" id="b-all" class="px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-white text-black font-bold">Todos</button>
-                <button onclick="flt('hombres')" id="b-men" class="px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#0b0b0d] text-gray-400 border border-white/5 hover:text-white">Hombres</button>
-                <button onclick="flt('mujeres')" id="b-women" class="px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#0b0b0d] text-gray-400 border border-white/5 hover:text-white">Mujeres</button>
+                <button onclick="flt('hombres')" id="b-men" class="px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#121214] text-gray-400 border border-white/5 hover:text-white">Hombres</button>
+                <button onclick="flt('mujeres')" id="b-women" class="px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#121214] text-gray-400 border border-white/5 hover:text-white">Mujeres</button>
             </div>
         </div>
     </section>
 
-    <!-- CATÁLOGO -->
     <main id="catalogo" class="flex-1 max-w-7xl mx-auto px-4 py-12 w-full">
         <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"></div>
     </main>
 
-    <!-- PIE DE PÁGINA -->
-    <footer class="w-full bg-[#050507] border-t border-white/5 py-8 px-4 text-center mt-auto">
+    <footer class="w-full bg-[#09090b] border-t border-white/5 py-8 px-4 text-center mt-auto">
         <div class="max-w-7xl mx-auto space-y-2">
-            <p class="text-xs tracking-[0.25em] font-bold text-white uppercase">ANTONY <span class="text-[#e11d48]">BLACK</span></p>
+            <p class="text-xs tracking-[0.25em] font-brand text-white">ANTONY <span class="text-[#e11d48]">BLACK</span></p>
             <p class="text-[9px] text-gray-600 font-mono tracking-widest uppercase">Copyright © 2026 • Todos los derechos reservados.</p>
             <p class="text-xs text-gray-400 tracking-wide font-light pt-1">
                 Propiedad Exclusiva de 
@@ -90,10 +199,9 @@
         </div>
     </footer>
 
-    <!-- BOLSA DE COMPRAS -->
-    <div id="cart" class="fixed top-0 right-0 h-full w-full sm:w-[400px] z-50 bg-[#0b0b0d] border-l border-white/5 shadow-2xl flex flex-col">
+    <div id="cart" class="drawer flex flex-col">
         <div class="p-4 border-b border-white/5 flex justify-between items-center bg-black/20">
-            <h2 class="font-bold uppercase tracking-widest text-[11px] flex items-center gap-2"><i class="fa-solid fa-basket-shopping text-gray-400"></i> Bolsa de Compra</h2>
+            <h2 class="font-brand uppercase tracking-widest text-[11px] flex items-center gap-2"><i class="fa-solid fa-basket-shopping text-gray-400"></i> Bolsa de Compra</h2>
             <button onclick="togA(0)" class="text-gray-500 hover:text-white p-2 text-xs uppercase tracking-widest"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="c-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
@@ -108,11 +216,10 @@
         </div>
     </div>
 
-    <!-- PASARELA MODAL -->
-    <div id="m-pay" class="modal fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-[#0b0b0d] border border-white/5 w-full max-w-xl rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto relative">
+    <div id="m-pay" class="modal">
+        <div class="ia-panel border border-white/5 w-full max-w-xl p-5 sm:p-6 space-y-4 max-h-[90vh] overflow-y-auto relative">
             <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                <h3 class="font-bold text-xs uppercase tracking-widest flex items-center gap-2 text-white"><i class="fa-solid fa-shield-halved text-gray-400"></i> Orden de Compra</h3>
+                <h3 class="font-brand text-xs uppercase tracking-widest flex items-center gap-2 text-white"><i class="fa-solid fa-shield-halved text-gray-400"></i> Orden de Compra</h3>
                 <button onclick="togM('pay', 0)" class="text-gray-500 hover:text-white p-1 text-sm"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="space-y-2 text-xs bg-white/[0.01] p-3 rounded-xl border border-white/5">
@@ -126,13 +233,11 @@
         </div>
     </div>
 
-    <!-- BOTÓN FLOTANTE DEL CHATBOT -->
-    <button id="t-cht" class="fixed bottom-5 right-5 z-40 bg-white text-black w-11 h-11 rounded-full flex items-center justify-center shadow-2xl border border-white/10">
-        <i class="fa-solid fa-comment-dots text-base"></i>
+    <button id="t-cht" class="btn-f">
+        <i class="fa-solid fa-comment-dots text-lg"></i>
     </button>
 
-    <!-- CAJA DEL CHATBOT -->
-    <div id="c-box" class="w-[90vw] sm:w-[340px] h-[440px] bg-[#0b0b0d] border border-white/5 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+    <div id="c-box" class="chat-container">
         <div class="bg-black border-b border-white/5 p-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></div>

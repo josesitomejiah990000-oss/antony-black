@@ -86,10 +86,7 @@ function flt(c) {
     } 
     var btn = document.getElementById('b-' + cat); 
     if (btn) btn.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-white text-black font-bold"; 
-    
     if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } 
-    
-    // Desplazamiento dinámico e intuitivo hacia el catálogo
     document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -98,13 +95,11 @@ function add(id) {
     var sz = document.getElementById('sz-' + id).value;
     var col = document.getElementById('col-' + id).value;
     
-    // Alerta intuitiva dinámica: Si falta un dato, la tarjeta vibra y los bordes se ponen rojos
     if (!sz || !col) {
         var card = document.getElementById('card-' + id);
         card.classList.add('shake-alert');
         if(!sz) document.getElementById('sz-' + id).style.borderColor = '#e11d48';
         if(!col) document.getElementById('col-' + id).style.borderColor = '#e11d48';
-        
         setTimeout(function() { card.classList.remove('shake-alert'); }, 400);
         return;
     }
@@ -135,11 +130,8 @@ function upUI() {
 
 function rem(id, sz, col, q) { var p = db.find(function(x) { return x.id === id; }); if (p) p.stock += q; cart = cart.filter(function(x) { return !(x.id === id && x.size === sz && x.color === col); }); upUI(); rnd(db); }
 function togA(o) { document.getElementById('cart').classList[o ? 'add' : 'remove']('open'); }
-
-// El chatbot abre y cierra de forma fluida con las clases de animación
 function togCh() { document.getElementById('c-box').classList.toggle('open'); if(document.getElementById('c-box').classList.contains('open')) { setTimeout(openSuggestedChips, 300); } }
 document.getElementById('t-cht').onclick = togCh;
-
 function togM(id, o) { document.getElementById('m-' + id).classList[o ? 'add' : 'remove']('active'); }
 
 function generarFolioReal() {
@@ -229,4 +221,5 @@ function answerBot(cleanText, rawText) {
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "💵 <strong>Precios Oficiales:</strong><br><br>• Sudaderas: $899<br>• Cargo Pants: $1,150<br>• Crop Hoodies: $750<br>• Wide Leg Jeans: $990"; btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-white text-black text-[10px] font-bold py-2 rounded-lg">🛍️ Ver Modelos</button>`; }
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "📏 <strong>Tallas:</strong><br><br>Corte Oversize Amplio. Pide tu talla de siempre para look holgado urbano. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "🕷️ <strong>Tela:</strong><br><br>Heavy Cotton (Algodón Premium Pesado). Mantiene su estructura rígida e imponente."; }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/52712
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/527122111135','_blank')" class="mt-2 w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg">💬 WhatsApp Vivo</button>`; }
+        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl r

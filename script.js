@@ -1,11 +1,9 @@
 var cart = []; var db = [];
 
-// Activación del SDK oficial con tu Clave Pública real de EmailJS
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
 
-// Los 5 productos exclusivos de hombre para ANTONY BLACK
 var productos_hombres = [
     { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
     { name: "Cargo Pants Tactical Black #102", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400", stock: 5 },
@@ -14,7 +12,6 @@ var productos_hombres = [
     { name: "Heavy Cotton Sweatshirt #105", price: 950, img: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=400", stock: 7 }
 ];
 
-// Los 5 productos exclusivos de mujer para ANTONY BLACK
 var productos_mujeres = [
     { name: "Crop Hoodie 'Rebel' Red #201", price: 750, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400", stock: 6 },
     { name: "Wide Leg Jeans Vintage Gray #202", price: 990, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400", stock: 9 },
@@ -65,20 +62,10 @@ function generarFolioReal() {
 
 function openCheckout() {
     if(cart.length === 0) return;
-    
-    var total = 0;
-    var summaryContainer = document.getElementById('pay-items-summary');
-    summaryContainer.innerHTML = ''; 
-    
-    cart.forEach(function(x) { 
-        total += x.price * x.q; 
-        summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>';
-    });
-    
+    var total = 0; var summaryContainer = document.getElementById('pay-items-summary'); summaryContainer.innerHTML = ''; 
+    cart.forEach(function(x) { total += x.price * x.q; summaryContainer.innerHTML += '<div class="flex justify-between"><span>' + x.name + ' (' + x.size + ') x' + x.q + '</span><span class="text-white">$' + (x.price * x.q).toFixed(2) + '</span></div>'; });
     document.getElementById('pay-total-display').textContent = '$' + total.toFixed(2);
-    
     var folioActual = generarFolioReal();
-    
     var formContainer = document.getElementById('checkout-form');
     formContainer.innerHTML = `
         <div class="space-y-4">
@@ -86,7 +73,6 @@ function openCheckout() {
                 <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Folio de Orden:</span>
                 <span id="p-folio-txt" class="text-xs font-mono font-bold text-[#e11d48] tracking-wider">${folioActual}</span>
             </div>
-
             <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold block">1. Registra tu información de entrega</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input id="u-name" type="text" placeholder="Tu Nombre Completo" required class="bg-[#121215] text-white text-xs px-4 py-3.5 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
@@ -99,84 +85,38 @@ function openCheckout() {
                 <option value="San Pedro de los Baños">Entrega: San Pedro de los Baños</option>
             </select>
         </div>
-
         <div class="space-y-3 pt-4 border-t border-white/5">
             <span class="text-[10px] uppercase tracking-widest text-[#e11d48] font-bold block">2. Datos de Transferencia Directa</span>
             <div class="bg-black/60 border border-white/5 rounded-2xl p-4 font-mono text-xs space-y-3">
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-500">Beneficiario:</span>
-                    <span class="text-white font-sans font-bold text-right">José Antonio Mejía Hernández</span>
-                </div>
-                <div class="flex justify-between items-center border-t border-white/5 pt-2">
-                    <span class="text-gray-500">Cuenta CLABE:</span>
-                    <span class="text-[#e11d48] font-bold tracking-wider select-all">722969010522000447</span>
-                </div>
-                <div class="flex justify-between items-center border-t border-white/5 pt-2">
-                    <span class="text-gray-500">Plataforma DiMo:</span>
-                    <span class="text-emerald-400 font-bold tracking-wider select-all">7122111135</span>
-                </div>
+                <div class="flex justify-between items-center"><span class="text-gray-500">Beneficiario:</span><span class="text-white font-sans font-bold text-right">José Antonio Mejia Hernández</span></div>
+                <div class="flex justify-between items-center border-t border-white/5 pt-2"><span class="text-gray-500">Cuenta CLABE:</span><span class="text-[#e11d48] font-bold tracking-wider select-all">722969010522000447</span></div>
+                <div class="flex justify-between items-center border-t border-white/5 pt-2"><span class="text-gray-500">Plataforma DiMo:</span><span class="text-emerald-400 font-bold tracking-wider select-all">7122111135</span></div>
             </div>
         </div>
-
         <div class="pt-4 border-t border-white/5 flex flex-col gap-3">
-            <button type="submit" class="w-full bg-white text-black font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all shadow-xl flex items-center justify-center gap-2">
-                <i class="fa-solid fa-share-nodes"></i> Compartir Datos y Enviar Pedido
-            </button>
+            <button type="submit" class="w-full bg-white text-black font-bold text-xs uppercase tracking-widest py-4 rounded-xl hover:bg-[#e11d48] hover:text-white transition-all shadow-xl flex items-center justify-center gap-2"><i class="fa-solid fa-share-nodes"></i> Compartir Datos y Enviar Pedido</button>
         </div>
     `;
-
-    togA(0); 
-    togM('pay', 1); 
+    togA(0); togM('pay', 1); 
 }
 
 function procesarOrden(e) {
     e.preventDefault();
-    
     var c_name = document.getElementById('u-name').value;
     var c_phone = document.getElementById('u-phone').value;
     var c_email = document.getElementById('u-email').value;
     var c_spot = document.getElementById('u-delivery').value;
     var c_folio = document.getElementById('p-folio-txt').textContent;
-    
     var resumenRopa = ""; var totalCompra = 0;
-    cart.forEach(function(item) {
-        resumenRopa += "• " + item.name + " (" + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n";
-        totalCompra += item.price * item.q;
-    });
-
-    var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n" +
-                        "🎫 FOLIO DE COMPRA: " + c_folio + "\n\n" +
-                        "DATOS DEL CLIENTE:\n" +
-                        "• Nombre: " + c_name + "\n" +
-                        "• WhatsApp: " + c_phone + "\n" +
-                        "• Correo: " + c_email + "\n" +
-                        "• Punto de Entrega: " + c_spot + "\n\n" +
-                        "PRENDAS SOLICITADAS:\n" + resumenRopa + "\n" +
-                        "TOTAL NETO A PAGAR: $" + totalCompra.toFixed(2) + "\n\n" +
-                        "⚠️ FAVOR DE ADJUNTAR SU RECIBO DE PAGO PARA CONFIRMAR LA COMPRA.\n\n" +
-                        "📌 DATOS DE PAGO DEL PROPIETARIO:\n" +
-                        "• CLABE: 722969010522000447\n" +
-                        "• Beneficiario: José Antonio Mejía Hernández\n" +
-                        "• DiMo: 7122111135\n";
-
-    var templateParams = {
-        to_email: "atencionalclienteantonyblack@gmail.com",
-        from_name: c_name + " (Folio: " + c_folio + ")",
-        message: ticketMensaje
-    };
-
-    emailjs.send('service_ioiqtrs', 'my_first_template', templateParams)
-        .then(function() {
-            concluirPedido(ticketMensaje, c_folio);
-        }, function(error) {
-            console.log("Error de transmisión:", error);
-            concluirPedido(ticketMensaje, c_folio);
-        });
+    cart.forEach(function(item) { resumenRopa += "• " + item.name + " (" + item.size + ") x" + item.q + " - $" + (item.price * item.q) + "\n"; totalCompra += item.price * item.q; });
+    var ticketMensaje = "🕷️ NUEVO PEDIDO REGISTRADO - ANTONY BLACK\n\n🎫 FOLIO DE COMPRA: " + c_folio + "\n\nDATOS DEL CLIENTE:\n• Nombre: " + c_name + "\n• WhatsApp: " + c_phone + "\n• Correo: " + c_email + "\n• Punto de Entrega: " + c_spot + "\n\nPRENDAS SOLICITADAS:\n" + resumenRopa + "\nTOTAL NETO A PAGAR: $" + totalCompra.toFixed(2) + "\n\n⚠️ FAVOR DE ADJUNTAR SU RECIBO DE PAGO PARA CONFIRMAR LA COMPRA.\n\n📌 DATOS DE PAGO DEL PROPIETARIO:\n• CLABE: 722969010522000447\n• Beneficiario: José Antonio Mejia Hernández\n• DiMo: 7122111135\n";
+    var templateParams = { to_email: "atencionalclienteantonyblack@gmail.com", from_name: c_name + " (Folio: " + c_folio + ")", message: ticketMensaje };
+    emailjs.send('service_ioiqtrs', 'my_first_template', templateParams).then(function() { concluirPedido(ticketMensaje, c_folio); }, function(error) { console.log("Error:", error); concluirPedido(ticketMensaje, c_folio); });
 }
 
 function concluirPedido(msg, folio) {
     navigator.clipboard.writeText("722969010522000447").then(function() {
-        alert("🔒 ¡DATOS COPIADOS Y FOLIO GENERADO!\n\nTu orden se registró con el Folio Seguro: " + folio + "\n\nLa cuenta CLABE se copió a tu celular. Al dar aceptar, envía el mensaje por WhatsApp junto con tu recibo de pago para confirmar.");
+        alert("🔒 ¡DATOS COPIADOS!\n\nFolio: " + folio + "\n\nLa CLABE se copió. Envía el mensaje por WhatsApp junto con tu recibo de pago.");
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
         cart = []; upUI(); togM('pay', 0);
     }).catch(function() {
@@ -185,81 +125,27 @@ function concluirPedido(msg, folio) {
     });
 }
 
-/* 🤖 CHATBOT CON IA ULTRA INTERACTIVO Y PREMIUM */
 var initChat = false;
-
-function renderChips() {
-    return `<div id="quick-chips" class="flex flex-wrap gap-2 pt-2 animate-pulse">
-        <button onclick="triggerQuickBot('precios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] hover:border-[#e11d48] transition-all flex items-center gap-1">💰 Precios</button>
-        <button onclick="triggerQuickBot('tallas')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] hover:border-[#e11d48] transition-all flex items-center gap-1">📏 Guía de Tallas</button>
-        <button onclick="triggerQuickBot('materiales')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] hover:border-[#e11d48] transition-all flex items-center gap-1">🕷️ Tipo de Tela</button>
-        <button onclick="triggerQuickBot('envios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] hover:border-[#e11d48] transition-all flex items-center gap-1">📍 Entregas Jocotitlán</button>
-    </div>`;
-}
-
-function openSuggestedChips() {
-    if (initChat) return; 
-    var m = document.getElementById('c-msg');
-    
-    m.innerHTML += `<div class="flex justify-start mb-2 animate-fade-in">
-        <div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 shadow-xl leading-relaxed text-xs">
-            👋¡Hola! Te damos la bienvenida al soporte oficial de <strong>ANTONY BLACK</strong>.<br><br>
-            Estamos aquí para ofrecerte una experiencia exclusiva de alta costura urbana. ¿En qué podemos asesorarte hoy? 👇
-            ${renderChips()}
-        </div>
-    </div>`;
-    m.scrollTop = m.scrollHeight;
-    initChat = true;
-}
-
-function togCh() { 
-    var box = document.getElementById('c-box'); 
-    if(box) { 
-        box.classList.toggle('open'); 
-        if(box.classList.contains('open')) { 
-            setTimeout(openSuggestedChips, 300); 
-        } 
-    } 
-}
+function renderChips() { return `<div id="quick-chips" class="flex flex-wrap gap-2 pt-2 animate-pulse"><button onclick="triggerQuickBot('precios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] transition-all">💰 Precios</button><button onclick="triggerQuickBot('tallas')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] transition-all">📏 Tallas</button><button onclick="triggerQuickBot('materiales')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] transition-all">🕷️ Tela</button><button onclick="triggerQuickBot('envios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-[#e11d48] transition-all">📍 Entregas</button></div>`; }
+function openSuggestedChips() { if (initChat) return; var m = document.getElementById('c-msg'); m.innerHTML += `<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">👋¡Hola! Soporte oficial de <strong>ANTONY BLACK</strong>. ¿En qué podemos asesorarte hoy? 👇${renderChips()}</div></div>`; m.scrollTop = m.scrollHeight; initChat = true; }
+function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); if(box.classList.contains('open')) { setTimeout(openSuggestedChips, 300); } } }
 document.getElementById('t-cht').onclick = togCh;
-
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
 function bot(e) { if(e) e.preventDefault(); var i = document.getElementById('c-in'); var t = i.value.trim(); if (!t) return false; answerBot(t.toLowerCase(), t); i.value = ''; return false; }
 
 function answerBot(cleanText, rawText) {
-    var m = document.getElementById('c-msg'); 
-    m.innerHTML += `<div class="flex justify-end mb-3"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-right text-xs shadow-md">${rawText}</div></div>`;
-    m.scrollTop = m.scrollHeight;
-
-    var oldChips = document.getElementById('quick-chips');
-    if(oldChips) oldChips.remove();
-
-    var typingId = "typing-" + Date.now();
-    m.innerHTML += `<div id="${typingId}" class="flex justify-start mb-3">
-        <div class="bg-[#1c1c21] text-gray-500 px-4 py-2.5 rounded-xl rounded-tl-none border border-white/5 flex items-center gap-1 text-xs font-medium">
-            <span class="animate-bounce">●</span><span class="animate-bounce [animation-delay:0.2s]">●</span><span class="animate-bounce [animation-delay:0.4s]">●</span>
-            <span class="text-[10px] text-gray-600 ml-1 uppercase tracking-wider font-bold">Antony Bot está escribiendo</span>
-        </div>
-    </div>`;
-    m.scrollTop = m.scrollHeight;
-
+    var m = document.getElementById('c-msg'); m.innerHTML += `<div class="flex justify-end mb-3"><div class="bg-[#e11d48] text-white p-2.5 rounded-xl rounded-tr-none max-w-[85%] font-bold text-xs">${rawText}</div></div>`; m.scrollTop = m.scrollHeight;
+    var oldChips = document.getElementById('quick-chips'); if(oldChips) oldChips.remove();
+    var typingId = "typing-" + Date.now(); m.innerHTML += `<div id="${typingId}" class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-500 px-4 py-2.5 rounded-xl text-xs">●●● <span>Escribiendo...</span></div></div>`; m.scrollTop = m.scrollHeight;
     setTimeout(function() {
-        var typingElement = document.getElementById(typingId);
-        if(typingElement) typingElement.remove();
-
-        var r = "Excelente consulta. En ANTONY BLACK desarrollamos piezas con diseño disruptivo y los más altos estándares de la moda callejera.";
-        var btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-[#121214] hover:bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl transition-all border border-white/5 uppercase tracking-wider">⚡ Ver Colección Completa</button>`;
-
-        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { 
-            r = "💵 <strong>Lista de Precios Oficiales:</strong><br><br>• Sudaderas Oversize: $899<br>• Cargo Pants Premium: $1,150<br>• Crop Hoodies: $750<br>• Wide Leg Jeans: $990<br><br>Cada prenda está confeccionada con materiales pesados de alta durabilidad.";
-            btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-1">🛍️ Explorar Modelos y Comprar</button>`;
-        }
-        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { 
-            r = "📏 <strong>Información sobre Tallas:</strong><br><br>Nuestros patrones son de <strong>Corte Oversize Amplio</strong> con hombros caídos de estilo americano. Te sugerimos ordenar tu talla de siempre si buscas el look holgado urbano original, o una talla menos si prefieres que se ajuste más al cuerpo. Disponible en CH, M, G y XG.";
-            btnAction = `<button onclick="triggerQuickBot('materiales')" class="mt-2 w-full bg-[#121214] border border-white/5 hover:bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl transition-all uppercase tracking-wider">🕷️ Conocer Tipo de Tela</button>`;
-        }
-        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1 || cleanText.indexOf('algodon') !== -1) { 
-            r = "🕷️ <strong>Calidad de Confección:</strong><br><br>Trabajamos exclusivamente con <strong>Heavy Cotton (Algodón Premium Pesado)</strong> de alto gramaje. Esto garantiza que la prenda mantenga su estructura imponente y firme en el cuerpo, soportando perfectamente el uso diario y las lavadas sin deformarse.";
-        }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1 || cleanText.indexOf('punto') !== -1 || cleanText.indexOf('lugar') !== -1) { 
-            r = "📍 <strong>Puntos de Entrega en Jocotitlán:</strong><br><br>Realizamos entregas presenciales totalmente gratis en:<br>• Centro de Jocotitlán (Frente a 
+        var typingElement = document.getElementById(typingId); if(typingElement) typingElement.remove();
+        var r = "Excelente consulta. En ANTONY BLACK desarrollamos piezas con diseño disruptivo streetwear.";
+        var btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-[#121214] hover:bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl border border-white/5 uppercase">⚡ Ver Colección</button>`;
+        if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "💵 <strong>Precios Oficiales:</strong><br><br>• Sudaderas: $899<br>• Cargo Pants: $1,150<br>• Crop Hoodies: $750<br>• Wide Leg Jeans: $990"; btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-[#e11d48] text-white text-[10px] font-bold py-2 rounded-xl">🛍️ Ver Modelos</button>`; }
+        else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "📏 <strong>Tallas:</strong><br><br>Corte Oversize Amplio. Pide tu talla de siempre para look holgado urbano. Stock en CH, M, G y XG."; }
+        else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "🕷️ <strong>Tela:</strong><br><br>Heavy Cotton (Algodón Premium Pesado). Mantiene su estructura rígida e imponente."; }
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/527122111135','_blank')" class="mt-2 w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-xl">💬 WhatsApp Vivo</button>`; }
+        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
+    }, 1200);
+}
+rnd(db);

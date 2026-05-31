@@ -1,10 +1,12 @@
 var cart = []; var db = [];
+var initChat = false; // Variable global de control para el Chatbot
 
-// SDK EmailJS
+// Inicialización de EmailJS
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
 
+// Base de datos oficial de productos
 var productos_hombres = [
     { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
     { name: "Cargo Pants Tactical Black #102", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400", stock: 5 },
@@ -25,6 +27,7 @@ var baseId = 1;
 productos_hombres.forEach(function(p) { db.push({ id: baseId++, name: p.name, price: p.price, cat: "hombres", img: p.img, stock: p.stock }); });
 productos_mujeres.forEach(function(p) { db.push({ id: baseId++, name: p.name, price: p.price, cat: "mujeres", img: p.img, stock: p.stock }); });
 
+// Renderizar las tarjetas en la cuadrícula
 function rnd(arr) {
     var g = document.getElementById('grid'); if (!g) return; g.innerHTML = '';
     for (var i = 0; i < arr.length; i++) {
@@ -36,7 +39,7 @@ function rnd(arr) {
             `<button onclick="add(${p.id})" class="w-full bg-[#050507] border border-white/10 hover:bg-[#b91c1c] text-white font-medium text-[10px] uppercase tracking-widest py-3 rounded-lg transition-all duration-300">Agregar a la Bolsa</button>`;
         
         g.innerHTML += `
-            <div class="card p-4 space-y-4 flex flex-col justify-between">
+            <div id="card-${p.id}" class="card p-4 space-y-4 flex flex-col justify-between">
                 <div class="aspect-square bg-black overflow-hidden rounded-xl">
                     <img src="${p.img}" class="w-full h-full object-cover">
                 </div>
@@ -74,8 +77,10 @@ function rnd(arr) {
     }
 }
 
-function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#0b0b0d] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-white text-black font-bold"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } window.location.href = '#catalogo'; }
+// Filtros de categoría intuitivos
+function flt(c) { var cat = 'all'; if (c === 'hombres') { cat = 'men'; } if (c === 'mujeres') { cat = 'women'; } var ids = ['all', 'men', 'women']; for (var i = 0; i < ids.length; i++) { var b = document.getElementById('b-' + ids[i]); if (b) b.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-[#0b0b0d] text-gray-400 border border-white/5"; } var btn = document.getElementById('b-' + cat); if (btn) btn.className = "px-5 py-2 rounded-lg text-[11px] uppercase tracking-widest font-medium transition-all bg-white text-black font-bold"; if (c === 'todos') { rnd(db); } else { rnd(db.filter(function(p) { return p.cat === c; })); } document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' }); }
 
+// Añadir productos validando estrictamente Talla y Color
 function add(id) {
     var p = db.find(function(x) { return x.id === id; }); if (!p || p.stock <= 0) return;
     var sz = document.getElementById('sz-' + id).value;
@@ -91,6 +96,7 @@ function add(id) {
     p.stock--; upUI(); rnd(db); togA(1);
 }
 
+// Actualizar panel lateral de la bolsa
 function upUI() { 
     var c = document.getElementById('c-items'); if (!c) return; c.innerHTML = ''; var t = 0; 
     for (var i = 0; i < cart.length; i++) { 
@@ -119,6 +125,7 @@ function generarFolioReal() {
     return "AB-" + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + "-" + String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0') + "-" + Math.floor(10 + Math.random() * 90);
 }
 
+// Abrir la pasarela de pago seguro
 function openCheckout() {
     if(cart.length === 0) return;
     var total = 0; var summaryContainer = document.getElementById('pay-items-summary'); summaryContainer.innerHTML = ''; 
@@ -159,6 +166,7 @@ function openCheckout() {
     togA(0); togM('pay', 1); 
 }
 
+// Procesar pedido por EmailJS
 function procesarOrden(e) {
     e.preventDefault();
     var c_name = document.getElementById('u-name').value;
@@ -173,20 +181,31 @@ function procesarOrden(e) {
     emailjs.send('service_ioiqtrs', 'my_first_template', templateParams).then(function() { concluirPedido(ticketMensaje, c_folio); }, function(error) { console.log("Error:", error); concluirPedido(ticketMensaje, c_folio); });
 }
 
+// Finalizar la orden copiando CLABE y abriendo WhatsApp
 function concluirPedido(msg, folio) {
     navigator.clipboard.writeText("722969010522000447").then(function() {
         alert("🔒 ¡DATOS COPIADOS!\n\nFolio: " + folio + "\n\nLa CLABE se copió automáticamente. Envía el mensaje por WhatsApp junto con tu recibo de pago.");
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
-        cart = []; upUI(); rnd(db); togM('pay', 0);
+        cart = []; upUI(); rnd(db); togM('pay', 0); // CORRECCIÓN: rnd(db) limpia los selectores de las tarjetas
     }).catch(function() {
         window.open("https://wa.me/527122111135?text=" + encodeURIComponent("🕷️ *ORDEN CONFIRMADA " + folio + "* \n\n" + msg), '_blank');
-        cart = []; upUI(); togM('pay', 0);
+        cart = []; upUI(); rnd(db); togM('pay', 0); // CORRECCIÓN: rnd(db) limpia los selectores de las tarjetas
     });
 }
 
-var initChat = false;
+// --- SECCIÓN CHATBOT INTUITIVO ---
 function renderChips() { return `<div id="quick-chips" class="flex flex-wrap gap-2 pt-2 animate-pulse"><button onclick="triggerQuickBot('precios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">💰 Precios</button><button onclick="triggerQuickBot('tallas')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">📏 Tallas</button><button onclick="triggerQuickBot('materiales')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">🕷️ Tela</button><button onclick="triggerQuickBot('envios')" class="bg-[#1c1c24] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-white/5 hover:bg-white hover:text-black transition-all">📍 Entregas</button></div>`; }
-function openSuggestedChips() { if (initChat) return; var m = document.getElementById('c-msg'); m.innerHTML += `<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">👋¡Hola! Soporte oficial de <strong>ANTONY BLACK</strong>. ¿En qué podemos asesorarte hoy? 👇${renderChips()}</div></div>`; m.scrollTop = m.scrollHeight; initChat = true; }
+
+function openSuggestedChips() { 
+    var m = document.getElementById('c-msg'); if(!m) return;
+    // CORRECCIÓN: Se eliminó el bloqueo estricto de initChat para evitar el congelamiento de pantalla
+    if (!initChat || m.innerHTML.trim() === "") { 
+        m.innerHTML = `<div class="flex justify-start mb-2"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">👋¡Hola! Soporte oficial de <strong>ANTONY BLACK</strong>. ¿En qué podemos asesorarte hoy? 👇${renderChips()}</div></div>`; 
+        initChat = true;
+    }
+    m.scrollTop = m.scrollHeight; 
+}
+
 function togCh() { var box = document.getElementById('c-box'); if(box) { box.classList.toggle('open'); if(box.classList.contains('open')) { setTimeout(openSuggestedChips, 300); } } }
 document.getElementById('t-cht').onclick = togCh;
 function triggerQuickBot(key) { answerBot(key, key.toUpperCase()); }
@@ -203,8 +222,4 @@ function answerBot(cleanText, rawText) {
         if (cleanText.indexOf('precio') !== -1 || cleanText.indexOf('cuanto') !== -1 || cleanText.indexOf('costo') !== -1) { r = "💵 <strong>Precios Oficiales:</strong><br><br>• Sudaderas: $899<br>• Cargo Pants: $1,150<br>• Crop Hoodies: $750<br>• Wide Leg Jeans: $990"; btnAction = `<button onclick="window.location.href='#catalogo'; togCh();" class="mt-2 w-full bg-white text-black text-[10px] font-bold py-2 rounded-lg">🛍️ Ver Modelos</button>`; }
         else if (cleanText.indexOf('talla') !== -1 || cleanText.indexOf('medida') !== -1) { r = "📏 <strong>Tallas:</strong><br><br>Corte Oversize Amplio. Pide tu talla de siempre para look holgado urbano. Stock en CH, M, G y XG."; }
         else if (cleanText.indexOf('material') !== -1 || cleanText.indexOf('tela') !== -1) { r = "🕷️ <strong>Tela:</strong><br><br>Heavy Cotton (Algodón Premium Pesado). Mantiene su estructura rígida e imponente."; }
-        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.open('https://wa.me/527122111135','_blank')" class="mt-2 w-full bg-[#25D366] text-white text-[10px] font-bold py-2 rounded-lg">💬 WhatsApp Vivo</button>`; }
-        m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
-    }, 1200);
-}
-rnd(db);
+        else if (cleanText.indexOf('envio') !== -1 || cleanText.indexOf('entrega') !== -1) { r = "📍 <strong>Entregas en Jocotitlán:</strong><br><br>Gratis en Centro (Presidencia), Desviación de Jocotitlán, y San Pedro de los Baños."; btnAction = `<button onclick="window.

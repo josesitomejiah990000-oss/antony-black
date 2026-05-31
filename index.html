@@ -9,23 +9,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #050507; color: #ffffff; scroll-behavior: smooth; }
-        .card { background-color: #0b0b0d; border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .card:hover { border-color: rgba(255,255,255,0.12); transform: scale(1.01); }
-        select { appearance: none; -webkit-appearance: none; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #050507; color: #ffffff; }
+        
+        /* Tarjetas de Producto con Estilo Minimalista de Lujo */
+        .card { 
+            background-color: #0b0b0d;
+            border: 1px solid rgba(255,255,255,0.03); 
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .card:hover { 
+            border-color: rgba(255,255,255,0.15); 
+        }
+
+        /* Ocultar flechas nativas feas de selectores */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        /* 🕷️ CONTROL DE ANIMACIÓN Y POSICIÓN DE LOS PANELES */
         #cart, #c-box { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        /* Bolsa de compras inicia oculta a la derecha */
         #cart { transform: translateX(100%); }
         #cart.open { transform: translateX(0); }
+        
+        /* Chatbot inicia oculto abajo (No se ve hasta que tocan el botón) */
         #c-box { transform: translateY(150%); }
         #c-box.open { transform: translateY(0); }
+        
         .modal { opacity: 0; pointer-events: none; transition: all 0.3s ease; }
         .modal.active { opacity: 1; pointer-events: auto; }
-        .shake-alert { animation: shake 0.4s ease-in-out; border-color: #e11d48 !important; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-4px); }
-            75% { transform: translateX(4px); }
-        }
     </style>
 </head>
 <body class="overflow-x-hidden flex flex-col min-h-screen">
@@ -39,7 +54,7 @@
     </header>
 
     <section class="relative bg-black py-20 px-4 text-center border-b border-white/5 overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.01)_0%,transparent_60%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_60%)]"></div>
         <div class="relative z-10 max-w-2xl mx-auto space-y-4">
             <span class="text-gray-500 text-[10px] uppercase tracking-[0.3em] font-medium">Estética Streetwear</span>
             <h1 class="text-3xl sm:text-5xl font-bold tracking-tight uppercase">Diseño Disruptivo e Imponente</h1>

@@ -7,6 +7,7 @@ body {
     overflow-x: hidden; 
     font-family: 'Space Grotesk', sans-serif; 
     letter-spacing: -0.01em;
+    scroll-behavior: smooth; /* Desplazamiento dinámico suave */
 }
 
 .font-brand { 
@@ -24,7 +25,7 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.04); 
 }
 
-/* Tarjetas Estilo Bloque Sólido (Cero amontonamiento, máxima elegancia) */
+/* Tarjetas Estilo Bloque Sólido */
 .card { 
     background-color: #121214; 
     border: 1px solid rgba(255, 255, 255, 0.03); 
@@ -47,14 +48,19 @@ body {
     transform: scale(1.04);
 }
 
-/* Menús Desplegables Estilizados */
+/* Menús Desplegables Estilizados y Compatibles */
 select {
     background-color: #1c1c21;
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: #fff;
-    padding: 4px 8px;
-    border-radius: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
     font-weight: 500;
+    width: 100%; /* Evita que se amontone en pantallas chicas */
+    appearance: none;
+    -webkit-appearance: none; /* Obligatorio para que funcione bien en iPhone */
+    -moz-appearance: none;
+    text-align: center;
 }
 
 /* Drawers y Contenedores Laterales */
@@ -129,7 +135,7 @@ select {
 
 @keyframes laser { 0% { top: 0%; opacity: 0.3; } 50% { top: 100%; opacity: 1; } 100% { top: 0%; opacity: 0.3; } }
 
-/* Botones Flotantes y Chat */
+/* Botones Flotantes */
 .btn-f { 
     position: fixed; 
     bottom: 25px; 
@@ -150,6 +156,7 @@ select {
 
 .btn-f:hover { transform: scale(1.06); }
 
+/* CORRECCIÓN DE ERROR: Chatbot con posición fija flotante asegurada */
 .chat-container { 
     position: fixed; 
     bottom: 95px; 
@@ -164,12 +171,21 @@ select {
     flex-direction: column; 
     overflow: hidden; 
     box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .chat-container.open { display: flex; }
 
+/* Alerta de vibración por si falta Talla o Color */
+.shake-alert { animation: shake 0.4s ease-in-out; border-color: #e11d48 !important; }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
 /* Scrollbars Premium Rediseñadas */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #09090b; }
-::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #e11d48; }
+:::webkit-scrollbar { width: 6px; }
+:::webkit-scrollbar-track { background: #09090b; }
+:::webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+:::webkit-scrollbar-thumb:hover { background: #e11d48; }

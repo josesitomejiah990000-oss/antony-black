@@ -1,9 +1,11 @@
 var cart = []; var db = [];
 
+// Activación del SDK oficial con tu Clave Pública real de EmailJS
 (function(){
     emailjs.init("xSLS8u-87RCHo6bMQ");
 })();
 
+// Los 5 productos exclusivos de hombre para ANTONY BLACK
 var productos_hombres = [
     { name: "Oversized Hoodie 'No Rules' #101", price: 899, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=400", stock: 8 },
     { name: "Cargo Pants Tactical Black #102", price: 1150, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400", stock: 5 },
@@ -12,6 +14,7 @@ var productos_hombres = [
     { name: "Heavy Cotton Sweatshirt #105", price: 950, img: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=400", stock: 7 }
 ];
 
+// Los 5 productos exclusivos de mujer para ANTONY BLACK
 var productos_mujeres = [
     { name: "Crop Hoodie 'Rebel' Red #201", price: 750, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400", stock: 6 },
     { name: "Wide Leg Jeans Vintage Gray #202", price: 990, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400", stock: 9 },
@@ -148,4 +151,5 @@ function answerBot(cleanText, rawText) {
         m.innerHTML += `<div class="flex justify-start mb-3"><div class="bg-[#1c1c21] text-gray-200 p-3.5 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5 text-xs">${r}<br><br>${btnAction}<div class="mt-3 pt-2 border-t border-white/5">${renderChips()}</div></div></div>`; m.scrollTop = m.scrollHeight;
     }, 1200);
 }
+// Inicializador de arranque obligatorio
 rnd(db);

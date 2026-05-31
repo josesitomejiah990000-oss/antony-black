@@ -10,30 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body { font-family: 'Space Grotesk', sans-serif; background-color: #050507; color: #ffffff; }
-        
-        /* Tarjetas de Producto Estilo Lujo Urbano */
-        .card { 
-            background: linear-gradient(180deg, #0a0a0d 0%, #050507 100%); 
-            border: 1px solid rgba(255,255,255,0.04); 
-            border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
-        .card:hover { 
-            border-color: rgba(225,29,72,0.3); 
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -15px rgba(225,29,72,0.15); 
-        }
-
-        /* Selectores Minimalistas con Personalidad */
-        .select-premium {
-            appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-        }
-
-        /* Paneles deslizantes */
+        .card { background: linear-gradient(180deg, #0a0a0d 0%, #050507 100%); border: 1px solid rgba(255,255,255,0.04); border-radius: 24px; transition: all 0.4s ease; }
+        .card:hover { border-color: rgba(225,29,72,0.3); transform: translateY(-4px); }
         #cart, #c-box { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         #cart { transform: translateX(100%); }
         #cart.open { transform: translateX(0); }
@@ -46,24 +24,23 @@
 <body class="overflow-x-hidden flex flex-col min-h-screen">
 
     <header class="sticky top-0 z-40 bg-[#050507]/80 backdrop-blur-md border-b border-white/5 px-5 py-4 sm:px-8 flex justify-between items-center">
-        <a href="#" class="text-lg font-bold tracking-[0.2em] text-white uppercase">ANTONY <span class="text-[#e11d48]">BLACK</span></a>
+        <a href="#" class="text-lg font-bold tracking-widest text-white uppercase">ANTONY <span class="text-[#e11d48]">BLACK</span></a>
         <button onclick="togA(1)" class="relative p-2 text-gray-400 hover:text-white transition-all bg-white/5 rounded-full w-10 h-10 flex items-center justify-center border border-white/5">
-            <i class="fa-solid fa-bag-shopping text-base"></i>
+            <i class="fa-solid fa-bag-shopping"></i>
             <span id="c-count" class="absolute -top-1 -right-1 bg-[#e11d48] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
     </header>
 
-    <section class="relative bg-black py-24 px-4 text-center border-b border-white/5 overflow-hidden">
+    <section class="relative bg-black py-20 px-4 text-center border-b border-white/5 overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(225,29,72,0.08)_0%,transparent_60%)]"></div>
-        <div class="relative z-10 max-w-2xl mx-auto space-y-5">
-            <span class="text-[#e11d48] text-[10px] uppercase tracking-[0.25em] font-bold bg-[#e11d48]/10 px-4 py-1.5 rounded-full border border-[#e11d48]/20">Colección Premium</span>
+        <div class="relative z-10 max-w-2xl mx-auto space-y-4">
+            <span class="text-[#e11d48] text-[10px] uppercase tracking-widest font-bold bg-[#e11d48]/10 px-4 py-1.5 rounded-full border border-[#e11d48]/20">Colección Premium</span>
             <h1 class="text-3xl sm:text-5xl font-bold tracking-tight uppercase">Diseño Disruptivo e Imponente</h1>
-            <p class="text-gray-400 text-sm max-w-sm mx-auto font-light leading-relaxed">Heavy cotton y cortes de alta costura urbana pensados para dominar las calles con autoridad.</p>
-            
+            <p class="text-gray-400 text-sm max-w-md mx-auto font-light">Heavy cotton y cortes de alta costura urbana pensados para dominar las calles.</p>
             <div class="pt-4 flex justify-center gap-2.5">
-                <button onclick="flt('todos')" id="b-all" class="px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-[#e11d48] text-white shadow-lg shadow-[#e11d48]/20">Todos</button>
-                <button onclick="flt('hombres')" id="b-men" class="px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-[#0d0d12] text-gray-400 border border-white/5 hover:border-white/20 hover:text-white">Hombres</button>
-                <button onclick="flt('mujeres')" id="b-women" class="px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-[#0d0d12] text-gray-400 border border-white/5 hover:border-white/20 hover:text-white">Mujeres</button>
+                <button onclick="flt('todos')" id="b-all" class="px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium bg-[#e11d48] text-white transition-all shadow-lg shadow-[#e11d48]/20">Todos</button>
+                <button onclick="flt('hombres')" id="b-men" class="px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium bg-[#0d0d12] text-gray-400 border border-white/5 hover:text-white">Hombres</button>
+                <button onclick="flt('mujeres')" id="b-women" class="px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-medium bg-[#0d0d12] text-gray-400 border border-white/5 hover:text-white">Mujeres</button>
             </div>
         </div>
     </section>
@@ -75,10 +52,8 @@
 
     <footer class="w-full bg-[#070709] border-t border-white/5 py-8 px-4 text-center mt-auto">
         <div class="max-w-7xl mx-auto space-y-2.5">
-            <p class="text-xs tracking-[0.3em] font-bold text-white uppercase">ANTONY <span class="text-[#e11d48]">BLACK</span></p>
-            <p class="text-[9px] text-gray-600 font-mono tracking-widest uppercase">
-                Copyright © 2026 • Todos los derechos reservados.
-            </p>
+            <p class="text-xs tracking-widest font-bold text-white uppercase">ANTONY <span class="text-[#e11d48]">BLACK</span></p>
+            <p class="text-[9px] text-gray-600 font-mono tracking-widest uppercase">Copyright © 2026 • Todos los derechos reservados.</p>
             <p class="text-xs text-gray-400 tracking-wide font-light pt-1">
                 Propiedad Exclusiva de 
                 <a href="https://www.facebook.com/share/1G5y6vbENY/" target="_blank" rel="noopener noreferrer" class="text-white font-medium border-b border-[#e11d48] hover:text-[#e11d48] transition-all pb-0.5 inline-flex items-center gap-1.5">
@@ -90,8 +65,8 @@
 
     <div id="cart" class="fixed top-0 right-0 h-full w-full sm:w-[400px] z-50 bg-[#070709] border-l border-white/5 shadow-2xl flex flex-col">
         <div class="p-5 border-b border-white/5 flex justify-between items-center bg-black/20">
-            <h2 class="font-bold uppercase tracking-widest text-xs flex items-center gap-2.5"><i class="fa-solid fa-basket-shopping text-[#e11d48] text-sm"></i> Tu Bolsa de Compra</h2>
-            <button onclick="togA(0)" class="text-gray-500 hover:text-white p-2 text-xs uppercase tracking-widest transition-all"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="font-bold uppercase tracking-widest text-xs flex items-center gap-2.5"><i class="fa-solid fa-basket-shopping text-[#e11d48]"></i> Tu Bolsa de Compra</h2>
+            <button onclick="togA(0)" class="text-gray-500 hover:text-white p-2 text-xs uppercase tracking-widest"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="c-items" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
         <div class="p-5 border-t border-white/5 bg-black/20 space-y-4">
@@ -99,7 +74,7 @@
                 <span class="text-gray-400 font-light">Total Neto Acumulado:</span>
                 <span id="c-total" class="text-xl font-bold text-[#e11d48] font-mono">$0.00</span>
             </div>
-            <button onclick="openCheckout()" class="w-full bg-white text-black hover:bg-[#e11d48] hover:text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all shadow-xl hover:shadow-[#e11d48]/10">
+            <button onclick="openCheckout()" class="w-full bg-white text-black hover:bg-[#e11d48] hover:text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all shadow-xl">
                 Proceder al Pago Seguro
             </button>
         </div>
@@ -135,7 +110,7 @@
             <button onclick="togCh()" class="text-gray-500 hover:text-white text-xs px-1"><i class="fa-solid fa-chevron-down"></i></button>
         </div>
         <div id="c-msg" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs"></div>
-        <form onsubmit="return bot(event)" class="p-2.5 border-t border-white/5 bg-black/20 flex gap-2">
+        <form onsubmit="return bot(event)" class="p-2.5 border-t border-white/5 bg-black/40 flex gap-2">
             <input id="c-in" type="text" placeholder="Escribe tu duda aquí..." class="flex-1 bg-[#0d0d12] text-white text-xs px-4 py-3 rounded-xl outline-none border border-white/5 focus:border-[#e11d48] transition-all placeholder-gray-600">
             <button type="submit" class="bg-white text-black hover:bg-[#e11d48] hover:text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md"><i class="fa-solid fa-paper-plane text-xs"></i></button>
         </form>
@@ -143,4 +118,4 @@
 
     <script src="script.js"></script>
 </body>
-            </html>
+</html>
